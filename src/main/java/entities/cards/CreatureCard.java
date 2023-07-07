@@ -10,7 +10,8 @@ public class CreatureCard extends Card {
     private int temporaryDamageBoost = 0;
     private boolean stunned = false;
 
-    public CreatureCard(int id, String name, int hitPoints, int attackDamage, int attackCost, int defendCost) {
+    public CreatureCard(int id, String name, int hitPoints, int attackDamage,
+                        int attackCost, int defendCost) {
         super(id, name);
         this.hitPoints = hitPoints;
         this.maxHitPoints = hitPoints;
