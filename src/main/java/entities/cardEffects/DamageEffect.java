@@ -4,14 +4,14 @@ import entities.cards.CreatureCard;
 
 public class DamageEffect implements CreatureStatsEffect {
 
-    private final int damageAmount;
+    private final int damage;
 
-    public DamageEffect(int damageAmount) {
-        this.damageAmount = damageAmount;
+    public DamageEffect(int damage) {
+        this.damage = damage;
     }
 
     @Override
     public void invokeEffect(CreatureCard target) {
-        target.takeDamage(damageAmount);
+        target.takeDamage(damage);
     }
 }
