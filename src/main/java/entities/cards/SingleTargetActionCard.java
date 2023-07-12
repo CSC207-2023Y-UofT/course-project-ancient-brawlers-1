@@ -8,10 +8,9 @@ public class SingleTargetActionCard extends ActionCard {
 
     private CreatureCard target;
 
-    public SingleTargetActionCard(int id, String name, String description,
-                                  TargetType targetType,
-                                  List<CardEffect> effects) {
-        super(id, name, description, targetType, effects);
+    public SingleTargetActionCard(int id, String name,
+                                  PlayableCardData playableData) {
+        super(id, name, playableData);
     }
 
     public void setTarget(CreatureCard target) {

@@ -3,7 +3,9 @@ package entities.cards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CreatureCardTest {
 
@@ -43,6 +45,8 @@ class CreatureCardTest {
 
         creature.addHealthBuff(10);
         assertEquals(40, creature.getTotalHitPoints());
+        assertEquals(30, creature.getHitPoints(),
+                "Base hit-points should not change.");
 
         creature.clearHealthBuff();
         assertEquals(30, creature.getTotalHitPoints());
@@ -54,6 +58,8 @@ class CreatureCardTest {
 
         creature.addDamageBuff(10);
         assertEquals(15, creature.getTotalAttackDamage());
+        assertEquals(5, creature.getAttackDamage(),
+                "Base attack should not change.");
 
         creature.clearDamageBuff();
         assertEquals(5, creature.getTotalAttackDamage());

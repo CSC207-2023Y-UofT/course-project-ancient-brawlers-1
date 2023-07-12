@@ -12,13 +12,12 @@ public class StructureCard extends Card implements Playable {
     private final List<CardEffect> effects;
     private final GameEvent triggerEvent;
 
-    public StructureCard(int id, String name, String description,
-                         TargetType targetType, List<CardEffect> effects,
+    public StructureCard(int id, String name, PlayableCardData playableData,
                          GameEvent triggerEvent) {
         super(id, name);
-        this.description = description;
-        this.targetType = targetType;
-        this.effects = effects;
+        this.description = playableData.getDescription();
+        this.targetType = playableData.getTargetType();
+        this.effects = playableData.getEffects();
         this.triggerEvent = triggerEvent;
     }
 
