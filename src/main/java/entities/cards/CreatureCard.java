@@ -6,11 +6,12 @@ public class CreatureCard extends Card {
     private int attackDamage;
     private final int attackCost;
     private final int defendCost;
-    private int temporaryHealthBoost = 0;
-    private int temporaryDamageBoost = 0;
+    private int healthBuff = 0;
+    private int damageBuff = 0;
     private boolean stunned = false;
 
-    public CreatureCard(int id, String name, int hitPoints, int attackDamage, int attackCost, int defendCost) {
+    public CreatureCard(int id, String name, int hitPoints, int attackDamage,
+                        int attackCost, int defendCost) {
         super(id, name);
         this.hitPoints = hitPoints;
         this.maxHitPoints = hitPoints;
@@ -19,7 +20,7 @@ public class CreatureCard extends Card {
         this.defendCost = defendCost;
     }
 
-    // general getters and setters
+    // Getters
     public int getHitPoints() {
         return hitPoints;
     }
@@ -30,27 +31,6 @@ public class CreatureCard extends Card {
 
     public int getAttackDamage() {
         return attackDamage;
-    }
-
-    public void setHitPoints(int hitPoints) {
-        this.hitPoints = hitPoints;
-    }
-
-    public void setMaxHitPoints(int maxHitPoints) {
-        this.maxHitPoints = maxHitPoints;
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
-    public void modifyMaxHitPoints(int amount) {
-        this.maxHitPoints += amount;
-        this.hitPoints += amount;
-    }
-
-    public void modifyAttackDamage(int amount) {
-        this.attackDamage += amount;
     }
 
     public int getAttackCost() {
@@ -65,36 +45,41 @@ public class CreatureCard extends Card {
         return stunned;
     }
 
+    // Special Getters
     public int getTotalHitPoints() {
-        return hitPoints + temporaryHealthBoost;
+        return hitPoints + healthBuff;
     }
 
     public int getTotalAttackDamage() {
-        return attackDamage + temporaryDamageBoost;
+        return attackDamage + damageBuff;
     }
 
-    // Modifications to the creature's stats
-    public void heal(int healAmount) {
-        hitPoints += healAmount;
+    // Setters or Modifiers
+    public void setAttackDamage(int attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void setMaxHitPoints(int maxHitPoints) {
+        this.maxHitPoints = maxHitPoints;
         if (hitPoints > maxHitPoints) {
             hitPoints = maxHitPoints;
         }
     }
 
-    public void boostHealth(int boostAmount) {
-        temporaryHealthBoost += boostAmount;
+    public void addHealthBuff(int value) {
+        healthBuff += value;
     }
 
-    public void boostDamage(int boostAmount) {
-        temporaryDamageBoost += boostAmount;
+    public void clearHealthBuff() {
+        healthBuff = 0;
     }
 
-    public void clearHealthBoost() {
-        temporaryHealthBoost = 0;
+    public void addDamageBuff(int value) {
+        damageBuff += value;
     }
 
-    public void clearDamageBoost() {
-        temporaryDamageBoost = 0;
+    public void clearDamageBuff() {
+        damageBuff = 0;
     }
 
     public void stun() {
@@ -105,11 +90,19 @@ public class CreatureCard extends Card {
         stunned = false;
     }
 
+    public void heal(int value) {
+        hitPoints += value;
+        if (hitPoints > maxHitPoints) {
+            hitPoints = maxHitPoints;
+        }
+    }
+
     public void takeDamage(int damage) {
-        if (damage > temporaryHealthBoost) {
+        if (damage > healthBuff) {
             hitPoints = getTotalHitPoints() - damage;
+            healthBuff = 0;
         } else {
-            temporaryHealthBoost -= damage;
+            healthBuff -= damage;
         }
     }
 }
