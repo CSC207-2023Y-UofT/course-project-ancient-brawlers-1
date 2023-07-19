@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CardFactoryTest {
 
-    private CardFactory cardFactory;
-    private PlayableCardData sampleAction;
-    private PlayableCardData sampleSingleAction;
-    private PlayableCardData sampleStructure;
+    CardFactory cardFactory;
+    PlayableCardData sampleAction;
+    PlayableCardData sampleSingleAction;
+    PlayableCardData sampleStructure;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         cardFactory = new CardFactory();
 
         String desc1 = "Deal 2 damage to all enemy creatures.";
@@ -41,39 +41,42 @@ class CardFactoryTest {
     }
 
     @Test
-    public void testCreateCreatureCard() {
+    void testCreateCreatureCard() {
         Card creature = cardFactory.createCreatureCard("Some name",
                 20, 5, 2, 1);
         assertNotNull(creature, "Creature creation failed.");
         assertEquals("Some name", creature.getName());
-        assertEquals(1, creature.getId(), "Card id not assigned correctly.");
+        assertEquals(1, creature.getId(), "Incorrect card id.");
 
         assertEquals(20, ((CreatureCard) creature).getHitPoints());
         assertEquals(5, ((CreatureCard) creature).getAttackDamage());
     }
 
     @Test
-    public void testCreateEssenceCard() {
+    void testCreateEssenceCard() {
+        Card essence = cardFactory.createEssenceCard();
+        assertNotNull(essence, "Essence creation failed.");
+        assertEquals("Essence", essence.getName(), "Incorrect name.");
+    }
+
+    @Test
+    void testCreateActionCard() {
+        Card action = cardFactory.createActionCard("Action1", sampleAction);
+        assertNotNull(action, "Action creation failed.");
+    }
+
+    @Test
+    void testCreateSingleActionCard() {
 
     }
 
     @Test
-    public void testCreateActionCard() {
+    void testCreateStructureCard() {
 
     }
 
     @Test
-    public void testCreateSingleActionCard() {
-
-    }
-
-    @Test
-    public void testCreateStructureCard() {
-
-    }
-
-    @Test
-    public void testCardId_correctIncrement() {
+    void testCardId_correctIncrement() {
 
     }
 }

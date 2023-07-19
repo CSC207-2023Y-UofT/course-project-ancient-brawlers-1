@@ -8,19 +8,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HealthModifyEffectTest {
 
-    private CreatureCard creature;
-    private HealthModifyEffect effect;
-    private HealthModifyEffect negativeEffect;
+    CreatureCard creature;
+    HealthModifyEffect effect;
+    HealthModifyEffect negativeEffect;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         creature = new CreatureCard(1, "some name", 30, 5, 2, 1);
         effect = new HealthModifyEffect(10);
         negativeEffect = new HealthModifyEffect(-10);
     }
 
     @Test
-    public void testInvokeEffect_noBuff() {
+    void testInvokeEffect_noBuff() {
         effect.invokeEffect(creature);
         assertEquals(30, creature.getHitPoints(),
                 "Base hit-points should not change.");
@@ -31,7 +31,7 @@ class HealthModifyEffectTest {
     }
 
     @Test
-    public void testInvokeEffect_withBuff() {
+    void testInvokeEffect_withBuff() {
         // add a buff so now creature's total hit-points should be 40
         // but the max hit-points (the upper bound) is still 30
         creature.addHealthBuff(10);
@@ -58,7 +58,7 @@ class HealthModifyEffectTest {
     }
 
     @Test
-    public void testInvokeEffect_reducingMax() {
+    void testInvokeEffect_reducingMax() {
         negativeEffect.invokeEffect(creature);
         assertEquals(20, creature.getMaxHitPoints(),
                 "Max hit-points incorrect.");
