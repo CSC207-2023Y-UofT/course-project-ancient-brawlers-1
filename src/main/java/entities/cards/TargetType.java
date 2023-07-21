@@ -5,6 +5,8 @@ public enum TargetType {
     SINGLE_ENEMY,
     FRIENDLY,
     ENEMY,
+    SELF,
+    OPPONENT,
     ANY,
     ALL
 }

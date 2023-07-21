@@ -4,14 +4,14 @@ import entities.cards.CreatureCard;
 
 public class HealthBuffEffect implements CreatureStatsEffect {
 
-    private final int buffValue;
+    private final int buffAmount;
 
-    public HealthBuffEffect(int buffValue) {
-        this.buffValue = buffValue;
+    public HealthBuffEffect(int buffAmount) {
+        this.buffAmount = buffAmount;
     }
 
     @Override
     public void invokeEffect(CreatureCard target) {
-        target.addHealthBuff(buffValue);
+        target.addHealthBuff(buffAmount);
     }
 }

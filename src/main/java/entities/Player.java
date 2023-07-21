@@ -1,6 +1,8 @@
 package entities;
 
 import entities.cards.*;
+import entities.decks.EssenceDeck;
+import entities.decks.PlayerDeck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +14,33 @@ public class Player {
     private final int handCapacity;
     private final List<CreatureCard> creatures;
     private StructureCard structure;
+    private final PlayerDeck playerDeck;
+    private final EssenceDeck essenceDeck;
 
-    public Player(String name, List<CreatureCard> creatures) {
+    public Player(String name, List<CreatureCard> creatures, PlayerDeck playerDeck,
+                  EssenceDeck essenceDeck) {
         this.name = name;
         this.creatures = creatures;
+        this.playerDeck = playerDeck;
+        this.essenceDeck = essenceDeck;
         this.hand = new ArrayList<>();
         this.handCapacity = 10;
     }
 
     public String getName() {
         return name;
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public List<CreatureCard> getCreatures() {
+        return creatures;
+    }
+
+    public int getHandCapacity() {
+        return handCapacity;
     }
 
     public int getHandSize() {
@@ -37,6 +56,14 @@ public class Player {
             }
         }
         return num;
+    }
+
+    public PlayerDeck getPlayerDeck() {
+        return playerDeck;
+    }
+
+    public EssenceDeck getEssenceDeck() {
+        return essenceDeck;
     }
 
     public boolean addCard(Card card) {
