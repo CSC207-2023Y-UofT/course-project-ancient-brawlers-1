@@ -19,6 +19,10 @@ public class PlayerDeck implements Deck {
         cards.add(index, card);
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
+
     public int getDeckSize() {
         return cards.size();
     }

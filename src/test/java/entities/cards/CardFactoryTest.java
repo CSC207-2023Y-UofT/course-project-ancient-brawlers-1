@@ -1,5 +1,6 @@
 package entities.cards;
 
+import entities.GameEvent;
 import entities.cardEffects.CardEffect;
 import entities.cardEffects.DamageEffect;
 import entities.cardEffects.HealEffect;
@@ -15,7 +16,6 @@ class CardFactoryTest {
 
     private CardFactory cardFactory;
     private PlayableCardData sampleAction;
-    private PlayableCardData sampleSingleAction;
     private PlayableCardData sampleStructure;
 
     @BeforeEach
@@ -27,17 +27,11 @@ class CardFactoryTest {
         effects1.add(new DamageEffect(2));
         sampleAction = new PlayableCardData(desc1, TargetType.ENEMY, effects1);
 
-        String desc2 = "Deal 5 damage to an enemy creature.";
-        List<CardEffect> effects2 = new ArrayList<>();
-        effects2.add(new DamageEffect(5));
-        sampleSingleAction = new PlayableCardData(desc2, TargetType.SINGLE_ENEMY,
-                                                  effects2);
-
-        String desc3 = "At the end of your turn," +
+        String desc2 = "At the end of your turn," +
                        " heal 2 HP to all friendly creatures";
-        List<CardEffect> effects3 = new ArrayList<>();
-        effects3.add(new HealEffect(2));
-        sampleStructure = new PlayableCardData(desc3, TargetType.FRIENDLY, effects3);
+        List<CardEffect> effects2 = new ArrayList<>();
+        effects2.add(new HealEffect(2));
+        sampleStructure = new PlayableCardData(desc2, TargetType.FRIENDLY, effects2);
     }
 
     @Test
@@ -54,26 +48,35 @@ class CardFactoryTest {
 
     @Test
     public void testCreateEssenceCard() {
-
+        Card essence = cardFactory.createEssenceCard();
+        assertNotNull(essence, "Essence creation failed.");
+        assertEquals(1, essence.getId());
+        assertEquals("Essence", essence.getName());
     }
 
     @Test
     public void testCreateActionCard() {
-
-    }
-
-    @Test
-    public void testCreateSingleActionCard() {
-
+        Card action = cardFactory.createActionCard("A Name", sampleAction);
+        assertNotNull(action, "Action creation failed.");
+        assertEquals(sampleAction.getEffects(), ((ActionCard) action).getEffects());
     }
 
     @Test
     public void testCreateStructureCard() {
-
+        Card structure = cardFactory.createStructureCard("Structure", sampleStructure,
+                GameEvent.TURN_END);
+        assertNotNull(structure, "Structure creation failed.");
+        assertEquals(GameEvent.TURN_END, ((StructureCard) structure).getTriggerEvent());
     }
 
     @Test
     public void testCardId_correctIncrement() {
+        Card action = cardFactory.createActionCard("action", sampleAction);
+        Card essence = cardFactory.createEssenceCard();
+        Card essence2 = cardFactory.createEssenceCard();
 
+        assertEquals(1, action.getId());
+        assertEquals(2, essence.getId());
+        assertEquals(3, essence2.getId());
     }
 }
