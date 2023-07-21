@@ -1,0 +1,19 @@
+    {"creatures": [{
+    "name": "Ghosty",
+    "attackCost": 2,
+    "defendCost": 1,
+    "attackDamage": 10,
+    "hitPoints": 20
+    }, 
+    {"name": "Turtley",
+    "attackCost": 1,
+    "defendCost": 2,
+    "attackDamage": 5,
+    "hitPoints": 30
+    },
+    {"name": "Wizardy",
+    "attackCost": 3,
+    "defendCost": 1,
+    "attackDamage": 15,
+    "hitPoints": 10
+    }]}

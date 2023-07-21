@@ -1,0 +1,135 @@
+{
+    "actionCards": [
+        {
+            "name": "Draw 2",
+            "description": "Draw two cards from the player deck",
+            "targetType": "SELF",
+            "effects": [
+                {
+                "type": "DrawCardEffect",
+                "drawNumber": 2,
+                "drawDeck": "PlayerDeck"
+                }
+            ]
+        },
+        {
+            "name": "Heal 3 HP",
+            "description": "Heal 3 HP for all your creatures",
+            "targetType": "FRIENDLY",
+            "effects": [
+                {
+                "type": "HealEffect",
+                "healAmount": 3
+                }
+            ]
+        },
+        {
+            "name": "Draw 2 essence",
+            "description": "Draw 2 essence cards from the deck",
+            "targetType": "SELF",
+            "effects": [{
+                "type": "DrawCardEffect",
+                "drawNumber": 2,
+                "drawDeck": "EssenceDeck"
+            }]
+        },
+        {
+            "name": "Destroy structure",
+            "description": "Destroy the enemy's structure",
+            "targetType": "OPPONENT",
+            "effects": [{
+                "type": "DestroyStructureEffect"
+            }]
+        },
+        {
+            "name": "Heal 10 HP",
+            "description": "Heal 10 HP for one creature",
+            "targetType": "SINGLE_FRIENDLY",
+            "effects": [
+                {
+                "type": "HealEffect",
+                "healAmount": 10
+                }
+            ]
+        },
+            {
+                "name": "Increase all base HP by 3",
+                "description": "Heal the base HP for all your creatures by 3",
+                "targetType": "FRIENDLY",
+                "effects": [
+                    {
+                    "type": "HealthModifyEffect",
+                    "modifyAmount": 3
+                    }
+                ]
+            },
+            {
+                "name": "Increase all base damage by 5",
+                "description": "Increase the base damage by 5 for all your creatures",
+                "targetType": "FRIENDLY",
+                "effects": [
+                    {
+                    "type": "DamageBuffEffect",
+                    "buffAmount": 5
+                    }
+                ]
+            },
+            {
+                "name": "Deal damage to all",
+                "description": "Deal damage to ALL creatures",
+                "targetType": "ALL",
+                "effects": [
+                    {
+                        "type": "DamageEffect",
+                        "damage": 10
+                    }
+                ]
+            },
+            {
+                "name": "Reduce enemy damage",
+                "description": "Reduce enemy damage by 5",
+                "targetType": "ENEMY",
+                "effects": [
+                    {
+                        "type": "DamageModifyEffect",
+                        "modifyAmount": 5
+                    }
+                ]
+            },
+            {
+                "name": "Swap HP and damage",
+                "description": "Swap the HP and damage of any creature in the game",
+                "targetType": "ANY",
+                "effects": [
+                    {
+                        "type": "SwapHealthAttackEffect"
+                    }
+                ]
+            },
+            {
+                "name": "Stun enemy creature",
+                "description": "Stun any enemy creature of your choice",
+                "targetType": "SINGLE_ENEMY",
+                "effects": [
+                    {
+                        "type": "StunEffect"
+                    }
+                ]
+            },
+            {
+                "name": "Increase HP and damage of your creatures by 3",
+                "description": "Increase HP and damage of your creatures by 3",
+                "targetType": "FRIENDLY",
+                "effects": [
+                    {
+                        "type": "HealthBuffEffect",
+                        "buffAmount": 3
+                    },
+                    {
+                        "type": "DamageBuffEffect",
+                        "buffAmount": 3
+                    }
+                ]
+            }
+    ]
+}

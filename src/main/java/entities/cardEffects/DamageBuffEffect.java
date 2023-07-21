@@ -4,14 +4,14 @@ import entities.cards.CreatureCard;
 
 public class DamageBuffEffect implements CreatureStatsEffect {
 
-    private final int buffValue;
+    private final int buffAmount;
 
-    public DamageBuffEffect(int buffValue) {
-        this.buffValue = buffValue;
+    public DamageBuffEffect(int buffAmount) {
+        this.buffAmount = buffAmount;
     }
 
     @Override
     public void invokeEffect(CreatureCard target) {
-        target.addDamageBuff(buffValue);
+        target.addDamageBuff(buffAmount);
     }
 }
