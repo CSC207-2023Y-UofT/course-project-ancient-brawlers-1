@@ -19,9 +19,7 @@ public class GameStartInteractor implements GameStartInputBoundary {
 
     @Override
     public GameStartResponseModel prepareMulligan() {
-        GameStartResponseModel responseModel = null;
-
-        return gameStartPresenter.showMulliganScreen(responseModel);
+        return null;
     }
 
     @Override
