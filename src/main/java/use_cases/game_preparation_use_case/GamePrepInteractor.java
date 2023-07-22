@@ -9,12 +9,14 @@ public class GamePrepInteractor implements GamePrepInputBoundary {
     final CardFactory cardFactory;
     final DeckFactory deckFactory;
     final PlayerFactory playerFactory;
+    final GamePrepOutputBoundary gamePrepPresenter;
 
     public GamePrepInteractor(CardFactory cardFactory, DeckFactory deckFactory,
-                              PlayerFactory playerFactory) {
+                              PlayerFactory playerFactory, GamePrepOutputBoundary gamePrepPresenter) {
         this.cardFactory = cardFactory;
         this.deckFactory = deckFactory;
         this.playerFactory = playerFactory;
+        this.gamePrepPresenter = gamePrepPresenter;
     }
 
     @Override

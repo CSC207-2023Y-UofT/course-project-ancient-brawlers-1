@@ -4,8 +4,8 @@ import entities.GameState;
 
 public class GameStartInteractor implements GameStartInputBoundary {
 
-    GameState gameState;
-    GameStartOutputBoundary gameStartPresenter;
+    final GameState gameState;
+    final GameStartOutputBoundary gameStartPresenter;
 
     public GameStartInteractor(GameState gameState, GameStartOutputBoundary gameStartPresenter) {
         this.gameState = gameState;
