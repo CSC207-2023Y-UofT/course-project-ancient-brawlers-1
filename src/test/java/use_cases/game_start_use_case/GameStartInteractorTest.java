@@ -2,8 +2,11 @@ package use_cases.game_start_use_case;
 
 import entities.GameState;
 import entities.Player;
+import entities.PlayerFactory;
 import entities.cardEffects.*;
 import entities.cards.*;
+import entities.decks.Deck;
+import entities.decks.DeckFactory;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,27 +24,41 @@ class GameStartInteractorTest {
 
     @BeforeEach
     void setUp() {
-        List<CardEffect> effects1 = new ArrayList<>(List.of(new CardEffect[]{new HealEffect(10)}));
-        PlayableCardData cardData1 = new PlayableCardData("Some card", TargetType.ANY, effects1);
-        Card card1 = new ActionCard(1, "name1", cardData1);
+        CardFactory cardFactory = new CardFactory();
+        PlayerFactory playerFactory = new PlayerFactory();
+        DeckFactory deckFactory = new DeckFactory();
+        List<CardEffect> effects;
+        PlayableCardData cardData;
 
-        List<CardEffect> effects2 = new ArrayList<>(List.of(new CardEffect[]{new DamageModifyEffect(-3)}));
-        PlayableCardData cardData2 = new PlayableCardData("Another card", TargetType.ENEMY, effects2);
-        Card card2 = new ActionCard(2, "name2", cardData2);
+        // We are using the CardFactory to create these cards.
+        // The CardFactory is correct, so we expect the card ids to be 1, 2, 3, 4.
+        // Later on, if any essence cards are being drawn from the essence deck,
+        // its id should be 5.
+        effects = new ArrayList<>(List.of(new HealEffect(10)));
+        cardData = new PlayableCardData("Some card", TargetType.ANY, effects);
+        Card card1 = cardFactory.createActionCard("name1", cardData);
 
-        List<CardEffect> effects3 = new ArrayList<>(List.of(new CardEffect[]{new StunEffect()}));
-        PlayableCardData cardData3 = new PlayableCardData("Freeze!", TargetType.SINGLE_ENEMY, effects3);
-        Card card3 = new ActionCard(3, "name3", cardData3);
+        effects = new ArrayList<>(List.of(new DamageModifyEffect(-3)));
+        cardData = new PlayableCardData("Another card", TargetType.ENEMY, effects);
+        Card card2 = cardFactory.createActionCard("name2", cardData);
 
-        List<CardEffect> effects4 = new ArrayList<>(List.of(new CardEffect[]{new DestroyStructureEffect()}));
-        PlayableCardData cardData4 = new PlayableCardData("Destroy!", TargetType.OPPONENT, effects4);
-        Card card4 = new ActionCard(4, "name4", cardData4);
+        effects = new ArrayList<>(List.of(new StunEffect()));
+        cardData = new PlayableCardData("Freeze!", TargetType.SINGLE_ENEMY, effects);
+        Card card3 = cardFactory.createActionCard("name3", cardData);
 
-        PlayerDeck playerDeck1 = new PlayerDeck(new ArrayList<>(List.of(new Card[]{card1, card2, card3, card4})));
-        PlayerDeck playerDeck2 = new PlayerDeck(new ArrayList<>(List.of(new Card[]{card4, card3, card2, card1})));
+        effects = new ArrayList<>(List.of(new DestroyStructureEffect()));
+        cardData = new PlayableCardData("Destroy!", TargetType.OPPONENT, effects);
+        Card card4 = cardFactory.createActionCard("name4", cardData);
 
-        Player player1 = new Player("Player 1", null, playerDeck1, null);
-        Player player2 = new Player("Player 2", null, playerDeck2, null);
+        Deck playerDeck1 = deckFactory.createPlayerDeck(new ArrayList<>(List.of(card1, card2, card3, card4)));
+        Deck playerDeck2 = deckFactory.createPlayerDeck(new ArrayList<>(List.of(card4, card3, card2, card1)));
+        Deck essenceDeck1 = deckFactory.createEssenceDeck(cardFactory);
+        Deck essenceDeck2 = deckFactory.createEssenceDeck(cardFactory);
+
+        Player player1 = playerFactory.createPlayer("Player 1", null,
+                (PlayerDeck) playerDeck1, (EssenceDeck) essenceDeck1);
+        Player player2 = playerFactory.createPlayer("Player 2", null,
+                (PlayerDeck) playerDeck2, (EssenceDeck) essenceDeck2);
 
         gameState = new GameState();
         gameState.setPlayers(player1, player2);
@@ -49,7 +66,27 @@ class GameStartInteractorTest {
 
     @Test
     void testDecidePlayOrder() {
-        // ...
+        GameStartOutputBoundary presenter = new GameStartOutputBoundary() {
+            @Override
+            public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
+                fail("decidePlayOrder() should not call showMulliganScreen().");
+                return null;
+            }
+
+            @Override
+            public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
+                fail("decidePlayOrder() should not call exitMulliganScreen().");
+                return null;
+            }
+
+            @Override
+            public void displayPlayerOrder(String message) {
+                assertTrue(message.equals("Player 1 goes first!") || message.equals("Player 2 goes first!"));
+            }
+        };
+
+        interactor = new GameStartInteractor(gameState, presenter);
+        interactor.decidePlayOrder();
     }
 
     @Test
@@ -57,9 +94,11 @@ class GameStartInteractorTest {
         GameStartOutputBoundary presenter = new GameStartOutputBoundary() {
             @Override
             public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
-                List<Integer> ids = new ArrayList<>(List.of(new Integer[]{4, 3, 2}));
+                List<Integer> ids = new ArrayList<>(List.of(4, 3, 2));
+                List<String> names = new ArrayList<>(List.of("name4", "name3", "name2"));
                 assertIterableEquals(ids, outputData.getCardIds());
-                assertNull(outputData.getBonusCardIds());
+                assertIterableEquals(names, outputData.getCardNames());
+                assertEquals(0, outputData.getBonusCardIds().size());
                 return null;
             }
 
@@ -67,6 +106,11 @@ class GameStartInteractorTest {
             public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
                 fail("prepareMulligan() should not call exitMulliganScreen().");
                 return null;
+            }
+
+            @Override
+            public void displayPlayerOrder(String message) {
+                fail("prepareMulligan() should not call displayPlayerOrder().");
             }
         };
 
@@ -95,14 +139,70 @@ class GameStartInteractorTest {
             @Override
             public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
                 assertEquals(3, outputData.getCardIds().size());
+                assertEquals(0, outputData.getBonusCardIds().size(),
+                        "There should not be bonus cards for the first player.");
                 return null;
+            }
+
+            @Override
+            public void displayPlayerOrder(String message) {
+                fail("prepareMulligan() should not call displayPlayerOrder().");
             }
         };
 
         interactor = new GameStartInteractor(gameState, presenter);
 
-        List<Integer> ids = new ArrayList<>(List.of(new Integer[]{4, 2}));
-        GameStartRequestModel inputData = new GameStartRequestModel(ids);
+        List<Integer> ids = new ArrayList<>(List.of(4, 2));
+        List<String> names = new ArrayList<>(List.of("name4", "name2"));
+        GameStartRequestModel inputData = new GameStartRequestModel(ids, names);
+
+        interactor.processMulligan(inputData);
+    }
+
+    @Test
+    void testProcessMulligan_SecondPlayer() {
+        // Manually switch the turn to the second player, and prepare the hand
+        // just like the first player. But now, we expect the output data to
+        // include an extra Essence card.
+        gameState.switchPlayer();
+        Player player2 = gameState.getCurrentPlayer();
+        PlayerDeck deck2 = player2.getPlayerDeck();
+        for (int i = 0; i < 3; i++) {
+            player2.addCard(deck2.draw());
+        }
+
+        GameStartOutputBoundary presenter = new GameStartOutputBoundary() {
+            @Override
+            public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
+                fail("processMulligan() should not call showMulliganScreen().");
+                return null;
+            }
+
+            @Override
+            public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
+                assertEquals(3, outputData.getCardIds().size());
+                assertTrue(outputData.getCardIds().contains(3),
+                        "The card with id 3 should still be in the hand.");
+                assertEquals(1, outputData.getBonusCardIds().size(),
+                        "There should be one bonus Essence for the second player.");
+                assertTrue(outputData.getBonusCardNames().contains("Essence"),
+                        "The bonus card should be Essence.");
+                return null;
+            }
+
+            @Override
+            public void displayPlayerOrder(String message) {
+                fail("prepareMulligan() should not call displayPlayerOrder().");
+            }
+        };
+
+        interactor = new GameStartInteractor(gameState, presenter);
+
+        // Second player's deck order is 1, 2, 3, 4 (starting from the top of the deck).
+        // so the initial hand should be 1 2 3, different from the test case above.
+        List<Integer> ids = new ArrayList<>(List.of(1, 2));
+        List<String> names = new ArrayList<>(List.of("name1", "name2"));
+        GameStartRequestModel inputData = new GameStartRequestModel(ids, names);
 
         interactor.processMulligan(inputData);
     }
