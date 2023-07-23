@@ -4,6 +4,6 @@ public interface AttackOutputBoundary {
     void showDefendInputScreen(AttackResponseModel responseModel);
     FinishAttackResponseModel exitDefendInputScreen(FinishAttackResponseModel responseModel);
 
-    FinishAttackResponseModel displayFailMessage(String message);
+    void displayFailMessage(String message);
 
 }

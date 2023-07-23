@@ -2,7 +2,8 @@ package use_cases.attack_use_case;
 
 import java.util.ArrayList;
 import java.util.List;
-public class AttackResponseModel {
+public class
+AttackResponseModel {
 
     private int attackerId;
     private List<Integer> defenderIds;
@@ -29,7 +30,5 @@ public class AttackResponseModel {
         this.defenderIds = defenderIds;
     }
 
-
-
-
+    public int getTargetId() { return targetId; }
 }
