@@ -50,7 +50,6 @@ public class AttackInteractor implements AttackInputBoundary {
         player1.spendEssence(creatureAttacker.getAttackCost());
         creatureDefender.takeDamage(creatureAttacker.getAttackDamage());
 
-
         List <Integer> player1CreatureHitpoints = new ArrayList<>();
         List <Integer> player1CreatureIds= new ArrayList<>();
         List <Integer> player1HandIds = new ArrayList<>();

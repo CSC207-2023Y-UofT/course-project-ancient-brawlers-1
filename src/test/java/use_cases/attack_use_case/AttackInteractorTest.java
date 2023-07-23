@@ -76,9 +76,8 @@ class AttackInteractorTest {
             }
 
             @Override
-            public FinishAttackResponseModel displayFailMessage(String message) {
+            public void displayFailMessage(String message) {
                 fail("Unexpected use case test fail.");
-                return null;
             }
         };
 
