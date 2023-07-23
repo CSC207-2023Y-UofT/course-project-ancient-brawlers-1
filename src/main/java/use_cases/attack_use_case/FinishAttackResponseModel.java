@@ -5,16 +5,16 @@ import entities.cards.CreatureCard;
 import java.util.List;
 
 public class FinishAttackResponseModel {
+
     private List<Integer> hitPoints1;
     private List<Integer> hitPoints2;
     private List<Integer> creatureIds1;
     private List<Integer> creatureIds2;
-
     private List<Integer> handCardsIds1;
     private List<Integer> handCardsIds2;
 
     public FinishAttackResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2,
-                                     List<Integer> creatureIds1,  List<Integer> creatureIds2,
+                                     List<Integer> creatureIds1, List<Integer> creatureIds2,
                                      List<Integer> handCardsIds1, List<Integer> handCardsIds2) {
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
@@ -71,5 +71,4 @@ public class FinishAttackResponseModel {
     public void setHandCardsIds2(List<Integer> handCardsIds2) {
         this.handCardsIds2 = handCardsIds2;
     }
-
 }

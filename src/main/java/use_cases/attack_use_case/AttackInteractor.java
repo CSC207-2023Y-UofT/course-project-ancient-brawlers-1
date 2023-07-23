@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class AttackInteractor implements AttackInputBoundary {
+
     private final GameState gameState;
     private final AttackOutputBoundary attackPresenter;
 
