@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface GamePrepOutputBoundary {
 
-    void showGamePreparationScreen(List<String> creatureIds);
+    void showGamePreparationScreen(List<String> creatureNames);
 
-    void showGameplayScreen(GamePrepResponseModel outputData);
+    GamePrepResponseModel showGameplayScreen(GamePrepResponseModel outputData);
 }

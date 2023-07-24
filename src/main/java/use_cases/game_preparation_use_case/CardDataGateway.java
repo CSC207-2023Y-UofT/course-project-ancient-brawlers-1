@@ -1,8 +1,14 @@
 package use_cases.game_preparation_use_case;
 
+import java.util.List;
+
 public interface CardDataGateway {
 
-    void load();
+    ActionCardModel getActionCardByName(String name);
 
+    CreatureCardModel getCreatureCardByName(String name);
 
+    StructureCardModel getStructureCardByName(String name);
+
+    List<String> getPlayerDeckData(String playerTag);
 }

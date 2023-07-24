@@ -1,0 +1,36 @@
+{
+  "action": [
+    "Seek",
+    "Seek",
+    "Life",
+    "Life",
+    "Perception",
+    "Perception",
+    "Sabotage",
+    "Sabotage",
+    "Salvage",
+    "Salvage",
+    "Inspire",
+    "Inspire",
+    "Reinforce",
+    "Reinforce",
+    "Cataclysm",
+    "Cataclysm",
+    "Delusion",
+    "Delusion",
+    "Demon's Amulet",
+    "Demon's Amulet",
+    "Incantation",
+    "Incantation",
+    "The War",
+    "The War"
+  ],
+  "structure": [
+    "Forest of the Elves",
+    "Homeland",
+    "Pool of Wisdom",
+    "Colosseum",
+    "Dead End",
+    "Ruins of Titans"
+  ]
+}

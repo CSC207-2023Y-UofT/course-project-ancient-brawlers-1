@@ -9,13 +9,15 @@ public class GamePrepInteractor implements GamePrepInputBoundary {
     final CardFactory cardFactory;
     final DeckFactory deckFactory;
     final PlayerFactory playerFactory;
+    final CardDataGateway dataAccessor;
     final GamePrepOutputBoundary gamePrepPresenter;
 
     public GamePrepInteractor(CardFactory cardFactory, DeckFactory deckFactory,
-                              PlayerFactory playerFactory, GamePrepOutputBoundary gamePrepPresenter) {
+                              PlayerFactory playerFactory, CardDataGateway dataAccessor, GamePrepOutputBoundary gamePrepPresenter) {
         this.cardFactory = cardFactory;
         this.deckFactory = deckFactory;
         this.playerFactory = playerFactory;
+        this.dataAccessor = dataAccessor;
         this.gamePrepPresenter = gamePrepPresenter;
     }
 
