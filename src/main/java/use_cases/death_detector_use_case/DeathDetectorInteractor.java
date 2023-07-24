@@ -24,12 +24,14 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
 
     private void processPlayer(Player player1, Player player2, List<Integer> ids) {
         List<Integer> defeatCreatureIds = new ArrayList<>();
+        List<CreatureCard> deadCreatures = new ArrayList<>();
         for (CreatureCard c : player1.getCreatures()) {
             if (c.getHitPoints() <= 0) {
                 defeatCreatureIds.add(c.getId());
-                player1.removeCreature(c.getId());
+                deadCreatures.add(c);
             }
         }
+        player1.getCreatures().removeAll(deadCreatures);
         if (defeatCreatureIds.size() != 0 && player1.getStructure() != null) {
             StructureCard structureCard = player1.getStructure();
             if (structureCard.getTriggerEvent() == GameEvent.CREATURE_DEATH) {
