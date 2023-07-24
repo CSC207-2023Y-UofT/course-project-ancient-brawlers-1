@@ -11,7 +11,10 @@ public class DeathDetectorResponseModel {
     private List<Integer> p1CreatureAttack;
     private List<Integer> p2CreatureAttack;
 
-    public DeathDetectorResponseModel(List<Integer> defeatCreatureId, List<Integer> p1CreatureIds, List<Integer> p2CreatureIds, List<Integer> p1CreatureHitPoints, List<Integer> p2CreatureHitPoints, List<Integer> p1CreatureAttack, List<Integer> p2CreatureAttack) {
+    public DeathDetectorResponseModel(List<Integer> defeatCreatureId, List<Integer> p1CreatureIds,
+                                      List<Integer> p2CreatureIds, List<Integer> p1CreatureHitPoints,
+                                      List<Integer> p2CreatureHitPoints, List<Integer> p1CreatureAttack,
+                                      List<Integer> p2CreatureAttack) {
         this.defeatCreatureId = defeatCreatureId;
         this.p1CreatureIds = p1CreatureIds;
         this.p2CreatureIds = p2CreatureIds;
