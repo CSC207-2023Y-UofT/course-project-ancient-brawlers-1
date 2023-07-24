@@ -6,6 +6,7 @@ import entities.decks.PlayerDeck;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class Player {
 
@@ -90,12 +91,15 @@ public class Player {
             return false;
         }
 
-        for (Card card : hand) {
-            if (num != 0 && card instanceof EssenceCard) {
-                hand.remove(card);
+        Iterator<Card> iterator = hand.iterator();
+        while (iterator.hasNext() && num > 0) {
+            Card card = iterator.next();
+            if (card instanceof EssenceCard) {
+                iterator.remove();
                 num--;
             }
         }
+
         return true;
     }
 
@@ -105,6 +109,7 @@ public class Player {
 
     public StructureCard getStructure() {
         return structure;
+
     }
 
     public boolean removeCreature(int id) {

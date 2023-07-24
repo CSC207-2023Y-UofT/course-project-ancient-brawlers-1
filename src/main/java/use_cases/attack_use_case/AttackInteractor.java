@@ -26,18 +26,40 @@ public class AttackInteractor implements AttackInputBoundary {
         Player player2 = gameState.getOpposingPlayer();
         CreatureCard creatureAttacker = player1.getCreatureById(inputData.getAttackerId());
         if (player1.getNumOfEssence() < creatureAttacker.getAttackCost()) {
-            attackPresenter.displayFailMessage("You do not have enough essence");
+            attackPresenter.displayFailMessage("You do not have enough essence.");
         }
-        List<Integer> possibleDefenders = new ArrayList<Integer>();
-        for (CreatureCard card: player2.getCreatures()) {
-            int cardId = card.getId();
-            if (cardId != inputData.getTargetId() & card.getDefendCost() <= player2.getNumOfEssence()) {
-                possibleDefenders.add(card.getId());
+        else {
+            List<Integer> possibleDefenders = new ArrayList<Integer>();
+            for (CreatureCard card : player2.getCreatures()) {
+                int cardId = card.getId();
+                if (cardId != inputData.getTargetId() & card.getDefendCost() <= player2.getNumOfEssence()) {
+                    possibleDefenders.add(card.getId());
+                }
             }
+            AttackResponseModel attackModel = new AttackResponseModel(inputData.getAttackerId(), inputData.getTargetId(), possibleDefenders);
+            attackPresenter.showDefendInputScreen(attackModel);
         }
 
-        AttackResponseModel attackModel = new AttackResponseModel(inputData.getAttackerId(), possibleDefenders, inputData.getTargetId());
-        attackPresenter.showDefendInputScreen(attackModel);
+    }
+
+    /**
+     * Process the attack using the attacker and target in the AttackRequestModel.
+     * The target in this AttackRequestModel must be the final target to receive
+     * the attack.
+     *
+     * @param inputData the AttackRequestModel containing the attacking creature's
+     *                  id, and the target creature's id.
+     * @return the FinishAttackResponseModel reporting the updates to the stats
+     * of creatures and stats of players in the game.
+     */
+    @Override
+    public FinishAttackResponseModel proceedAttack(AttackRequestModel inputData) {
+        Player player1 = gameState.getCurrentPlayer();
+        Player player2 = gameState.getOpposingPlayer();
+        CreatureCard creatureAttacker = player1.getCreatureById(inputData.getAttackerId());
+        CreatureCard creatureDefender = player2.getCreatureById(inputData.getTargetId());
+        player1.spendEssence(creatureAttacker.getAttackCost());
+        return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
 
     }
 
@@ -49,36 +71,51 @@ public class AttackInteractor implements AttackInputBoundary {
         CreatureCard creatureDefender = player2.getCreatureById(inputData.getTargetId());
 
         player1.spendEssence(creatureAttacker.getAttackCost());
+        player2.spendEssence(creatureDefender.getDefendCost());
+        return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
+
+    }
+
+    private FinishAttackResponseModel getFinishAttackResponseModel(Player player1, Player player2, CreatureCard
+            creatureAttacker, CreatureCard creatureDefender) {
+
         creatureDefender.takeDamage(creatureAttacker.getAttackDamage());
 
-        List <Integer> player1CreatureHitpoints = new ArrayList<>();
-        List <Integer> player1CreatureIds= new ArrayList<>();
-        List <Integer> player1HandIds = new ArrayList<>();
+        List<List<Integer>> player1HitIdHand= getPlayerHitCreatureHandID(player1);
+        List<List<Integer>> player2HitIdHand= getPlayerHitCreatureHandID(player2);
 
-        List <Integer> player2CreatureIds= new ArrayList<>();
-        List <Integer> player2CreatureHitpoints = new ArrayList<>();
-        List <Integer> player2HandIds = new ArrayList<>();
-
-        for (int i = 0; i< 3; i++) {
-            player1CreatureHitpoints.add(player1.getCreatures().get(i).getHitPoints());
-            player1CreatureIds.add(player1.getCreatures().get(i).getId());
-            player2CreatureHitpoints.add(player2.getCreatures().get(i).getHitPoints());
-            player2CreatureIds.add(player2.getCreatures().get(i).getId());
-        }
-
-        for (Card player1Card: player1.getHand()) {
-            player1HandIds.add(player1Card.getId());
-        }
-
-        for (Card player2Card: player2.getHand()) {
-            player2HandIds.add(player2Card.getId());
-        }
+        List<Integer> player1CreatureHitpoints = player1HitIdHand.get(0);
+        List<Integer> player2CreatureHitpoints = player2HitIdHand.get(0);
+        List<Integer>  player1CreatureIds = player1HitIdHand.get(1);
+        List<Integer> player2CreatureIds = player1HitIdHand.get(1);
+        List <Integer> player1HandIds = player1HitIdHand.get(2);
+        List <Integer> player2HandIds = player1HitIdHand.get(2);
 
         FinishAttackResponseModel updatedModel = new FinishAttackResponseModel(player1CreatureHitpoints,
                 player2CreatureHitpoints, player1CreatureIds, player2CreatureIds, player1HandIds, player2HandIds);
 
         return attackPresenter.exitDefendInputScreen(updatedModel);
+    }
 
-        return null;
+    private List<List<Integer>> getPlayerHitCreatureHandID(Player player){
+        List<List<Integer>> playerOutput = new ArrayList<>();
+
+        List<Integer> playerCreatureHitpoints = new ArrayList<>();
+        List<Integer> playerCreatureIds= new ArrayList<>();
+        List<Integer> playerHandIds = new ArrayList<>();
+
+        for (int i = 0; i < 3; i ++){
+            playerCreatureHitpoints.add(player.getCreatures().get(i).getHitPoints());
+            playerCreatureIds.add(player.getCreatures().get(i).getId());
+        }
+        for (Card player1Card: player.getHand()) {
+            playerHandIds.add(player1Card.getId());
+        }
+
+        playerOutput.add(playerCreatureHitpoints);
+        playerOutput.add(playerCreatureIds);
+        playerOutput.add(playerHandIds);
+
+        return playerOutput;
     }
 }

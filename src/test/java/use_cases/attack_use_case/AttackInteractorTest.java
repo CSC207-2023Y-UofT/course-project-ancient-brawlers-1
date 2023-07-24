@@ -33,9 +33,9 @@ class AttackInteractorTest {
         creatures1.add((CreatureCard) cardFactory.createCreatureCard("Creature2", 50, 5, 1, 2));
         creatures1.add((CreatureCard) cardFactory.createCreatureCard("Creature3", 10, 5, 3, 1));
         List<CreatureCard> creatures2 = new ArrayList<>();
-        creatures1.add((CreatureCard) cardFactory.createCreatureCard("Creature4", 30, 5, 2, 1));
-        creatures1.add((CreatureCard) cardFactory.createCreatureCard("Creature5", 50, 5, 1, 2));
-        creatures1.add((CreatureCard) cardFactory.createCreatureCard("Creature6", 10, 5, 3, 1));
+        creatures2.add((CreatureCard) cardFactory.createCreatureCard("Creature4", 30, 5, 2, 1));
+        creatures2.add((CreatureCard) cardFactory.createCreatureCard("Creature5", 50, 5, 1, 2));
+        creatures2.add((CreatureCard) cardFactory.createCreatureCard("Creature6", 10, 5, 3, 1));
 
         Player player1 = playerFactory.createPlayer("Player 1", creatures1, null, new EssenceDeck(cardFactory));
         Player player2 = playerFactory.createPlayer("Player 2", creatures2, null, new EssenceDeck(cardFactory));
