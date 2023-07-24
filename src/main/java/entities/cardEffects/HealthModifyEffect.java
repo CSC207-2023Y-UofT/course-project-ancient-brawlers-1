@@ -12,6 +12,6 @@ public class HealthModifyEffect implements CreatureStatsEffect {
 
     @Override
     public void invokeEffect(CreatureCard target) {
-        target.setMaxHitPoints(target.getHitPoints() + modifyAmount);
+        target.setMaxHitPoints(target.getMaxHitPoints() + modifyAmount);
     }
 }
