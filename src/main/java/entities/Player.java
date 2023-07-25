@@ -91,15 +91,14 @@ public class Player {
             return false;
         }
 
-        Iterator<Card> iterator = hand.iterator();
-        while (iterator.hasNext() && num > 0) {
-            Card card = iterator.next();
-            if (card instanceof EssenceCard) {
-                iterator.remove();
+        List<Card> cards = new ArrayList<>();
+        for (Card card : hand) {
+            if (num != 0 && card instanceof EssenceCard) {
+                cards.add(card);
                 num--;
             }
         }
-
+        hand.removeAll(cards);
         return true;
     }
 
