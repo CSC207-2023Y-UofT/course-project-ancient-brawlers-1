@@ -14,7 +14,10 @@ import entities.GameEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * TurnStartInteractor implements the methods needed for the logic of
+ * start-of-turn phase.
+ */
 public class TurnStartInteractor implements TurnStartInputBoundary {
 
     final GameState gameState;
@@ -26,9 +29,15 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         this.turnStartPresenter = turnStartPresenter;
     }
 
-
+    /**
+     * Draws cards for the current player: 2 cards from their play deck and 2
+     * more cards from their Essence deck (4 in total).
+     *
+     * @return a DrawCardOutputModel, showing which cards are successfully added
+     * to the hand and which are discarded due to hand being full.
+     */
     @Override
-    public TurnStartResponseModel drawCards() {
+    public DrawCardOutputModel drawCards() {
 
         //Getting the player deck from the current player
         Player player = gameState.getCurrentPlayer();
@@ -38,7 +47,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         EssenceDeck edeck = player.getEssenceDeck();
 
         //Drawing twice from the player deck then from the essence deck
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             player.addCard(deck.draw());
             player.addCard(edeck.draw());
 
@@ -47,103 +56,110 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         //Getting a list of all cards in the player hands and returning it
         List<Card> hand = player.getHand();
         List<Integer> handIds = new ArrayList<>();
-        for (int i = 0; i < hand.size(); i++){
+        for (int i = 0; i < hand.size(); i++) {
             handIds.add(hand.get(i).getId());
         }
 
-        TurnStartResponseModel output = new TurnStartResponseModel(handIds);
-        return turnStartPresenter.updateScreen(output);
+        // DrawCardOutputModel output = new DrawCardOutputModel(handIds);
+        return null; //turnStartPresenter.showDrawResult(output);
     }
 
-    @Override
-    public TurnStartResponseModel clearTemporaryEffects() {
 
+    @Override
+    public CreatureStatsUpdateModel clearBuffs() {
         Player player = gameState.getCurrentPlayer();
         List<CreatureCard> creatures = player.getCreatures();
-        List<Integer> creatureIds = new ArrayList<>();
-        List<Integer> hitPoints = new ArrayList<>();
-        List<Integer> attacks = new ArrayList<>();
-        for (int i = 0; i < creatures.size(); i++){
-            creatures.get(i).clearDamageBuff();
-            creatures.get(i).clearHealthBuff();
-            creatures.get(i).clearStun();
-            creatureIds.add(creatures.get(i).getId());
-            hitPoints.add(creatures.get(i).getTotalHitPoints());
-            attacks.add(creatures.get(i).getTotalAttackDamage());
+        for (CreatureCard creature : creatures) {
+            creature.clearDamageBuff();
+            creature.clearHealthBuff();
+            creature.clearStun();
         }
 
-        TurnStartResponseModel output = new TurnStartResponseModel(new ArrayList<>(), new ArrayList<>(),
-                creatureIds, new ArrayList<>(),
-                hitPoints,new ArrayList<>(),
-                attacks, new ArrayList<>());
-        return turnStartPresenter.updateScreen(output);
+        CreatureStatsUpdateModel outputData = getCreatureStatsModel();
+        return turnStartPresenter.showClearBuffs(outputData);
     }
 
+    /**
+     * Trigger the start-of-turn effects in the active structure of the current
+     * player, if it does exist.
+     * This method returns many values because the effects have a variety of
+     * targets, so outcomes also vary.
+     *
+     * @return a TriggerEffectUpdateModel, a combination of a list of hand card
+     * ids and a CreatureStatsUpdateModel.
+     */
     @Override
-    public TurnStartResponseModel triggerTurnStartEffects() {
+    public TriggerEffectUpdateModel triggerTurnStartEffects() {
         Player player1 = gameState.getCurrentPlayer();
         Player player2 = gameState.getOpposingPlayer();
-        if (player1.getStructure() != null){
+        if (player1.getStructure() != null) {
             StructureCard structureCard = player1.getStructure();
-            List<CreatureCard> effectTargets= new ArrayList<>();
-            if(structureCard.getTriggerEvent() == GameEvent.TURN_START){
-                switch (structureCard.getTargetType()){
+            List<CreatureCard> effectTargets = new ArrayList<>();
+            if (structureCard.getTriggerEvent() == GameEvent.TURN_START) {
+                switch (structureCard.getTargetType()) {
                     case ALL:
                         effectTargets.addAll(player1.getCreatures());
                         effectTargets.addAll(player2.getCreatures());
                         break;
-
                     case FRIENDLY:
                         effectTargets.addAll(player1.getCreatures());
                         break;
-
                     case OPPONENT:
                         effectTargets.addAll(player2.getCreatures());
                         break;
                 }
             }
-            for (CreatureCard card: effectTargets){
-                for (CardEffect effect: structureCard.getEffects()){
-                    if (effect instanceof CreatureStatsEffect){
+            for (CreatureCard card : effectTargets) {
+                for (CardEffect effect : structureCard.getEffects()) {
+                    if (effect instanceof CreatureStatsEffect) {
                         ((CreatureStatsEffect) effect).invokeEffect(card);
                     }
                 }
             }
         }
+
+        List<Integer> handIds = new ArrayList<>();
+        for (Card card : player1.getHand()) {
+            handIds.add(card.getId());
+        }
+
+        TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, getCreatureStatsModel());
+
+
+        return turnStartPresenter.showEffectUpdates(outputData);
+    }
+
+    /**
+     * Helper method to create a CreatureStatsUpdateModel directly from the
+     * creatures in the current GameState.
+     *
+     * @return a CreatureStatsUpdateModel, containing the id, hit-points, and
+     * attack of all creatures in the GameState (for both players).
+     */
+    private CreatureStatsUpdateModel getCreatureStatsModel() {
+        Player player1 = gameState.getCurrentPlayer();
+        Player player2 = gameState.getOpposingPlayer();
+
+        List<Integer> ids1 = new ArrayList<>();
+        List<Integer> ids2 = new ArrayList<>();
         List<Integer> hitPoints1 = new ArrayList<>();
         List<Integer> hitPoints2 = new ArrayList<>();
-        List<Integer> creatureIds1 = new ArrayList<>();
-        List<Integer> creatureIds2 = new ArrayList<>();
+        List<Integer> attacks1 = new ArrayList<>();
+        List<Integer> attacks2 = new ArrayList<>();
 
-        List<Integer> handIds1 = new ArrayList<>();
-        List<Integer> handIds2 = new ArrayList<>();
-        List<Integer> attackIds1 = new ArrayList<>();
-        List<Integer> attackIds2 = new ArrayList<>();
-
-        for (CreatureCard creature : player1.getCreatures()) {
-            hitPoints1.add(creature.getTotalHitPoints());
-            creatureIds1.add(creature.getId());
-            attackIds1.add(creature.getAttackDamage());
+        for (CreatureCard c : player1.getCreatures()) {
+            ids1.add(c.getId());
+            hitPoints1.add(c.getTotalHitPoints());
+            attacks1.add(c.getTotalAttackDamage());
+        }
+        for (CreatureCard c : player2.getCreatures()) {
+            ids2.add(c.getId());
+            hitPoints2.add(c.getTotalHitPoints());
+            attacks2.add(c.getTotalAttackDamage());
         }
 
-        for (CreatureCard creature : player2.getCreatures()) {
-            hitPoints2.add(creature.getTotalHitPoints());
-            creatureIds2.add(creature.getId());
-            attackIds2.add(creature.getAttackDamage());
-        }
-
-        for (Card card : player1.getHand()) {
-            handIds1.add(card.getId());
-        }
-
-        for (Card card : player2.getHand()) {
-            handIds2.add(card.getId());
-        }
-        TurnStartResponseModel turnStartResModel = new TurnStartResponseModel(handIds1, handIds2, creatureIds1,
-                creatureIds2, hitPoints1, hitPoints2, attackIds1, attackIds2);
-
-
-        return turnStartPresenter.updateScreen(turnStartResModel);
+        return new CreatureStatsUpdateModel(ids1, ids2, hitPoints1, hitPoints2,
+                attacks1, attacks2);
     }
 }
 
