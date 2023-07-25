@@ -97,25 +97,4 @@ public class AttackInteractor implements AttackInputBoundary {
         return attackPresenter.exitDefendInputScreen(updatedModel);
     }
 
-    private List<List<Integer>> getPlayerHitCreatureHandID(Player player){
-        List<List<Integer>> playerOutput = new ArrayList<>();
-
-        List<Integer> playerCreatureHitpoints = new ArrayList<>();
-        List<Integer> playerCreatureIds= new ArrayList<>();
-        List<Integer> playerHandIds = new ArrayList<>();
-
-        for (int i = 0; i < 3; i ++){
-            playerCreatureHitpoints.add(player.getCreatures().get(i).getHitPoints());
-            playerCreatureIds.add(player.getCreatures().get(i).getId());
-        }
-        for (Card player1Card: player.getHand()) {
-            playerHandIds.add(player1Card.getId());
-        }
-
-        playerOutput.add(playerCreatureHitpoints);
-        playerOutput.add(playerCreatureIds);
-        playerOutput.add(playerHandIds);
-
-        return playerOutput;
-    }
 }
