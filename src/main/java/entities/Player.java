@@ -108,7 +108,6 @@ public class Player {
 
     public StructureCard getStructure() {
         return structure;
-
     }
 
     public boolean removeCreature(int id) {
