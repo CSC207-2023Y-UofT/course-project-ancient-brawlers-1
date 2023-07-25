@@ -33,5 +33,5 @@ public interface PlayCardOutputBoundary {
      *
      * @param message the string message to show on the screen.
      */
-    void displayErrorMessage(String message);
+    PlayCardOutputModel displayErrorMessage(String message);
 }

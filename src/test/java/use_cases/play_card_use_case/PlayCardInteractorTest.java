@@ -7,7 +7,6 @@ import entities.PlayerFactory;
 import entities.cardEffects.DamageEffect;
 import entities.cardEffects.HealthBuffEffect;
 import entities.cards.*;
-import entities.decks.DeckFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -74,8 +73,9 @@ class PlayCardInteractorTest {
             }
 
             @Override
-            public void displayErrorMessage(String message) {
+            public PlayCardOutputModel displayErrorMessage(String message) {
                 fail("The input should be processed successfully.");
+                return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
@@ -105,8 +105,9 @@ class PlayCardInteractorTest {
             }
 
             @Override
-            public void displayErrorMessage(String message) {
+            public PlayCardOutputModel displayErrorMessage(String message) {
                 fail("The input should be processed successfully.");
+                return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
@@ -133,8 +134,9 @@ class PlayCardInteractorTest {
             }
 
             @Override
-            public void displayErrorMessage(String message) {
+            public PlayCardOutputModel displayErrorMessage(String message) {
                 fail("The input should be processed successfully.");
+                return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
@@ -156,8 +158,9 @@ class PlayCardInteractorTest {
             }
 
             @Override
-            public void displayErrorMessage(String message) {
+            public PlayCardOutputModel displayErrorMessage(String message) {
                 assertEquals("Essence card cannot be played directly.", message);
+                return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
