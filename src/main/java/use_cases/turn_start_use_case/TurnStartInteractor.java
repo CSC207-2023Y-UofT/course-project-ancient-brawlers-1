@@ -4,8 +4,12 @@ import entities.GameState;
 import entities.Player;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
+import entities.cards.StructureCard;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
+import entities.cardEffects.CreatureStatsEffect;
+import entities.cardEffects.CardEffect;
+import entities.GameEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +81,69 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
     @Override
     public TurnStartResponseModel triggerTurnStartEffects() {
-        return null;
+        Player player1 = gameState.getCurrentPlayer();
+        Player player2 = gameState.getOpposingPlayer();
+        if (player1.getStructure() != null){
+            StructureCard structureCard = player1.getStructure();
+            List<CreatureCard> effectTargets= new ArrayList<>();
+            if(structureCard.getTriggerEvent() == GameEvent.TURN_START){
+                switch (structureCard.getTargetType()){
+                    case ALL:
+                        effectTargets.addAll(player1.getCreatures());
+                        effectTargets.addAll(player2.getCreatures());
+                        break;
+
+                    case FRIENDLY:
+                        effectTargets.addAll(player1.getCreatures());
+                        break;
+
+                    case OPPONENT:
+                        effectTargets.addAll(player2.getCreatures());
+                        break;
+                }
+            }
+            for (CreatureCard card: effectTargets){
+                for (CardEffect effect: structureCard.getEffects()){
+                    if (effect instanceof CreatureStatsEffect){
+                        ((CreatureStatsEffect) effect).invokeEffect(card);
+                    }
+                }
+            }
+        }
+        List<Integer> hitPoints1 = new ArrayList<>();
+        List<Integer> hitPoints2 = new ArrayList<>();
+        List<Integer> creatureIds1 = new ArrayList<>();
+        List<Integer> creatureIds2 = new ArrayList<>();
+
+        List<Integer> handIds1 = new ArrayList<>();
+        List<Integer> handIds2 = new ArrayList<>();
+        List<Integer> attackIds1 = new ArrayList<>();
+        List<Integer> attackIds2 = new ArrayList<>();
+
+        for (CreatureCard creature : player1.getCreatures()) {
+            hitPoints1.add(creature.getTotalHitPoints());
+            creatureIds1.add(creature.getId());
+            attackIds1.add(creature.getAttackDamage());
+        }
+
+        for (CreatureCard creature : player2.getCreatures()) {
+            hitPoints2.add(creature.getTotalHitPoints());
+            creatureIds2.add(creature.getId());
+            attackIds2.add(creature.getAttackDamage());
+        }
+
+        for (Card card : player1.getHand()) {
+            handIds1.add(card.getId());
+        }
+
+        for (Card card : player2.getHand()) {
+            handIds2.add(card.getId());
+        }
+        TurnStartResponseModel turnStartResModel = new TurnStartResponseModel(handIds1, handIds2, creatureIds1,
+                creatureIds2, hitPoints1, hitPoints2, attackIds1, attackIds2);
+
+
+        return turnStartPresenter.updateScreen(turnStartResModel);
     }
 }
+
