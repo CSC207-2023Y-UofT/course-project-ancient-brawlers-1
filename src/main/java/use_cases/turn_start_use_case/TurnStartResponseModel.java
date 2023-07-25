@@ -13,6 +13,11 @@ public class TurnStartResponseModel {
     private List<Integer> attacks1;
     private List<Integer> attacks2;
 
+
+    public TurnStartResponseModel(List<Integer> handIds1) {
+        this.handIds1 = handIds1;
+    }
+
     public TurnStartResponseModel(List<Integer> handIds1, List<Integer> handIds2,
                                   List<Integer> creatureIds1, List<Integer> creatureIds2,
                                   List<Integer> hitPoints1, List<Integer> hitPoints2,
