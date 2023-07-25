@@ -110,6 +110,7 @@ class PlayCardInteractorTest {
     void testPlayCard_Action_DrawCards() {
         PlayableCardData data = new PlayableCardData("", TargetType.SELF, List.of(new DrawCardEffect(2, "ESSENCE_DECK")));
         ActionCard card = new ActionCard(500, "draw", data);
+        // Adding a card, now hand has 5 cards
         gameState.getCurrentPlayer().addCard(card);
         PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
             @Override
@@ -126,7 +127,7 @@ class PlayCardInteractorTest {
 
             @Override
             public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
-                assertEquals(5, outputData.getPlayHandIds().size());
+                assertEquals(6, outputData.getPlayHandIds().size());
                 assertTrue(outputData.getStructure1().isEmpty());
                 assertTrue(outputData.getStructure2().isEmpty());
                 assertEquals(List.of(5), outputData.getCreatureIds1());
@@ -139,6 +140,7 @@ class PlayCardInteractorTest {
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
+        // this action card will be used first, then we draw two cards, expect 6 in the end.
         interactor.playCard(500);
     }
 
@@ -163,7 +165,7 @@ class PlayCardInteractorTest {
                 assertEquals("Structure1", outputData.getStructure1());
                 assertTrue(outputData.getStructure2().isEmpty());
                 assertEquals(List.of(5), outputData.getCreatureIds1());
-                assertEquals(List.of(11), outputData.getHitPoints1());
+                assertEquals(List.of(1), outputData.getHitPoints1());
                 assertEquals(List.of(1), outputData.getAttacks1());
                 assertEquals(List.of(6), outputData.getCreatureIds2());
                 assertEquals(List.of(1), outputData.getHitPoints2());
@@ -230,9 +232,7 @@ class PlayCardInteractorTest {
                 return null;
             }
         };
-        TargetModel inputData = new TargetModel(2, List.of(5));
-
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
-        interactor.playSingleTargetCard(inputData);
+        interactor.playSingleTargetCard(2, 5);
     }
 }

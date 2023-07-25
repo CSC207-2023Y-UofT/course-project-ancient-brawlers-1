@@ -19,16 +19,14 @@ public interface PlayCardInputBoundary {
 
     /**
      * Spend the card that the player chose to play, and trigger its effects
-     * on the targets from the {@code inputData}.
-     * Target selection should be complete when this method is called, so the
-     * TargetModel contains not the possible targets but the chosen targets.
-     * Further, the targets will always be creatures, so we can safely assume
+     * on the target given by {@code targetId}.
+     * The target will always be a creature, so we can safely assume
      * the effects are CreatureStatsEffects.
      *
-     * @param inputData a TargetModel containing the id of card to be played and
-     *                  the list of targets.
+     * @param cardId the id of the card being played.
+     * @param targetId the id of the creature to be affected.
      * @return a PlayCardOutputModel, containing all possible changed stats in
      * the gameState.
      */
-    PlayCardOutputModel playSingleTargetCard(TargetModel inputData);
+    PlayCardOutputModel playSingleTargetCard(int cardId, int targetId);
 }
