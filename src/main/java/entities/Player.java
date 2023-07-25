@@ -85,6 +85,22 @@ public class Player {
         return null;
     }
 
+    public boolean spendEssence(int num) {
+        if (num > getNumOfEssence()) {
+            return false;
+        }
+
+        List<Card> cards = new ArrayList<>();
+        for (Card card : hand) {
+            if (num != 0 && card instanceof EssenceCard) {
+                cards.add(card);
+                num--;
+            }
+        }
+        hand.removeAll(cards);
+        return true;
+    }
+
     public void setStructure(StructureCard structure) {
         this.structure = structure;
     }
@@ -101,5 +117,14 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public CreatureCard getCreatureById(int id) {
+        for (CreatureCard creature : creatures) {
+            if (creature.getId() == id) {
+                return creature;
+            }
+        }
+        return null;
     }
 }
