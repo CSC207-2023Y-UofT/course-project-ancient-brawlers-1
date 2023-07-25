@@ -32,7 +32,7 @@ public class AttackInteractor implements AttackInputBoundary {
             List<Integer> possibleDefenders = new ArrayList<Integer>();
             for (CreatureCard card : player2.getCreatures()) {
                 int cardId = card.getId();
-                if (cardId != inputData.getTargetId() & card.getDefendCost() <= player2.getNumOfEssence()) {
+                if (cardId != inputData.getTargetId() && card.getDefendCost() <= player2.getNumOfEssence()) {
                     possibleDefenders.add(card.getId());
                 }
             }
