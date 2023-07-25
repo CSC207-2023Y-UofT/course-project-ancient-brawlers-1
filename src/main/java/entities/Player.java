@@ -85,6 +85,15 @@ public class Player {
         return null;
     }
 
+    public Card getCardById(int id) {
+        for (Card card : hand) {
+            if (card.getId() == id) {
+                return card;
+            }
+        }
+        return null;
+    }
+
     public boolean spendEssence(int num) {
         if (num > getNumOfEssence()) {
             return false;

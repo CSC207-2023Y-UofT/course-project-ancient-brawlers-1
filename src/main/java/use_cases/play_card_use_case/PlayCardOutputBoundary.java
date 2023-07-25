@@ -15,7 +15,23 @@ public interface PlayCardOutputBoundary {
      * @param requestModel a data model containing the id of the card to be played
      *                     and the list of possible targets.
      */
-    void requestTarget(TargetRequestModel requestModel);
+    void requestTarget(TargetModel requestModel);
 
+    /**
+     * Bring back the gameplay screen and add all information in {@code outputData}
+     * into the view.
+     *
+     * @param outputData a PlayCardOutputModel containing all values that reflect
+     *                   the changes in the gameState.
+     * @return the same as the input parameter, for consistency with the interactor.
+     */
     PlayCardOutputModel updateStats(PlayCardOutputModel outputData);
+
+    /**
+     * To be used in the processCard() method in the interactor, for cases when
+     * the card cannot be played.
+     *
+     * @param message the string message to show on the screen.
+     */
+    void displayErrorMessage(String message);
 }

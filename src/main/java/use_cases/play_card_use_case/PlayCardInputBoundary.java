@@ -13,21 +13,22 @@ public interface PlayCardInputBoundary {
      * If it does not need target selection, then targets can be located by using
      * information in the gameState, so this method calls {@code playCard()}.
      * If it does need target, a second input from the player is expected. It will
-     * signal the presenter with a TargetRequestModel.
+     * signal the presenter with a TargetModel.
      *
      * @param cardId the id of the card, given from the controller's layer.
      */
-    void processCard(String cardId);
+    void processCard(int cardId);
 
     /**
      * Spend the card that the player chose to play, and trigger its effects
      * on the targets from the {@code inputData}.
-     * Target selection should be complete when this method is called.
+     * Target selection should be complete when this method is called, so the
+     * TargetModel contains not the possible targets but the chosen targets.
      *
      * @param inputData a PlayCardInputModel containing the id of card to be
      *                  played and the list of targets.
      * @return a PlayCardOutputModel, containing all possible changed stats in
      * the gameState.
      */
-    PlayCardOutputModel playCard(PlayCardInputModel inputData);
+    PlayCardOutputModel playCard(TargetModel inputData);
 }
