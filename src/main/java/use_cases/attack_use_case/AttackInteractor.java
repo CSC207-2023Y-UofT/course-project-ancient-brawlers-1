@@ -76,23 +76,38 @@ public class AttackInteractor implements AttackInputBoundary {
 
     }
 
-    private FinishAttackResponseModel getFinishAttackResponseModel(Player player1, Player player2, CreatureCard
-            creatureAttacker, CreatureCard creatureDefender) {
-
+    private FinishAttackResponseModel getFinishAttackResponseModel(Player player1, Player player2,
+                                                                   CreatureCard creatureAttacker,
+                                                                   CreatureCard creatureDefender) {
         creatureDefender.takeDamage(creatureAttacker.getAttackDamage());
+        
+        List<Integer> hitPoints1 = new ArrayList<>();
+        List<Integer> hitPoints2 = new ArrayList<>();
+        List<Integer> creatureIds1 = new ArrayList<>();
+        List<Integer> creatureIds2 = new ArrayList<>();
+        List<Integer> handIds1 = new ArrayList<>();
+        List<Integer> handIds2 = new ArrayList<>();
 
-        List<List<Integer>> player1HitIdHand= getPlayerHitCreatureHandID(player1);
-        List<List<Integer>> player2HitIdHand= getPlayerHitCreatureHandID(player2);
+        for (CreatureCard creature : player1.getCreatures()) {
+            hitPoints1.add(creature.getTotalHitPoints());
+            creatureIds1.add(creature.getId());
+        }
 
-        List<Integer> player1CreatureHitpoints = player1HitIdHand.get(0);
-        List<Integer> player2CreatureHitpoints = player2HitIdHand.get(0);
-        List<Integer>  player1CreatureIds = player1HitIdHand.get(1);
-        List<Integer> player2CreatureIds = player1HitIdHand.get(1);
-        List <Integer> player1HandIds = player1HitIdHand.get(2);
-        List <Integer> player2HandIds = player1HitIdHand.get(2);
+        for (CreatureCard creature : player2.getCreatures()) {
+            hitPoints2.add(creature.getTotalHitPoints());
+            creatureIds2.add(creature.getId());
+        }
 
-        FinishAttackResponseModel updatedModel = new FinishAttackResponseModel(player1CreatureHitpoints,
-                player2CreatureHitpoints, player1CreatureIds, player2CreatureIds, player1HandIds, player2HandIds);
+        for (Card card : player1.getHand()) {
+            handIds1.add(card.getId());
+        }
+
+        for (Card card : player2.getHand()) {
+            handIds2.add(card.getId());
+        }
+
+        FinishAttackResponseModel updatedModel = new FinishAttackResponseModel(hitPoints1,
+                hitPoints2, creatureIds1, creatureIds2, handIds1, handIds2);
 
         return attackPresenter.exitDefendInputScreen(updatedModel);
     }
