@@ -5,8 +5,10 @@ import entities.GameState;
 import entities.Player;
 import entities.PlayerFactory;
 import entities.cardEffects.DamageEffect;
+import entities.cardEffects.DrawCardEffect;
 import entities.cardEffects.HealthBuffEffect;
 import entities.cards.*;
+import entities.decks.EssenceDeck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +37,7 @@ class PlayCardInteractorTest {
         // card1 = 1, card2 = 2, card3 = 3, card4 = 4, c1 = 5, c2 = 6
         // (these are expected values in test methods)
 
-        Player player1 = playerFactory.createPlayer("Kevin", new ArrayList<>(List.of(c1)), null, null);
+        Player player1 = playerFactory.createPlayer("Kevin", new ArrayList<>(List.of(c1)), null, new EssenceDeck(cardFactory));
         Player player2 = playerFactory.createPlayer("Kevin", new ArrayList<>(List.of(c2)), null, null);
         player1.addCard(card1);
         player1.addCard(card2);
@@ -46,23 +48,51 @@ class PlayCardInteractorTest {
         gameState.setPlayers(player1, player2);
     }
 
-    /**
-     * Test that when playing an action card with no target input needed,
-     * the interactor will go straight to updateStats() in presenter.
-     *
-     * In this test, processCard() will call playCard() too.
-     */
     @Test
-    void testProcessAndPlay_ActionCard() {
+    void testPlayCard_NotPlayableCard() {
         PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
             @Override
-            public void requestTarget(TargetModel requestModel) {
-                fail("No target input needed: processCard() does not need to call requestTarget().");
+            public PlayCardOutputModel displayErrorMessage(String message) {
+                assertEquals("This card cannot be played directly.", message);
+                return null;
             }
 
             @Override
-            public PlayCardOutputModel updateStats(PlayCardOutputModel outputData) {
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                fail("Non-Playable card: playCard() should not call showTargetSelectionScreen()");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
+                fail("Non-Playable card: playCard() should not call updateGameScreen()");
+                return null;
+            }
+        };
+        PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
+        interactor.playCard(4);
+    }
+
+    @Test
+    void testPlayCard_Action_NonSingleTarget() {
+        PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
+            @Override
+            public PlayCardOutputModel displayErrorMessage(String message) {
+                fail("Valid card: playCard() should not call displayErrorMessage()");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                fail("No target selection needed.");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
                 assertEquals(3, outputData.getPlayHandIds().size());
+                assertTrue(outputData.getStructure1().isEmpty());
+                assertTrue(outputData.getStructure2().isEmpty());
                 assertEquals(List.of(5), outputData.getCreatureIds1());
                 assertEquals(List.of(11), outputData.getHitPoints1());
                 assertEquals(List.of(1), outputData.getAttacks1());
@@ -71,99 +101,138 @@ class PlayCardInteractorTest {
                 assertEquals(List.of(1), outputData.getAttacks2());
                 return null;
             }
+        };
+        PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
+        interactor.playCard(1);
+    }
 
+    @Test
+    void testPlayCard_Action_DrawCards() {
+        PlayableCardData data = new PlayableCardData("", TargetType.SELF, List.of(new DrawCardEffect(2, "ESSENCE_DECK")));
+        ActionCard card = new ActionCard(500, "draw", data);
+        gameState.getCurrentPlayer().addCard(card);
+        PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
             @Override
             public PlayCardOutputModel displayErrorMessage(String message) {
-                fail("The input should be processed successfully.");
+                fail("Valid card: playCard() should not call displayErrorMessage()");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                fail("No target selection needed.");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
+                assertEquals(5, outputData.getPlayHandIds().size());
+                assertTrue(outputData.getStructure1().isEmpty());
+                assertTrue(outputData.getStructure2().isEmpty());
+                assertEquals(List.of(5), outputData.getCreatureIds1());
+                assertEquals(List.of(1), outputData.getHitPoints1());
+                assertEquals(List.of(1), outputData.getAttacks1());
+                assertEquals(List.of(6), outputData.getCreatureIds2());
+                assertEquals(List.of(1), outputData.getHitPoints2());
+                assertEquals(List.of(1), outputData.getAttacks2());
                 return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
-        interactor.processCard(1);
+        interactor.playCard(500);
     }
 
-    /**
-     * Test that when playing an action that requires a single target, the
-     * processCard() method does not go to playCard() but submits the request
-     * for targets.
-     */
     @Test
-    void testProcessCard_ActionCard_NeedTarget() {
+    void testPlayCard_Structure() {
         PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
-            @Override
-            public void requestTarget(TargetModel requestModel) {
-                assertEquals(2, requestModel.getCardId());
-                assertEquals(List.of(4, 5), requestModel.getTargetIds(),
-                        "We'll just keep it consistent that we add current player's " +
-                                "creature ids first, followed by opposing player's.");
-            }
-
-            @Override
-            public PlayCardOutputModel updateStats(PlayCardOutputModel outputData) {
-                fail("Target input needed: processCard() should not call updateStats().");
-                return null;
-            }
-
             @Override
             public PlayCardOutputModel displayErrorMessage(String message) {
-                fail("The input should be processed successfully.");
+                fail("Valid card: playCard() should not call displayErrorMessage()");
                 return null;
             }
-        };
-        PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
-        interactor.processCard(2);
-    }
 
-    /**
-     * Testing for a structure card, this should follow through with both
-     * processCard() and playCard().
-     */
-    @Test
-    void testProcessAndPlay_StructureCard() {
-        PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
             @Override
-            public void requestTarget(TargetModel requestModel) {
-                fail("No need to request targets.");
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                fail("No target selection needed.");
+                return null;
             }
 
             @Override
-            public PlayCardOutputModel updateStats(PlayCardOutputModel outputData) {
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
+                assertEquals(3, outputData.getPlayHandIds().size());
                 assertEquals("Structure1", outputData.getStructure1());
                 assertTrue(outputData.getStructure2().isEmpty());
-                return null;
-            }
-
-            @Override
-            public PlayCardOutputModel displayErrorMessage(String message) {
-                fail("The input should be processed successfully.");
+                assertEquals(List.of(5), outputData.getCreatureIds1());
+                assertEquals(List.of(11), outputData.getHitPoints1());
+                assertEquals(List.of(1), outputData.getAttacks1());
+                assertEquals(List.of(6), outputData.getCreatureIds2());
+                assertEquals(List.of(1), outputData.getHitPoints2());
+                assertEquals(List.of(1), outputData.getAttacks2());
                 return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
-        interactor.processCard(3);
+        interactor.playCard(3);
     }
 
     @Test
-    void testProcessCard_EssenceCard() {
+    void testPlayCard_Action_SingleTarget() {
         PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
             @Override
-            public void requestTarget(TargetModel requestModel) {
-                fail("Invalid card to play: No need to request targets.");
-            }
-
-            @Override
-            public PlayCardOutputModel updateStats(PlayCardOutputModel outputData) {
-                fail("Invalid card to play: No need to update stats.");
+            public PlayCardOutputModel displayErrorMessage(String message) {
+                fail("Valid card: playCard() should not call displayErrorMessage()");
                 return null;
             }
 
             @Override
-            public PlayCardOutputModel displayErrorMessage(String message) {
-                assertEquals("Essence card cannot be played directly.", message);
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                assertEquals(List.of(5, 6), requestModel.getTargetIds());
+                assertEquals(2, requestModel.getCardId());
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
+                fail("Single Target Card: playCard() should not call updateGameScreen().");
                 return null;
             }
         };
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
-        interactor.processCard(4);
+        interactor.playCard(2);
+    }
+
+    @Test
+    void testPlaySingleTargetCard() {
+        PlayCardOutputBoundary presenter = new PlayCardOutputBoundary() {
+            @Override
+            public PlayCardOutputModel displayErrorMessage(String message) {
+                fail("Valid card: playCard() should not call displayErrorMessage()");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
+                fail("playSingleTargetCard() should not need target selection anymore.");
+                return null;
+            }
+
+            @Override
+            public PlayCardOutputModel updateGameScreen(PlayCardOutputModel outputData) {
+                assertEquals(3, outputData.getPlayHandIds().size());
+                assertTrue(outputData.getStructure1().isEmpty());
+                assertTrue(outputData.getStructure2().isEmpty());
+                assertEquals(List.of(5), outputData.getCreatureIds1());
+                assertEquals(List.of(-9), outputData.getHitPoints1());
+                assertEquals(List.of(1), outputData.getAttacks1());
+                assertEquals(List.of(6), outputData.getCreatureIds2());
+                assertEquals(List.of(1), outputData.getHitPoints2());
+                assertEquals(List.of(1), outputData.getAttacks2());
+                return null;
+            }
+        };
+        TargetModel inputData = new TargetModel(2, List.of(5));
+
+        PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
+        interactor.playSingleTargetCard(inputData);
     }
 }
