@@ -58,12 +58,65 @@ class GamePrepInteractorTest {
     }
 
     @Test
-    void testProcessPlayerInfo_validInputs() {
+    void testProcessPlayerInfo_ValidInputs() {
+        GamePrepOutputBoundary presenter = new GamePrepOutputBoundary() {
+            @Override
+            public void showGamePreparationScreen(List<String> creatureNames) {
+                fail("processPlayerInfo() should not call showGamePreparationScreen().");
+            }
 
+            @Override
+            public GamePrepResponseModel displayErrorMessage(String message) {
+                fail("On valid inputs, processPlayerInfo() should not call displayErrorMessage().");
+                return null;
+            }
+
+            @Override
+            public GamePrepResponseModel showGameplayScreen(GamePrepResponseModel outputData) {
+                assertEquals("Kevin", outputData.getPlayerName1());
+                assertEquals("Unknown", outputData.getPlayerName2());
+                assertEquals(3, outputData.getCreatureIds1().size());
+                assertEquals(3, outputData.getCreatureIds2().size());
+                assertEquals(3, outputData.getAttacks1().size());
+                assertEquals(3, outputData.getAttacks2().size());
+                assertEquals(3, outputData.getHitPoints1().size());
+                assertEquals(3, outputData.getHitPoints2().size());
+                return null;
+            }
+        };
+        GamePrepRequestModel inputData = new GamePrepRequestModel("Kevin", "Unknown",
+                List.of("C1", "C2", "C3"), List.of("C2", "C3", "C4"));
+
+        GamePrepInteractor interactor = new GamePrepInteractor(gameState, cardFactory, deckFactory,
+                playerFactory, dataAccessor, presenter);
+        interactor.processPlayerInfo(inputData);
     }
 
     @Test
-    void testProcessPlayerInfo_invalidInputs() {
+    void testProcessPlayerInfo_InvalidInputs() {
+        GamePrepOutputBoundary presenter = new GamePrepOutputBoundary() {
+            @Override
+            public void showGamePreparationScreen(List<String> creatureNames) {
+                fail("processPlayerInfo() should not call showGamePreparationScreen().");
+            }
 
+            @Override
+            public GamePrepResponseModel displayErrorMessage(String message) {
+                assertEquals("Please select only 3 creatures.", message);
+                return null;
+            }
+
+            @Override
+            public GamePrepResponseModel showGameplayScreen(GamePrepResponseModel outputData) {
+                fail("On invalid inputs, processPlayerInfo() should not call showGameplayScreen().");
+                return null;
+            }
+        };
+        GamePrepRequestModel inputData = new GamePrepRequestModel("Kevin", "Kevin",
+                List.of("C1", "C2", "C3", "C4"), List.of("C1", "C2", "C3", "C4"));
+
+        GamePrepInteractor interactor = new GamePrepInteractor(gameState, cardFactory, deckFactory,
+                playerFactory, dataAccessor, presenter);
+        interactor.processPlayerInfo(inputData);
     }
 }

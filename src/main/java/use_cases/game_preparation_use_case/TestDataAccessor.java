@@ -1,9 +1,6 @@
 package use_cases.game_preparation_use_case;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TestDataAccessor is only for testing the GamePrepInteractor. It provides a
@@ -14,9 +11,9 @@ import java.util.Map;
  */
 public class TestDataAccessor implements CardDataGateway {
 
-    private final Map<String, ActionCardModel> actionMap = new HashMap<>();
-    private final Map<String, StructureCardModel> structureMap = new HashMap<>();
-    private final Map<String, CreatureCardModel> creatureMap = new HashMap<>();
+    private final Map<String, ActionCardModel> actionMap = new LinkedHashMap<>();
+    private final Map<String, StructureCardModel> structureMap = new LinkedHashMap<>();
+    private final Map<String, CreatureCardModel> creatureMap = new LinkedHashMap<>();
     private final List<String> playerDeck1 = new ArrayList<>();
     private final List<String> playerDeck2 = new ArrayList<>();
 
@@ -108,5 +105,16 @@ public class TestDataAccessor implements CardDataGateway {
     @Override
     public List<String> getPlayerTwoDeckData() {
         return playerDeck2;
+    }
+
+    /**
+     * Return a list of creature names for all the creatures that can be selected
+     * for the game.
+     *
+     * @return a list of strings for all the creature names.
+     */
+    @Override
+    public List<String> getExistingCreatures() {
+        return new ArrayList<>(creatureMap.keySet());
     }
 }

@@ -1,5 +1,5 @@
 {
-  "action": [
+  "cards": [
     "Seek",
     "Seek",
     "Life",
@@ -23,9 +23,7 @@
     "Incantation",
     "Incantation",
     "The War",
-    "The War"
-  ],
-  "structure": [
+    "The War",
     "Forest of the Elves",
     "Homeland",
     "Pool of Wisdom",

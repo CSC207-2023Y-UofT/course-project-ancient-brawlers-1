@@ -52,4 +52,12 @@ public interface CardDataGateway {
      * @return the list of card names as strings.
      */
     List<String> getPlayerTwoDeckData();
+
+    /**
+     * Return a list of creature names for all the creatures that can be selected
+     * for the game.
+     *
+     * @return a list of strings for all the creature names.
+     */
+    List<String> getExistingCreatures();
 }
