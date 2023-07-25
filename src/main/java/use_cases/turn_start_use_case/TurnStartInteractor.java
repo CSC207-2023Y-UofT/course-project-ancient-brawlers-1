@@ -2,6 +2,7 @@ package use_cases.turn_start_use_case;
 
 import entities.GameState;
 import entities.Player;
+import entities.cardEffects.PlayerStatsEffect;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
 import entities.cards.StructureCard;
@@ -47,21 +48,42 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         EssenceDeck edeck = player.getEssenceDeck();
 
         //Drawing twice from the player deck then from the essence deck
+        boolean val1;
+        boolean val2;
+        List<Integer> burntIds = new ArrayList<>();
+        List<String> burntNames = new ArrayList<>();
+        List<Integer> keptIds = new ArrayList<>();
+        List<String> keptNames = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            player.addCard(deck.draw());
-            player.addCard(edeck.draw());
+            Card card = deck.draw();
+            if (card != null) {
+                //going to find kept and discarded cards
+                val1 = player.addCard(card);
+                if (val1) {
+                    keptIds.add(card.getId());
+                    keptNames.add(card.getName());
+                } else {
+                    burntIds.add(card.getId());
+                    burntNames.add(card.getName());
+                }
+
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            Card ecard = edeck.draw();
+            val2 = player.addCard(ecard);
+            if (val2){
+                keptIds.add(ecard.getId());
+                keptNames.add(ecard.getName());
+            } else {
+                burntIds.add(ecard.getId());
+                burntNames.add(ecard.getName());
+            }
 
         }
 
-        //Getting a list of all cards in the player hands and returning it
-        List<Card> hand = player.getHand();
-        List<Integer> handIds = new ArrayList<>();
-        for (int i = 0; i < hand.size(); i++) {
-            handIds.add(hand.get(i).getId());
-        }
-
-        // DrawCardOutputModel output = new DrawCardOutputModel(handIds);
-        return null; //turnStartPresenter.showDrawResult(output);
+        DrawCardOutputModel output = new DrawCardOutputModel(keptIds,keptNames,burntIds,burntNames);
+        return turnStartPresenter.showDrawResult(output);
     }
 
 
@@ -95,6 +117,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         if (player1.getStructure() != null) {
             StructureCard structureCard = player1.getStructure();
             List<CreatureCard> effectTargets = new ArrayList<>();
+            Player effectplayer = null;
             if (structureCard.getTriggerEvent() == GameEvent.TURN_START) {
                 switch (structureCard.getTargetType()) {
                     case ALL:
@@ -104,16 +127,26 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
                     case FRIENDLY:
                         effectTargets.addAll(player1.getCreatures());
                         break;
-                    case OPPONENT:
+                    case ENEMY:
                         effectTargets.addAll(player2.getCreatures());
                         break;
+                    case OPPONENT:
+                        effectplayer = player2;
+                        break;
+                    case SELF:
+                        effectplayer = player1;
+                        break;
+                }
+            }
+
+            if (effectplayer != null) {
+                for (CardEffect effect : structureCard.getEffects()) {
+                    ((PlayerStatsEffect) effect).invokeEffect(effectplayer);
                 }
             }
             for (CreatureCard card : effectTargets) {
                 for (CardEffect effect : structureCard.getEffects()) {
-                    if (effect instanceof CreatureStatsEffect) {
-                        ((CreatureStatsEffect) effect).invokeEffect(card);
-                    }
+                    ((CreatureStatsEffect) effect).invokeEffect(card);
                 }
             }
         }

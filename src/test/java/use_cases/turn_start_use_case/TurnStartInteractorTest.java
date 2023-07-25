@@ -4,10 +4,7 @@ import entities.GameEvent;
 import entities.GameState;
 import entities.Player;
 import entities.PlayerFactory;
-import entities.cardEffects.CardEffect;
-import entities.cardEffects.DamageEffect;
-import entities.cardEffects.DamageModifyEffect;
-import entities.cardEffects.HealEffect;
+import entities.cardEffects.*;
 import entities.cards.*;
 import entities.decks.Deck;
 import entities.decks.DeckFactory;
@@ -221,4 +218,40 @@ class TurnStartInteractorTest {
         TurnStartInteractor interactor = new TurnStartInteractor(gameState, presenter);
         interactor.triggerTurnStartEffects();
     }
+    @Test
+    void testTriggerTurnStartEffects_playerEvent() {
+        List<CardEffect> effects = new ArrayList<>(List.of(new DrawCardEffect(2, "ESSENCE_DECK")));
+        PlayableCardData cardData = new PlayableCardData("desc", TargetType.SELF, effects);
+        StructureCard structure = new StructureCard(100, "struct", cardData, GameEvent.TURN_START);
+        gameState.getCurrentPlayer().setStructure(structure);
+
+        TurnStartOutputBoundary presenter = new TurnStartOutputBoundary() {
+            @Override
+            public DrawCardOutputModel showDrawResult(DrawCardOutputModel outputData) {
+                fail("triggerTurnStartEffects() should not call showDrawResult().");
+                return null;
+            }
+
+            @Override
+            public CreatureStatsUpdateModel showClearBuffs(CreatureStatsUpdateModel outputData) {
+                fail("triggerTurnStartEffects() should not call showClearBuffs().");
+                return null;
+            }
+
+            @Override
+            public TriggerEffectUpdateModel showEffectUpdates(TriggerEffectUpdateModel outputData) {
+                CreatureStatsUpdateModel creatureStats = outputData.getAllCreatureStats();
+                assertEquals(List.of(1), creatureStats.getHitPoints1());
+                assertEquals(List.of(1), creatureStats.getHitPoints2());
+                assertEquals(List.of(1), creatureStats.getAttacks1());
+                assertEquals(List.of(1), creatureStats.getAttacks2());
+                assertEquals(List.of(13,14),outputData.getFinalHandIds());
+                return null;
+            }
+        };
+        TurnStartInteractor interactor = new TurnStartInteractor(gameState, presenter);
+        interactor.triggerTurnStartEffects();
+    }
+
 }
+
