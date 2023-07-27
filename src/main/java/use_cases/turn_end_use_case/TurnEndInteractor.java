@@ -38,7 +38,7 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
 
         // // 1. Check if the current player has a structure in play
         // // 1a. Yes, lets trigger the event
-        if (currentPlayer.getStructure() != null) {
+        if (currentPlayer.getStructure() != null && currentPlayer.getStructure().getTriggerEvent() == GameEvent.TURN_END) {
             // Trigger the effects needed
             StructureCard currentStructure = currentPlayer.getStructure();
             List<CreatureCard> allTargets = new ArrayList<>();
