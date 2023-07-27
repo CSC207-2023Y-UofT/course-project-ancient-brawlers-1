@@ -1,9 +1,6 @@
 package entities;
 
-import entities.cardEffects.CardEffect;
-import entities.cardEffects.DamageModifyEffect;
-import entities.cardEffects.HealEffect;
-import entities.cardEffects.StunEffect;
+import entities.cardEffects.*;
 import entities.cards.*;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
@@ -95,15 +92,39 @@ class PlayerTest {
         Card playedCard = player.playCard(card.getId());
         assertEquals(card, playedCard);
         assertEquals(card.getId(), playedCard.getId());
+        assertEquals(null, player.playCard(5));
     }
 
     @Test
     void testRemoveCreature() {
         player.removeCreature(1);
         assertEquals(2, player.getCreatures().size());
-
+        assertEquals(false, player.removeCreature(10));
         for (CreatureCard creature : player.getCreatures()) {
             assertNotEquals(1, creature.getId());
         }
+    }
+
+    @Test
+    void testGetHandCapacity() {
+        assertEquals(10, player.getHandCapacity());
+    }
+
+    @Test
+    void testSpendEssence() {
+        assertEquals(false, player.spendEssence(10));
+    }
+
+    @Test
+    void testGetCreatureById() {
+        assertEquals(null, player.getCreatureById(4));
+        CreatureCard creature1 = creatures.get(0);
+        assertEquals(creature1, player.getCreatureById(1));
+        assertNotEquals(creature1, player.getCreatureById(2));
+    }
+
+    @Test
+    void testGetCardById() {
+        assertEquals(null, player.getCardById(10));
     }
 }
