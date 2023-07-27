@@ -2,7 +2,6 @@ package use_cases.win_loss_use_case;
 
 import entities.GameState;
 import entities.Player;
-import use_cases.GameOutputBoundary;
 
 public class WinLossInteractor implements WinLossInputBoundary {
     final GameState gameState;

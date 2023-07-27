@@ -1,7 +1,5 @@
 package use_cases.attack_use_case;
 
-import entities.cards.CreatureCard;
-
 import java.util.List;
 
 public class FinishAttackResponseModel {

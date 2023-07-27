@@ -1,17 +1,17 @@
 package use_cases.turn_end_use_case;
 
-import java.util.List;
-import java.util.ArrayList;
-
+import entities.GameEvent;
 import entities.GameState;
 import entities.Player;
-import entities.GameEvent;
 import entities.cardEffects.CardEffect;
 import entities.cardEffects.CreatureStatsEffect;
 import entities.cardEffects.PlayerStatsEffect;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
 import entities.cards.StructureCard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TurnEndInteractor implements TurnEndInputBoundary {
 

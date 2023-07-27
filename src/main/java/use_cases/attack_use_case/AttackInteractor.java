@@ -1,13 +1,12 @@
 package use_cases.attack_use_case;
 
-import entities.GameEvent;
 import entities.GameState;
 import entities.Player;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
-import use_cases.GameOutputBoundary;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttackInteractor implements AttackInputBoundary {
 

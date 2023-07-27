@@ -1,8 +1,5 @@
 package entities;
 
-import entities.decks.EssenceDeck;
-import entities.decks.PlayerDeck;
-
 public class GameState {
 
     private final Player[] players = new Player[2];

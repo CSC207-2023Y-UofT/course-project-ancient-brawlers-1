@@ -7,8 +7,6 @@ import entities.cardEffects.CardEffect;
 import entities.cardEffects.CreatureStatsEffect;
 import entities.cards.CreatureCard;
 import entities.cards.StructureCard;
-import entities.cards.TargetType;
-import use_cases.GameOutputBoundary;
 
 import java.util.ArrayList;
 import java.util.List;
