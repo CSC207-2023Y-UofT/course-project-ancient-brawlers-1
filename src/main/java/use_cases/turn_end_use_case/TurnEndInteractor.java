@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import entities.GameState;
 import entities.Player;
+import entities.GameEvent;
 import entities.cardEffects.CardEffect;
 import entities.cardEffects.CreatureStatsEffect;
 import entities.cardEffects.PlayerStatsEffect;
