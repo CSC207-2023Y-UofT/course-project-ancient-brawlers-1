@@ -29,6 +29,10 @@ public class PlayerDeck implements Deck {
 
     @Override
     public Card draw() {
-        return cards.remove(getDeckSize() - 1);
+        if (getDeckSize() > 0) {
+            return cards.remove(getDeckSize() - 1);
+        } else {
+            return null;
+        }
     }
 }
