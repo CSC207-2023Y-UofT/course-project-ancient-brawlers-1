@@ -66,7 +66,8 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
                     burntIds.add(card.getId());
                     burntNames.add(card.getName());
                 }
-
+            } else {
+                 break;
             }
         }
         for (int i = 0; i < 2; i++) {
