@@ -159,7 +159,6 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
         TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, getCreatureStatsModel());
 
-
         return turnStartPresenter.showEffectUpdates(outputData);
     }
 
