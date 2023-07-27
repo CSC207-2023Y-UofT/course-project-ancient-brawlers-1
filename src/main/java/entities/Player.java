@@ -1,6 +1,9 @@
 package entities;
 
-import entities.cards.*;
+import entities.cards.Card;
+import entities.cards.CreatureCard;
+import entities.cards.EssenceCard;
+import entities.cards.StructureCard;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
 

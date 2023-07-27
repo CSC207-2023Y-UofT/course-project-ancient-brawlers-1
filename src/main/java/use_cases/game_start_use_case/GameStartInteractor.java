@@ -3,8 +3,6 @@ package use_cases.game_start_use_case;
 import entities.GameState;
 import entities.Player;
 import entities.cards.Card;
-import entities.decks.Deck;
-import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
 
 import java.util.ArrayList;

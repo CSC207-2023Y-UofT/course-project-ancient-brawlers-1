@@ -1,6 +1,5 @@
 package use_cases.attack_use_case;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AttackResponseModel {
