@@ -82,7 +82,8 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
         }
 
-        DrawCardOutputModel output = new DrawCardOutputModel(keptIds,keptNames,burntIds,burntNames);
+        DrawCardOutputModel output = new DrawCardOutputModel(keptIds, keptNames, burntIds, burntNames);
+        
         return turnStartPresenter.showDrawResult(output);
     }
 
