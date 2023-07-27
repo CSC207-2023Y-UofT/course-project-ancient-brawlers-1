@@ -19,7 +19,7 @@ class CardFactoryTest {
     private PlayableCardData sampleStructure;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         cardFactory = new CardFactory();
 
         String desc1 = "Deal 2 damage to all enemy creatures.";
@@ -35,12 +35,12 @@ class CardFactoryTest {
     }
 
     @Test
-    public void testCreateCreatureCard() {
+    void testCreateCreatureCard() {
         Card creature = cardFactory.createCreatureCard("Some name",
                 20, 5, 2, 1);
         assertNotNull(creature, "Creature creation failed.");
         assertEquals("Some name", creature.getName());
-        assertEquals(1, creature.getId(), "Card id not assigned correctly.");
+        assertEquals(1, creature.getId(), "Incorrect card id.");
 
         assertEquals(20, ((CreatureCard) creature).getHitPoints());
         assertEquals(5, ((CreatureCard) creature).getAttackDamage());

@@ -9,15 +9,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CreatureCardTest {
 
-    private CreatureCard creature;
+    CreatureCard creature;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         creature = new CreatureCard(1, "some name", 30, 5, 2, 1);
     }
 
     @Test
-    public void testGettersRegular() {
+    void testGettersRegular() {
         assertEquals(1, creature.getId());
         assertEquals("some name", creature.getName());
         assertEquals(30, creature.getHitPoints());
@@ -28,7 +28,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testSettersRegular() {
+    void testSettersRegular() {
         creature.setMaxHitPoints(20);
         assertEquals(20, creature.getMaxHitPoints());
         assertEquals(20, creature.getHitPoints());
@@ -40,7 +40,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testHealthBuff() {
+    void testHealthBuff() {
         assertEquals(30, creature.getTotalHitPoints());
 
         creature.addHealthBuff(10);
@@ -53,7 +53,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testDamageBuff() {
+    void testDamageBuff() {
         assertEquals(5, creature.getTotalAttackDamage());
 
         creature.addDamageBuff(10);
@@ -66,7 +66,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testStun() {
+    void testStun() {
         assertFalse(creature.isStunned());
 
         creature.stun();
@@ -77,7 +77,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testDamageAndHeal_Regular_BelowMax() {
+    void testDamageAndHeal_NoBuff_BelowMax() {
         creature.takeDamage(10);
         assertEquals(20, creature.getTotalHitPoints(),
                 "Damage not computed correctly.");
@@ -87,7 +87,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testDamageAndHeal_Regular_AboveMax() {
+    void testDamageAndHeal_NoBuff_AboveMax() {
         creature.takeDamage(10);
         assertEquals(20, creature.getTotalHitPoints(),
                 "Damage not computed correctly.");
@@ -97,7 +97,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testDamageAndHeal_HealthBuff_damageSmallerThanBuff() {
+    void testDamageAndHeal_HealthBuff_damageSmallerThanBuff() {
         creature.addHealthBuff(20);
         assertEquals(50, creature.getTotalHitPoints(),
                 "Health Buff not added correctly.");
@@ -109,7 +109,7 @@ class CreatureCardTest {
     }
 
     @Test
-    public void testDamageAndHeal_HealthBuff_damageLargerThanBuff() {
+    void testDamageAndHeal_HealthBuff_damageLargerThanBuff() {
         creature.addHealthBuff(20);
         assertEquals(50, creature.getTotalHitPoints(),
                 "Health Buff not added correctly.");

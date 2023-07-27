@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DamageModifyEffectTest {
 
-    private CreatureCard creature;
-    private DamageModifyEffect effect;
+    CreatureCard creature;
+    DamageModifyEffect effect;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         creature = new CreatureCard(1, "some name", 30, 5, 2, 1);
         effect = new DamageModifyEffect(5);
     }
 
     @Test
-    public void testInvokeEffect_noBuff() {
+    void testInvokeEffect_noBuff() {
         effect.invokeEffect(creature);
         assertEquals(10, creature.getAttackDamage(),
                 "Base attack damage not correct.");
@@ -27,7 +27,7 @@ class DamageModifyEffectTest {
     }
 
     @Test
-    public void testInvokeEffect_withBuff() {
+    void testInvokeEffect_withBuff() {
         // add a buff so now creature's total attack should be 15
         creature.addDamageBuff(10);
         assertEquals(15, creature.getTotalAttackDamage());

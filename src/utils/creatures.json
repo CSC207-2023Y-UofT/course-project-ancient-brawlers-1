@@ -1,19 +1,46 @@
-    {"creatures": [{
-    "name": "Ghosty",
-    "attackCost": 2,
-    "defendCost": 1,
-    "attackDamage": 10,
-    "hitPoints": 20
-    }, 
-    {"name": "Turtley",
-    "attackCost": 1,
-    "defendCost": 2,
-    "attackDamage": 5,
-    "hitPoints": 30
+{
+  "creatures": [
+    {
+      "name": "The Guardian",
+      "attackCost": 2,
+      "defendCost": 1,
+      "attackDamage": 10,
+      "hitPoints": 30
     },
-    {"name": "Wizardy",
-    "attackCost": 3,
-    "defendCost": 1,
-    "attackDamage": 15,
-    "hitPoints": 10
-    }]}
+    {
+      "name": "The Celestial",
+      "attackCost": 3,
+      "defendCost": 3,
+      "attackDamage": 15,
+      "hitPoints": 60
+    },
+    {
+      "name": "The Wraith",
+      "attackCost": 3,
+      "defendCost": 1,
+      "attackDamage": 20,
+      "hitPoints": 15
+    },
+    {
+      "name": "The Giant",
+      "attackCost": 1,
+      "defendCost": 2,
+      "attackDamage": 5,
+      "hitPoints": 50
+    },
+    {
+      "name": "The Spirit",
+      "attackCost": 3,
+      "defendCost": 2,
+      "attackDamage": 25,
+      "hitPoints": 20
+    },
+    {
+      "name": "The Phoenix",
+      "attackCost": 2,
+      "defendCost": 2,
+      "attackDamage": 10,
+      "hitPoints": 35
+    }
+  ]
+}

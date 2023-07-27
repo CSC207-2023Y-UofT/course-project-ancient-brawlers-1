@@ -1,0 +1,139 @@
+{
+  "actionCards": [
+    {
+      "name": "Seek",
+      "description": "Draw 2 play cards.",
+      "targetType": "SELF",
+      "effects": [
+        {
+          "type": "DrawCardEffect",
+          "drawNumber": 2,
+          "drawDeck": "PlayerDeck"
+        }
+      ]
+    },
+    {
+      "name": "Lift",
+      "description": "Restore 3 HP to all friendly creatures.",
+      "targetType": "FRIENDLY",
+      "effects": [
+        {
+          "type": "HealEffect",
+          "healAmount": 3
+        }
+      ]
+    },
+    {
+      "name": "Perception",
+      "description": "Draw 2 Essence cards.",
+      "targetType": "SELF",
+      "effects": [
+        {
+          "type": "DrawCardEffect",
+          "drawNumber": 2,
+          "drawDeck": "EssenceDeck"
+        }
+      ]
+    },
+    {
+      "name": "Sabotage",
+      "description": "Destroy the opponent's structure.",
+      "targetType": "OPPONENT",
+      "effects": [
+        {
+          "type": "DestroyStructureEffect"
+        }
+      ]
+    },
+    {
+      "name": "Salvage",
+      "description": "Restore 10 HP to a friendly creature.",
+      "targetType": "SINGLE_FRIENDLY",
+      "effects": [
+        {
+          "type": "HealEffect",
+          "healAmount": 10
+        }
+      ]
+    },
+    {
+      "name": "Inspire",
+      "description": "Increase HP capacity by 3 to all friendly creatures.",
+      "targetType": "FRIENDLY",
+      "effects": [
+        {
+          "type": "HealthModifyEffect",
+          "modifyAmount": 3
+        }
+      ]
+    },
+    {
+      "name": "Reinforce",
+      "description": "Increase base Attack Damage by 5 to all friendly creatures.",
+      "targetType": "FRIENDLY",
+      "effects": [
+        {
+          "type": "DamageModifyEffect",
+          "modifyAmount": 5
+        }
+      ]
+    },
+    {
+      "name": "Cataclysm",
+      "description": "Deal 10 damage to ALL creatures.",
+      "targetType": "ALL",
+      "effects": [
+        {
+          "type": "DamageEffect",
+          "damage": 10
+        }
+      ]
+    },
+    {
+      "name": "Delusion",
+      "description": "Reduce Attack Damage by 5 to all enemy creatures, until next turn.",
+      "targetType": "ENEMY",
+      "effects": [
+        {
+          "type": "DamageBuffEffect",
+          "buffAmount": -5
+        }
+      ]
+    },
+    {
+      "name": "Demon's Amulet",
+      "description": "Swap the HP and Attack of a creature.",
+      "targetType": "ANY",
+      "effects": [
+        {
+          "type": "SwapHealthAttackEffect"
+        }
+      ]
+    },
+    {
+      "name": "Incantation",
+      "description": "Stun an enemy creature, until next turn.",
+      "targetType": "SINGLE_ENEMY",
+      "effects": [
+        {
+          "type": "StunEffect"
+        }
+      ]
+    },
+    {
+      "name": "The War",
+      "description": "Give 3 HP and 3 Attack Damage to all friendly creatures, until next turn.",
+      "targetType": "FRIENDLY",
+      "effects": [
+        {
+          "type": "HealthBuffEffect",
+          "buffAmount": 3
+        },
+        {
+          "type": "DamageBuffEffect",
+          "buffAmount": 3
+        }
+      ]
+    }
+  ]
+}
