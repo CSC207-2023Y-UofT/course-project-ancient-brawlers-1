@@ -98,6 +98,8 @@ class TurnStartInteractorTest {
                         "3 cards should be discarded because hand is full.");
                 assertTrue(outputData.getBurntCardNames().contains("Essence"),
                         "There should be cards with name 'Essence' in the discarded cards.");
+                assertTrue(outputData.getBurntCardNames().contains("name1"),
+                        "There should be a card with name 'name1' in the discarded cards.");
                 return null;
             }
 
