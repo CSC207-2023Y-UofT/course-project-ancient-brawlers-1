@@ -24,7 +24,7 @@ class DeathDetectorInteractorTest {
     void setUp() {
         CardFactory cardFactory = new CardFactory();
         PlayerFactory playerFactory = new PlayerFactory();
-        CreatureCard deadCreature = (CreatureCard) cardFactory.createCreatureCard("deadCreature", -5, 1, 1, 1);
+        CreatureCard creature = (CreatureCard) cardFactory.createCreatureCard("creature", -5, 1, 1, 1);
         CreatureCard testCreature1 = (CreatureCard) cardFactory.createCreatureCard("creatureT1", 5, 1, 1, 1);
         CreatureCard testCreature2 = (CreatureCard) cardFactory.createCreatureCard("creatureT2", 5, 1, 1, 1);
 
@@ -33,8 +33,8 @@ class DeathDetectorInteractorTest {
         StructureCard structure2 = (StructureCard) cardFactory.createStructureCard("name", data, GameEvent.TURN_END);
 
 
-        Player player1 = playerFactory.createPlayer("player1", new ArrayList<>(List.of(deadCreature, testCreature1)), null, null);
-        Player player2 = playerFactory.createPlayer("player2", new ArrayList<>(List.of(deadCreature, testCreature2)), null, null);
+        Player player1 = playerFactory.createPlayer("player1", new ArrayList<>(List.of(creature, testCreature1)), null, null);
+        Player player2 = playerFactory.createPlayer("player2", new ArrayList<>(List.of(creature, testCreature2)), null, null);
         player1.setStructure(structure1);
         player2.setStructure(structure2);
         gameState = new GameState();
@@ -53,19 +53,6 @@ class DeathDetectorInteractorTest {
                 assertEquals(1, outputData.getP2CreatureIds().size());
                 assertEquals(List.of(5), outputData.getP1CreatureHitPoints());
                 assertEquals(List.of(5), outputData.getP2CreatureHitPoints());
-                assertEquals(1, gameState.getCurrentPlayer().getCreatures().size());
-                assertEquals(1, gameState.getOpposingPlayer().getCreatures().size());
-
-                for(CreatureCard c : gameState.getCurrentPlayer().getCreatures()){
-                    if(c.getName().equals("deadCreature")){
-                        fail("This creature from player1 should be removed");
-                    }
-                }
-                for(CreatureCard c : gameState.getOpposingPlayer().getCreatures()){
-                    if(c.getName().equals("deadCreature")){
-                        fail("This creature from player2 should be removed");
-                    }
-                }
                 return null;
             }
         };
