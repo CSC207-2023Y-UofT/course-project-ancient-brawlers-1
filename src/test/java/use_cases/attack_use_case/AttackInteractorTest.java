@@ -59,7 +59,15 @@ class AttackInteractorTest {
             public void showDefendInputScreen(AttackResponseModel responseModel) {
                 assertEquals(1, responseModel.getAttackerId());
                 assertEquals(6, responseModel.getTargetId());
+                responseModel.setTargetId(5);
+                assertEquals(5, responseModel.getTargetId(), "it should have a new target Id");
                 assertEquals(List.of(4, 5), responseModel.getDefenderIds());
+                responseModel.setAttackerId(3);
+                assertEquals(3, responseModel.getAttackerId(), "it should show a new attacker id");
+                List<Integer> newDefenderId = List.of(10, 11, 12);
+                responseModel.setDefenderIds(newDefenderId);
+                assertEquals(List.of(10, 11, 12), responseModel.getDefenderIds(), "should have a new set of " +
+                        "defender Id");
             }
 
             @Override
@@ -128,6 +136,8 @@ class AttackInteractorTest {
                         "Player 1's creatures should not take damage.");
                 assertEquals(List.of(30, 50, 5), responseModel.getHitPoints2(),
                         "Creature6 was attacked, it is the only one to decrease hit points.");
+                assertEquals(List.of(1, 2, 3), responseModel.getCreatureIds1());
+                assertEquals(List.of(4, 5, 6), responseModel.getCreatureIds2());
                 return null;
             }
 
@@ -182,8 +192,19 @@ class AttackInteractorTest {
         // This time, Creature5 is the defender, the cost is 2.
         // Both players should have spent all their essence in hand.
         AttackRequestModel inputData = new AttackRequestModel(1, 5);
-
         interactor = new AttackInteractor(gameState, presenter);
         interactor.defend(inputData);
     }
+
+    @Test
+    void testRequestModel(){
+        AttackRequestModel inputData = new AttackRequestModel(1, 6);
+        assertEquals(1, inputData.getAttackerId());
+        assertEquals(6, inputData.getTargetId());
+        inputData.setAttackerId(2);
+        assertEquals(2, inputData.getAttackerId(), "attacker id should be 2 after updating");
+        inputData.setTargetId(5);
+        assertEquals(5, inputData.getTargetId(), "target id should be 5 after updating");
+    }
+
 }
