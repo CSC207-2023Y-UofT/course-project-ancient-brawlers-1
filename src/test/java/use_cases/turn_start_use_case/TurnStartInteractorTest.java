@@ -90,7 +90,7 @@ class TurnStartInteractorTest {
             public DrawCardOutputModel showDrawResult(DrawCardOutputModel outputData) {
                 assertEquals(1, outputData.getNewCardIds().size(),
                         "1 play deck card should be drawn.");
-                assertEquals(1, outputData.getNewCardIds().size(),
+                assertEquals(List.of(1), outputData.getNewCardIds(),
                         "The card drawn should have id 1, which comes from the PlayerDeck, not EssenceDeck.");
                 assertTrue(outputData.getNewCardNames().contains("name1"),
                         "The output should contain the name of the card.");
@@ -270,8 +270,6 @@ class TurnStartInteractorTest {
         Deck playerDeck2 = deckFactory.createPlayerDeck(new ArrayList<>(List.of(card1, card1, card1)));
         Deck essenceDeck2 = deckFactory.createEssenceDeck(cardFactory);
 
-
-
         CreatureCard creature1 = (CreatureCard) cardFactory.createCreatureCard("Name1", 1, 1, 1, 1);
         CreatureCard creature2 = (CreatureCard) cardFactory.createCreatureCard("Name2", 1, 1, 1, 1);
 
@@ -292,7 +290,7 @@ class TurnStartInteractorTest {
             public DrawCardOutputModel showDrawResult(DrawCardOutputModel outputData) {
                 assertEquals(2, outputData.getNewCardIds().size(),
                         "2 play deck card should be drawn.");
-                assertEquals(1, outputData.getNewCardIds().size(),
+                assertEquals(List.of(1,1), outputData.getNewCardIds(),
                         "The card drawn should have id 1, which comes from the PlayerDeck, not EssenceDeck.");
                 assertTrue(outputData.getNewCardNames().contains("name1"),
                         "The output should contain the name of the card.");
@@ -357,9 +355,3 @@ class TurnStartInteractorTest {
     }
 
 }
-
-
-
-
-
-
