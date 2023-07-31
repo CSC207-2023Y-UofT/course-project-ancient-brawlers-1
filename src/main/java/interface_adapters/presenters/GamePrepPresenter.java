@@ -1,12 +1,24 @@
 package interface_adapters.presenters;
 
-import interface_adapters.GamePrepFailed;
+import interface_adapters.GamePrepException;
+import interface_adapters.view_models.*;
 import use_cases.game_preparation_use_case.GamePrepOutputBoundary;
 import use_cases.game_preparation_use_case.GamePrepResponseModel;
 
 import java.util.List;
 
 public class GamePrepPresenter implements GamePrepOutputBoundary {
+
+    private final GameFrameModel frameModel;
+    private final SetupScreenModel setupScreenModel;
+    private final GameplayScreenModel gameplayScreenModel;
+
+    public GamePrepPresenter(GameFrameModel frameModel, SetupScreenModel setupScreenModel,
+                             GameplayScreenModel gameplayScreenModel) {
+        this.frameModel = frameModel;
+        this.setupScreenModel = setupScreenModel;
+        this.gameplayScreenModel = gameplayScreenModel;
+    }
 
     /**
      * Display a screen to ask both players for their names and let them choose
@@ -17,7 +29,8 @@ public class GamePrepPresenter implements GamePrepOutputBoundary {
      */
     @Override
     public void showGamePreparationScreen(List<String> creatureNames) {
-
+        setupScreenModel.setCreaturesToChoose(creatureNames);
+        frameModel.setCurrentScreen(GameScreenType.SETUP);
     }
 
     /**
@@ -31,7 +44,7 @@ public class GamePrepPresenter implements GamePrepOutputBoundary {
      */
     @Override
     public GamePrepResponseModel displayErrorMessage(String message) {
-        throw new GamePrepFailed(message);
+        throw new GamePrepException(message);
     }
 
     /**
@@ -46,6 +59,13 @@ public class GamePrepPresenter implements GamePrepOutputBoundary {
      */
     @Override
     public GamePrepResponseModel showGameplayScreen(GamePrepResponseModel outputData) {
-        return null;
+        PlayerDataModel playerData1 = new PlayerDataModel(outputData.getPlayerName1(), outputData.getCreatureNames1(),
+                outputData.getCreatureIds1(), outputData.getHitPoints1(), outputData.getAttacks1());
+        PlayerDataModel playerData2 = new PlayerDataModel(outputData.getPlayerName2(), outputData.getCreatureNames2(),
+                outputData.getCreatureIds2(), outputData.getHitPoints2(), outputData.getAttacks2());
+        gameplayScreenModel.setPlayer1(playerData1);
+        gameplayScreenModel.setPlayer2(playerData2);
+        frameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
+        return outputData;
     }
 }

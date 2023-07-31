@@ -2,12 +2,15 @@ package use_cases.game_preparation_use_case;
 
 import java.util.List;
 
-public class ActionCardModel {
+public class ActionCardModel implements CardModel {
 
     private String name;
     private String description;
     private String targetType;
     private List<CardEffectModel> effects;
+
+    public ActionCardModel() {
+    }
 
     public ActionCardModel(String name, String description, String targetType,
                            List<CardEffectModel> effects) {
@@ -17,10 +20,12 @@ public class ActionCardModel {
         this.effects = effects;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

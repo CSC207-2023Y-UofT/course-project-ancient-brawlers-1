@@ -1,14 +1,22 @@
 package game_ui;
 
+import interface_adapters.view_models.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements FrameUpdateListener {
 
+    private GameFrameModel gameFrameModel;
     private CardLayout cardLayout;
     private JPanel gamePanel;
+    private List<ScreenUpdateListener> listeners = new ArrayList<>();
 
-    public GameFrame() {
+    public GameFrame(GameFrameModel gameFrameModel) {
+        this.gameFrameModel = gameFrameModel;
+
         // Set application window properties
         setTitle("Ancient Brawlers");
         setSize(1200, 800);
@@ -17,47 +25,19 @@ public class GameFrame extends JFrame {
         // Set the content in this application window
         cardLayout = new CardLayout();
         gamePanel = new JPanel(cardLayout);
-
-        // gamePanel.add(new MenuScreen(), "MainMenu");
-        gamePanel.add(new SetupScreen(), "Setup");
-        gamePanel.add(new GameplayScreen(), "Gameplay");
-        gamePanel.add(new MulliganScreen(), "Mulligan");
-        gamePanel.add(new TargetSelectionScreen(), "TargetSelection");
-        gamePanel.add(new DefendScreen(), "Defend");
-        gamePanel.add(new VictoryScreen(), "Victory");
-
         add(gamePanel, BorderLayout.CENTER);
-
-        //showMainMenuScreen();
-
-        setVisible(true);
     }
 
-    public void showMainMenuScreen() {
-        cardLayout.show(gamePanel, "MainMenu");
+    public void addScreen(JPanel screen, GameScreenType screenType) {
+        gamePanel.add(screen, screenType.name());
+        listeners.add((ScreenUpdateListener) screen);
     }
 
-    public void showGameSetupScreen() {
-        cardLayout.show(gamePanel, "Setup");
-    }
-
-    public void showGameplayScreen() {
-        cardLayout.show(gamePanel, "Gameplay");
-    }
-
-    public void showMulliganScreen() {
-        cardLayout.show(gamePanel, "Mulligan");
-    }
-
-    public void showTargetSelectionScreen() {
-        cardLayout.show(gamePanel, "TargetSelection");
-    }
-
-    public void showDefendScreen() {
-        cardLayout.show(gamePanel, "Defend");
-    }
-
-    public void showVictoryScreen() {
-        cardLayout.show(gamePanel, "Victory");
+    @Override
+    public void onFrameUpdate() {
+        cardLayout.show(gamePanel, gameFrameModel.getCurrentScreen().name());
+        for (ScreenUpdateListener listener : listeners) {
+            listener.onScreenUpdate();
+        }
     }
 }

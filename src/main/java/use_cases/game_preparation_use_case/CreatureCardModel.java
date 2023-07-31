@@ -1,12 +1,16 @@
 package use_cases.game_preparation_use_case;
 
-public class CreatureCardModel {
+public class CreatureCardModel implements CardModel {
 
     private String name;
     private int attackCost;
     private int defendCost;
     private int attackDamage;
     private int hitPoints;
+
+    public CreatureCardModel() {
+        // default constructor for json object mapper
+    }
 
     public CreatureCardModel(String name, int attackCost, int defendCost, int attackDamage, int hitPoints) {
         this.name = name;
@@ -16,10 +20,12 @@ public class CreatureCardModel {
         this.hitPoints = hitPoints;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

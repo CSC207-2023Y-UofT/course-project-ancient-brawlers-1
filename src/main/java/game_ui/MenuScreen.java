@@ -1,19 +1,18 @@
 package game_ui;
 
 import interface_adapters.controllers.GamePrepController;
+import interface_adapters.view_models.ScreenUpdateListener;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuScreen extends JPanel implements ActionListener {
+public class MenuScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private JFrame gameFrame;
     private GamePrepController gamePrepController;
 
-    public MenuScreen(JFrame gameFrame, GamePrepController gamePrepController) {
-        this.gameFrame = gameFrame;
+    public MenuScreen(GamePrepController gamePrepController) {
         this.gamePrepController = gamePrepController;
 
         Font font = new Font("Herculanum", Font.BOLD, 30);
@@ -21,7 +20,7 @@ public class MenuScreen extends JPanel implements ActionListener {
         setLayout(new GridBagLayout());
         setBackground(new Color(210, 180, 140));
 
-        ImageIcon titleImage = new ImageIcon("./images/GameTitle.png");
+        ImageIcon titleImage = new ImageIcon("./src/gameArt/GameTitle.png");
         JLabel title = new JLabel(titleImage);
 
         JButton newGameButton = new JButton("New Game");
@@ -92,7 +91,9 @@ public class MenuScreen extends JPanel implements ActionListener {
 
         switch (command) {
             case "New Game":
+                System.out.println("New Game button clicked!");
                 gamePrepController.createNewGame();
+                System.out.println("Controller has been called!");
                 break;
             case "Load Game":
                 System.out.println("Load Game button clicked!");
@@ -107,5 +108,10 @@ public class MenuScreen extends JPanel implements ActionListener {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onScreenUpdate() {
+
     }
 }

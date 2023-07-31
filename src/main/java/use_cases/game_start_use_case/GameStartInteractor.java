@@ -77,7 +77,7 @@ public class GameStartInteractor implements GameStartInputBoundary {
             player.addCard(card);
         }
 
-        GameStartResponseModel output = new GameStartResponseModel(cardIds, cardNames);
+        GameStartResponseModel output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames);
         return gameStartPresenter.showMulliganScreen(output);
     }
 
@@ -125,10 +125,10 @@ public class GameStartInteractor implements GameStartInputBoundary {
             bonusCardIds.add(bonusCard.getId());
             bonusCardNames.add(bonusCard.getName());
             player.addCard(bonusCard);
-            output = new GameStartResponseModel(cardIds, bonusCardIds,
+            output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, bonusCardIds,
                                                 cardNames, bonusCardNames);
         } else {
-            output = new GameStartResponseModel(cardIds, cardNames);
+            output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames);
         }
         return gameStartPresenter.exitMulliganScreen(output);
     }
