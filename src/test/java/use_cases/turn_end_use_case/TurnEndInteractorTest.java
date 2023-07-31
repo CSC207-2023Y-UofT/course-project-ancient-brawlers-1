@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 class TurnEndInteractorTest {
@@ -46,6 +47,7 @@ class TurnEndInteractorTest {
         gameState.setPlayers(player1, player2);
     }
 
+    @Test
     void testPassTurn() {
         Integer initIndex = gameState.getCurrentPlayerIndex();
         Player initPlayer = gameState.getCurrentPlayer();
@@ -67,6 +69,7 @@ class TurnEndInteractorTest {
         assertFalse(initPlayer == currentPlayer);
     }
 
+    @Test
     void testTriggerEndTurnEffects() {
         Player currentPlayer = gameState.getCurrentPlayer();
         CreatureCard currentCreature = currentPlayer.getCreatures().get(0);
