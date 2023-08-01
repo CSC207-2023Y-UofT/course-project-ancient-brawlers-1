@@ -28,6 +28,8 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         setLayout(new GridBagLayout());
         playerPanel1 = new JPanel();
         playerPanel2 = new JPanel();
+        playerPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        playerPanel2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
         nameField1 = new JTextField(20);
         nameField2 = new JTextField(20);
