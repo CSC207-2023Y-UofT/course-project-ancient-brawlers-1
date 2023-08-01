@@ -6,17 +6,18 @@ import game_ui.*;
 import interface_adapters.CardDataMapper;
 import interface_adapters.controllers.GamePrepController;
 import interface_adapters.controllers.GameStartController;
+import interface_adapters.controllers.TurnEndController;
 import interface_adapters.presenters.GamePrepPresenter;
 import interface_adapters.presenters.GameStartPresenter;
+import interface_adapters.presenters.TurnEndPresenter;
 import interface_adapters.view_models.*;
 import use_cases.game_preparation_use_case.*;
 import use_cases.game_start_use_case.GameStartInputBoundary;
 import use_cases.game_start_use_case.GameStartInteractor;
 import use_cases.game_start_use_case.GameStartOutputBoundary;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Set;
+import use_cases.turn_end_use_case.TurnEndInputBoundary;
+import use_cases.turn_end_use_case.TurnEndInteractor;
+import use_cases.turn_end_use_case.TurnEndOutputBoundary;
 
 public class AncientBrawlersApp {
 
@@ -42,11 +43,12 @@ public class AncientBrawlersApp {
 
         GamePrepController gamePrepController = getGamePrepController();
         GameStartController gameStartController = getGameStartController();
+        TurnEndController turnEndController = getTurnEndController();
 
         MenuScreen menuScreen = new MenuScreen(gamePrepController);
         SetupScreen setupScreen = new SetupScreen(setupScreenModel, gamePrepController, gameStartController);
         GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController);
-        MulliganScreen mulliganScreen = new MulliganScreen(mulliganScreenModel, gameStartController);
+        MulliganScreen mulliganScreen = new MulliganScreen(mulliganScreenModel, gameStartController, turnEndController);
 
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);
@@ -67,5 +69,11 @@ public class AncientBrawlersApp {
         GameStartOutputBoundary presenter = new GameStartPresenter(gameFrameModel, gameplayScreenModel, mulliganScreenModel);
         GameStartInputBoundary interactor = new GameStartInteractor(gameState, presenter);
         return new GameStartController(interactor);
+    }
+
+    private static TurnEndController getTurnEndController() {
+        TurnEndOutputBoundary presenter = new TurnEndPresenter();
+        TurnEndInputBoundary interactor = new TurnEndInteractor(gameState, presenter);
+        return new TurnEndController(interactor);
     }
 }

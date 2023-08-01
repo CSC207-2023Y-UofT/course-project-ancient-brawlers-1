@@ -21,6 +21,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     }
 
     public void updateGameplayScreen() {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
         this.setLayout(new GridBagLayout());
 
         PlayerDataModel playerData1 = gameplayScreenModel.getPlayer1();

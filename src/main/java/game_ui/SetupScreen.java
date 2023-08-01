@@ -3,6 +3,7 @@ package game_ui;
 import interface_adapters.GamePrepException;
 import interface_adapters.controllers.GamePrepController;
 import interface_adapters.controllers.GameStartController;
+import interface_adapters.controllers.TurnEndController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.SetupScreenModel;
 
@@ -17,9 +18,11 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
 
     private SetupScreenModel setupScreenModel;
     private GamePrepController gamePrepController;
+    private GameStartController gameStartController;
     private JPanel playerPanel1, playerPanel2;
     private JTextField nameField1, nameField2;
-    private GameStartController gameStartController;
+    private Timer timer;
+    private int timerStep;
 
     public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController, GameStartController gameStartController) {
         this.setupScreenModel = setupScreenModel;
@@ -28,6 +31,9 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     }
 
     public void updateSetupScreen() {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
         setLayout(new GridBagLayout());
         playerPanel1 = new JPanel();
         playerPanel2 = new JPanel();
@@ -127,13 +133,43 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         System.out.println("Name field text for player 2: " + nameFieldText2);
 
         try {
-            gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
-
+            performDelayedActions(nameFieldText1, nameFieldText2, selections1, selections2);
         } catch (GamePrepException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage());
         }
+    }
 
-        gameStartController.decidePlayOrder();
-        gameStartController.startMulligan();
+    /**
+     * A helper for the sequence of events to trigger with some delays in between.
+     */
+    private void performDelayedActions(String nameFieldText1, String nameFieldText2,
+                                       List<String> selections1, List<String> selections2) {
+        int delay = 1000;
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (timerStep) {
+                    case 0:
+                        gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
+                        System.out.println("Initial game state set!");
+                        break;
+                    case 1:
+                        gameStartController.decidePlayOrder();
+                        System.out.println("Deciding play order...");
+                        break;
+                    case 2:
+                        gameStartController.startMulligan();
+                        System.out.println("Starting first mulligan!");
+                        break;
+                    default:
+                        timer.stop();
+                        break;
+                }
+                timerStep++;
+            }
+        };
+        timer = new Timer(delay, actionListener);
+        timer.setInitialDelay(0);
+        timer.start();
     }
 }
