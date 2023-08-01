@@ -2,7 +2,7 @@ package game_ui;
 
 import javax.swing.*;
 
-public class CardButton extends JButton {
+public class CardButton extends JToggleButton {
 
     private int id;
     private String name;

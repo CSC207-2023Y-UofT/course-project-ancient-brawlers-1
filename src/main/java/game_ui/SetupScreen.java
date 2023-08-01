@@ -1,5 +1,7 @@
 package game_ui;
 
+import interface_adapters.GamePrepException;
+import interface_adapters.controllers.GamePrepController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.SetupScreenModel;
 
@@ -7,49 +9,57 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private SetupScreenModel setupScreenModel;
+    private GamePrepController gamePrepController;
+    private JPanel playerPanel1, playerPanel2;
+    private JTextField nameField1, nameField2;
 
-    public SetupScreen(SetupScreenModel setupScreenModel) {
+    public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController) {
         this.setupScreenModel = setupScreenModel;
-        // Font font = new Font("Herculanum", Font.BOLD, 30);
+        this.gamePrepController = gamePrepController;
     }
 
     public void updateSetupScreen() {
         setLayout(new GridBagLayout());
-        JPanel playerPanel1 = new JPanel();
-        JPanel playerPanel2 = new JPanel();
+        playerPanel1 = new JPanel();
+        playerPanel2 = new JPanel();
 
-        JTextField nameField1 = new JTextField(20);
-        JTextField nameField2 = new JTextField(20);
-        JButton doneButton = new JButton("Done");
+        nameField1 = new JTextField(20);
+        nameField2 = new JTextField(20);
+        JButton doneButton = new JButton("Let the battle begin!");
+        doneButton.addActionListener(this);
+        Font font = new Font("Herculanum", Font.BOLD, 30);
+        doneButton.setFont(font);
 
         List<String> creatures = setupScreenModel.getCreaturesToChoose();
 
         add(playerPanel1, getGBC(0, 0, 1, 1, 0, 0, 3, 4));
         add(playerPanel2, getGBC(3, 0, 1, 1, 0, 0, 3, 4));
-        add(doneButton, getGBC(2, 4, 0.1, 0.1, 0, 0, 2, 1));
+        add(doneButton, getGBC(2, 4, 0.1, 0.1, 30, 30, 2, 1));
 
         playerPanel1.setLayout(new GridBagLayout());
         playerPanel2.setLayout(new GridBagLayout());
 
-        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 0, 0, 3, 1));
-        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 0, 0, 3, 1));
+        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
+        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
 
         setCardsOnPanel(playerPanel1, setupScreenModel.getCreaturesToChoose());
         setCardsOnPanel(playerPanel2, setupScreenModel.getCreaturesToChoose());
     }
 
     private void setCardsOnPanel(JPanel playerPanel, List<String> creatures) {
+        // Hard coded, because right now the game is fixed at 6 possible creature cards
         CardButton card1 = new CardButton(-1, creatures.get(0));
         CardButton card2 = new CardButton(-1, creatures.get(1));
         CardButton card3 = new CardButton(-1, creatures.get(2));
         CardButton card4 = new CardButton(-1, creatures.get(3));
-        CardButton card5 = new CardButton(-1, "Unknown");
-        CardButton card6 = new CardButton(-1, "Unknown");
+        CardButton card5 = new CardButton(-1, creatures.get(4));
+        CardButton card6 = new CardButton(-1, creatures.get(5));
 
         playerPanel.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 2));
         playerPanel.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 2));
@@ -85,6 +95,36 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        List<String> selections1 = new ArrayList<>();
+        List<String> selections2 = new ArrayList<>();
 
+        for (Component component : playerPanel1.getComponents()) {
+            if (component instanceof CardButton) {
+                CardButton cardButton = (CardButton) component;
+                if (cardButton.isSelected()) {
+                    selections1.add(cardButton.getName());
+                }
+            }
+        }
+        for (Component component : playerPanel2.getComponents()) {
+            if (component instanceof CardButton) {
+                CardButton cardButton = (CardButton) component;
+                if (cardButton.isSelected()) {
+                    selections2.add(cardButton.getName());
+                }
+            }
+        }
+        String nameFieldText1 = nameField1.getText();
+        String nameFieldText2 = nameField2.getText();
+
+        System.out.println("Selected button names: " + selections1 + " and " + selections2);
+        System.out.println("Name field text for player 1: " + nameFieldText1);
+        System.out.println("Name field text for player 2: " + nameFieldText2);
+
+        try {
+            gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
+        } catch (GamePrepException exception) {
+            JOptionPane.showMessageDialog(this, exception.getMessage());
+        }
     }
 }

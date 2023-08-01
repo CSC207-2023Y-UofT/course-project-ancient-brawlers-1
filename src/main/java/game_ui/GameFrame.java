@@ -39,5 +39,6 @@ public class GameFrame extends JFrame implements FrameUpdateListener {
         for (ScreenUpdateListener listener : listeners) {
             listener.onScreenUpdate();
         }
+        System.out.println("Current screen: " + gameFrameModel.getCurrentScreen().name());
     }
 }

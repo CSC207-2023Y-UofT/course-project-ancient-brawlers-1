@@ -5,12 +5,14 @@ import entities.decks.DeckFactory;
 import game_ui.*;
 import interface_adapters.CardDataMapper;
 import interface_adapters.controllers.GamePrepController;
+import interface_adapters.controllers.GameStartController;
 import interface_adapters.presenters.GamePrepPresenter;
-import interface_adapters.view_models.GameFrameModel;
-import interface_adapters.view_models.GameScreenType;
-import interface_adapters.view_models.GameplayScreenModel;
-import interface_adapters.view_models.SetupScreenModel;
+import interface_adapters.presenters.GameStartPresenter;
+import interface_adapters.view_models.*;
 import use_cases.game_preparation_use_case.*;
+import use_cases.game_start_use_case.GameStartInputBoundary;
+import use_cases.game_start_use_case.GameStartInteractor;
+import use_cases.game_start_use_case.GameStartOutputBoundary;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +23,7 @@ public class AncientBrawlersApp {
     private static final GameFrameModel gameFrameModel = new GameFrameModel();
     private static final SetupScreenModel setupScreenModel = new SetupScreenModel();
     private static final GameplayScreenModel gameplayScreenModel = new GameplayScreenModel();
+    private static final MulliganScreenModel mulliganScreenModel = new MulliganScreenModel();
 
     private static final GameState gameState = new GameState();
     private static final CardFactory cardFactory = new CardFactory();
@@ -37,11 +40,16 @@ public class AncientBrawlersApp {
         GameFrame gameFrame = new GameFrame(gameFrameModel);
         gameFrameModel.addListener(gameFrame);
 
-        MenuScreen menuScreen = new MenuScreen(getGamePrepController());
-        SetupScreen setupScreen = new SetupScreen(setupScreenModel);
+        GamePrepController gamePrepController = getGamePrepController();
+        GameStartController gameStartController = getGameStartController();
+
+        MenuScreen menuScreen = new MenuScreen(gamePrepController);
+        SetupScreen setupScreen = new SetupScreen(setupScreenModel, gamePrepController);
+        GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController);
 
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);
+        gameFrame.addScreen(gameplayScreen, GameScreenType.GAMEPLAY);
 
         gameFrame.setVisible(true);
     }
@@ -51,5 +59,11 @@ public class AncientBrawlersApp {
         GamePrepInputBoundary interactor = new GamePrepInteractor(gameState, cardFactory, deckFactory, playerFactory,
                 dataAccessor, presenter);
         return new GamePrepController(interactor);
+    }
+
+    private static GameStartController getGameStartController() {
+        GameStartOutputBoundary presenter = new GameStartPresenter(gameFrameModel, gameplayScreenModel, mulliganScreenModel);
+        GameStartInputBoundary interactor = new GameStartInteractor(gameState, presenter);
+        return new GameStartController(interactor);
     }
 }

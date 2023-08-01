@@ -1,5 +1,6 @@
 package interface_adapters.view_models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDataModel {
@@ -9,10 +10,10 @@ public class PlayerDataModel {
     private List<Integer> creatureIds;
     private List<Integer> creatureHPs;
     private List<Integer> creatureAttacks;
-    private List<String> handCardNames;
-    private List<Integer> handCardIds;
-    private List<String> structureName;
-    private List<Integer> structureId;
+    private List<String> handCardNames = new ArrayList<>();
+    private List<Integer> handCardIds = new ArrayList<>();
+    private String structureName;
+    private int structureId;
 
     /**
      * The constructor doesn't need player cards or deck info, because at the start
@@ -83,19 +84,19 @@ public class PlayerDataModel {
         this.handCardIds = handCardIds;
     }
 
-    public List<String> getStructureName() {
+    public String getStructureName() {
         return structureName;
     }
 
-    public void setStructureName(List<String> structureName) {
+    public void setStructureName(String structureName) {
         this.structureName = structureName;
     }
 
-    public List<Integer> getStructureId() {
+    public int getStructureId() {
         return structureId;
     }
 
-    public void setStructureId(List<Integer> structureId) {
+    public void setStructureId(int structureId) {
         this.structureId = structureId;
     }
 }

@@ -4,17 +4,27 @@ import java.util.List;
 
 public class DrawCardOutputModel {
 
+    private int playerIndex;
     private List<Integer> newCardIds;
     private List<String> newCardNames;
     private List<Integer> burntCardIds;
     private List<String> burntCardNames;
 
-    public DrawCardOutputModel(List<Integer> newCardIds, List<String> newCardNames,
+    public DrawCardOutputModel(int playerIndex, List<Integer> newCardIds, List<String> newCardNames,
                                List<Integer> burntCardIds, List<String> burntCardNames) {
+        this.playerIndex = playerIndex;
         this.newCardIds = newCardIds;
         this.newCardNames = newCardNames;
         this.burntCardIds = burntCardIds;
         this.burntCardNames = burntCardNames;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
     }
 
     public List<Integer> getNewCardIds() {
