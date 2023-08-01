@@ -58,7 +58,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
 
     @Override
     public void onScreenUpdate() {
-        updateGameplayScreen();
+        if (gameplayScreenModel.getPlayer1() != null || gameplayScreenModel.getPlayer2() != null) {
+            updateGameplayScreen();
+        }
     }
 
     /**

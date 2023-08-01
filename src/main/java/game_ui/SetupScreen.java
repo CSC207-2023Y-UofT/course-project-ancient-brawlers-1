@@ -2,6 +2,7 @@ package game_ui;
 
 import interface_adapters.GamePrepException;
 import interface_adapters.controllers.GamePrepController;
+import interface_adapters.controllers.GameStartController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.SetupScreenModel;
 
@@ -18,10 +19,12 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     private GamePrepController gamePrepController;
     private JPanel playerPanel1, playerPanel2;
     private JTextField nameField1, nameField2;
+    private GameStartController gameStartController;
 
-    public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController) {
+    public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController, GameStartController gameStartController) {
         this.setupScreenModel = setupScreenModel;
         this.gamePrepController = gamePrepController;
+        this.gameStartController = gameStartController;
     }
 
     public void updateSetupScreen() {
@@ -123,8 +126,12 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
 
         try {
             gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
+
         } catch (GamePrepException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage());
         }
+
+        gameStartController.decidePlayOrder();
+        gameStartController.startMulligan();
     }
 }
