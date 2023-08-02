@@ -23,6 +23,7 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     private JTextField nameField1, nameField2;
     private Timer timer;
     private int timerStep;
+    private JLabel instructionUser;
 
     public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController, GameStartController gameStartController) {
         this.setupScreenModel = setupScreenModel;
@@ -42,22 +43,32 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
 
         nameField1 = new JTextField(20);
         nameField2 = new JTextField(20);
+
+        Font font = new Font("Herculanum", Font.BOLD, 30);
+        Font textFieldFont = new Font(nameField1.getFont().getName(), Font.PLAIN, 15);
+        nameField1.setFont(textFieldFont);
+        nameField2.setFont(textFieldFont);
+
         JButton doneButton = new JButton("Let the battle begin!");
         doneButton.addActionListener(this);
-        Font font = new Font("Herculanum", Font.BOLD, 30);
         doneButton.setFont(font);
 
-        List<String> creatures = setupScreenModel.getCreaturesToChoose();
 
-        add(playerPanel1, getGBC(0, 0, 1, 1, 0, 0, 3, 4));
-        add(playerPanel2, getGBC(3, 0, 1, 1, 0, 0, 3, 4));
+        List<String> creatures = setupScreenModel.getCreaturesToChoose();
+        instructionUser = new JLabel("Enter Players Names Below");
+        instructionUser.setFont(font);
+        add(instructionUser, getGBC(2, 0, 0.1, 1, 30, 5, 2, 1));
+
+        add(playerPanel1, getGBC(0, 1, 1, 1, 0, 0, 3, 3));
+        add(playerPanel2, getGBC(3, 1, 1, 1, 0, 0, 3, 3));
         add(doneButton, getGBC(2, 4, 0.1, 0.1, 30, 30, 2, 1));
+
 
         playerPanel1.setLayout(new GridBagLayout());
         playerPanel2.setLayout(new GridBagLayout());
 
-        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
-        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
+        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 125, 30, 8, 1));
+        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 125, 30, 8, 1));
 
         setCardsOnPanel(playerPanel1, setupScreenModel.getCreaturesToChoose());
         setCardsOnPanel(playerPanel2, setupScreenModel.getCreaturesToChoose());
@@ -72,12 +83,12 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         CardButton card5 = new CardButton(-1, creatures.get(4));
         CardButton card6 = new CardButton(-1, creatures.get(5));
 
-        playerPanel.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card3, getGBC(2, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card4, getGBC(0, 3, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card5, getGBC(1, 3, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card6, getGBC(2, 3, 1, 1, 80, 200, 1, 2));
+        playerPanel.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card3, getGBC(2, 1, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card4, getGBC(0, 3, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card5, getGBC(1, 3, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card6, getGBC(2, 3, 1, 1, 80, 200, 1, 1));
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
