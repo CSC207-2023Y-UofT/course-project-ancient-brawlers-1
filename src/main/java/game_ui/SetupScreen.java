@@ -16,14 +16,13 @@ import java.util.List;
 
 public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private SetupScreenModel setupScreenModel;
-    private GamePrepController gamePrepController;
-    private GameStartController gameStartController;
+    private final SetupScreenModel setupScreenModel;
+    private final GamePrepController gamePrepController;
+    private final GameStartController gameStartController;
     private JPanel playerPanel1, playerPanel2;
     private JTextField nameField1, nameField2;
     private Timer timer;
     private int timerStep;
-    private JLabel instructionUser;
 
     public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController, GameStartController gameStartController) {
         this.setupScreenModel = setupScreenModel;
@@ -41,35 +40,28 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         playerPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         playerPanel2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+        Font font = new Font("Herculanum", Font.BOLD, 30);
         nameField1 = new JTextField(20);
         nameField2 = new JTextField(20);
-
-        Font font = new Font("Herculanum", Font.BOLD, 30);
-        Font textFieldFont = new Font(nameField1.getFont().getName(), Font.PLAIN, 15);
-        nameField1.setFont(textFieldFont);
-        nameField2.setFont(textFieldFont);
+        nameField1.setFont(font);
+        nameField2.setFont(font);
 
         JButton doneButton = new JButton("Let the battle begin!");
         doneButton.addActionListener(this);
         doneButton.setFont(font);
 
+        JLabel instruction = new JLabel("Please enter both players' names and each select 3 creatures");
+        instruction.setFont(font);
 
-        List<String> creatures = setupScreenModel.getCreaturesToChoose();
-        instructionUser = new JLabel("Enter Players Names Below");
-        instructionUser.setFont(font);
-        add(instructionUser, getGBC(2, 0, 0.1, 1, 30, 5, 2, 1));
-
-        add(playerPanel1, getGBC(0, 1, 1, 1, 0, 0, 3, 3));
-        add(playerPanel2, getGBC(3, 1, 1, 1, 0, 0, 3, 3));
-        add(doneButton, getGBC(2, 4, 0.1, 0.1, 30, 30, 2, 1));
-
+        add(instruction, getGBC(0, 0, 1, 1, 0, 0, 2, 1));
+        add(playerPanel1, getGBC(0, 1, 1, 1, 0, 0, 1, 1));
+        add(playerPanel2, getGBC(1, 1, 1, 1, 0, 0, 1, 1));
+        add(doneButton, getGBC(0, 2, 1, 1, 0, 0, 2, 1));
 
         playerPanel1.setLayout(new GridBagLayout());
         playerPanel2.setLayout(new GridBagLayout());
-
-        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 125, 30, 8, 1));
-        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 125, 30, 8, 1));
-
+        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 240, 0, 3, 1));
+        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 240, 0, 3, 1));
         setCardsOnPanel(playerPanel1, setupScreenModel.getCreaturesToChoose());
         setCardsOnPanel(playerPanel2, setupScreenModel.getCreaturesToChoose());
     }
@@ -82,13 +74,12 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         CardButton card4 = new CardButton(-1, creatures.get(3));
         CardButton card5 = new CardButton(-1, creatures.get(4));
         CardButton card6 = new CardButton(-1, creatures.get(5));
-
-        playerPanel.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 1));
-        playerPanel.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 1));
-        playerPanel.add(card3, getGBC(2, 1, 1, 1, 80, 200, 1, 1));
-        playerPanel.add(card4, getGBC(0, 3, 1, 1, 80, 200, 1, 1));
-        playerPanel.add(card5, getGBC(1, 3, 1, 1, 80, 200, 1, 1));
-        playerPanel.add(card6, getGBC(2, 3, 1, 1, 80, 200, 1, 1));
+        playerPanel.add(card1, getGBC(0, 1, 1, 1, 140, 240, 1, 1));
+        playerPanel.add(card2, getGBC(1, 1, 1, 1, 140, 240, 1, 1));
+        playerPanel.add(card3, getGBC(2, 1, 1, 1, 140, 240, 1, 1));
+        playerPanel.add(card4, getGBC(0, 2, 1, 1, 140, 240, 1, 1));
+        playerPanel.add(card5, getGBC(1, 2, 1, 1, 140, 240, 1, 1));
+        playerPanel.add(card6, getGBC(2, 2, 1, 1, 140, 240, 1, 1));
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
