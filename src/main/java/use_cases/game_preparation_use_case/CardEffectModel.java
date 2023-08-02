@@ -6,6 +6,9 @@ public class CardEffectModel {
     private int effectValue;
     private String specialKeyword;
 
+    public CardEffectModel() {
+    }
+
     public CardEffectModel(String type) {
         this.type = type;
     }

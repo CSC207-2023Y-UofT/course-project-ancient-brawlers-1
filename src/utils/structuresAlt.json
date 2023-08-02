@@ -7,7 +7,7 @@
     "effects": [
       {
         "type": "HealEffect",
-        "healAmount": 3
+        "effectValue": 3
       }
     ]
   },
@@ -19,7 +19,7 @@
     "effects": [
       {
         "type": "DamageBuffEffect",
-        "buffAmount": -2
+        "effectValue": -2
       }
     ]
   },
@@ -31,8 +31,8 @@
     "effects": [
       {
         "type": "DrawCardEffect",
-        "drawNumber": 1,
-        "drawDeck": "EssenceDeck"
+        "effectValue": 1,
+        "specialKeyword": "EssenceDeck"
       }
     ]
   },
@@ -44,7 +44,7 @@
     "effects": [
       {
         "type": "DamageEffect",
-        "damage": 2
+        "effectValue": 2
       }
     ]
   },
@@ -56,7 +56,7 @@
     "effects": [
       {
         "type": "DamageModifyEffect",
-        "modifyAmount": 5
+        "effectValue": 5
       }
     ]
   },
@@ -68,7 +68,7 @@
     "effects": [
       {
         "type": "DamageBuffEffect",
-        "buffAmount": 2
+        "effectValue": 2
       }
     ]
   }

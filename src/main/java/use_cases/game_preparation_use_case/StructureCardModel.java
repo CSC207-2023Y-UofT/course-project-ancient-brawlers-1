@@ -2,13 +2,16 @@ package use_cases.game_preparation_use_case;
 
 import java.util.List;
 
-public class StructureCardModel {
+public class StructureCardModel implements CardModel {
 
     private String name;
     private String description;
     private String targetType;
     private List<CardEffectModel> effects;
     private String triggerEvent;
+
+    public StructureCardModel() {
+    }
 
     public StructureCardModel(String name, String description, String targetType,
                               List<CardEffectModel> effects, String triggerEvent) {
@@ -19,10 +22,12 @@ public class StructureCardModel {
         this.triggerEvent = triggerEvent;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

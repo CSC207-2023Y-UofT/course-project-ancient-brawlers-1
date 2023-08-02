@@ -83,7 +83,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
         }
 
-        DrawCardOutputModel output = new DrawCardOutputModel(keptIds, keptNames, burntIds, burntNames);
+        DrawCardOutputModel output = new DrawCardOutputModel(gameState.getCurrentPlayerIndex(), keptIds, keptNames, burntIds, burntNames);
         
         return turnStartPresenter.showDrawResult(output);
     }
@@ -154,11 +154,13 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         }
 
         List<Integer> handIds = new ArrayList<>();
+        List<String> handNames = new ArrayList<>();
         for (Card card : player1.getHand()) {
             handIds.add(card.getId());
+            handNames.add(card.getName());
         }
 
-        TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, getCreatureStatsModel());
+        TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, handNames, getCreatureStatsModel());
 
         return turnStartPresenter.showEffectUpdates(outputData);
     }
@@ -192,7 +194,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
             attacks2.add(c.getTotalAttackDamage());
         }
 
-        return new CreatureStatsUpdateModel(ids1, ids2, hitPoints1, hitPoints2,
+        return new CreatureStatsUpdateModel(gameState.getCurrentPlayerIndex(), ids1, ids2, hitPoints1, hitPoints2,
                 attacks1, attacks2);
     }
 }

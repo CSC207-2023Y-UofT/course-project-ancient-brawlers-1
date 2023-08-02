@@ -4,6 +4,7 @@ import java.util.List;
 
 public class CreatureStatsUpdateModel {
 
+    private int playerIndex;
     private List<Integer> creatureIds1;
     private List<Integer> creatureIds2;
     private List<Integer> hitPoints1;
@@ -11,15 +12,24 @@ public class CreatureStatsUpdateModel {
     private List<Integer> attacks1;
     private List<Integer> attacks2;
 
-    public CreatureStatsUpdateModel(List<Integer> creatureIds1, List<Integer> creatureIds2,
+    public CreatureStatsUpdateModel(int playerIndex, List<Integer> creatureIds1, List<Integer> creatureIds2,
                                     List<Integer> hitPoints1, List<Integer> hitPoints2,
                                     List<Integer> attacks1, List<Integer> attacks2) {
+        this.playerIndex = playerIndex;
         this.creatureIds1 = creatureIds1;
         this.creatureIds2 = creatureIds2;
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
         this.attacks1 = attacks1;
         this.attacks2 = attacks2;
+    }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
     }
 
     public List<Integer> getCreatureIds1() {

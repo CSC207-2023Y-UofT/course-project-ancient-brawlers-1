@@ -5,10 +5,12 @@ import java.util.List;
 public class TriggerEffectUpdateModel {
 
     private List<Integer> finalHandIds;
+    private List<String> finalHandNames;
     private CreatureStatsUpdateModel allCreatureStats;
 
-    public TriggerEffectUpdateModel(List<Integer> finalHandIds, CreatureStatsUpdateModel allCreatureStats) {
+    public TriggerEffectUpdateModel(List<Integer> finalHandIds, List<String> finalHandNames, CreatureStatsUpdateModel allCreatureStats) {
         this.finalHandIds = finalHandIds;
+        this.finalHandNames = finalHandNames;
         this.allCreatureStats = allCreatureStats;
     }
 
@@ -18,6 +20,14 @@ public class TriggerEffectUpdateModel {
 
     public void setFinalHandIds(List<Integer> finalHandIds) {
         this.finalHandIds = finalHandIds;
+    }
+
+    public List<String> getFinalHandNames() {
+        return finalHandNames;
+    }
+
+    public void setFinalHandNames(List<String> finalHandNames) {
+        this.finalHandNames = finalHandNames;
     }
 
     public CreatureStatsUpdateModel getAllCreatureStats() {

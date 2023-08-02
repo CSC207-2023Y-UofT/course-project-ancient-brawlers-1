@@ -6,8 +6,8 @@
     "effects": [
       {
         "type": "DrawCardEffect",
-        "drawNumber": 2,
-        "drawDeck": "PLAYER_DECK"
+        "effectValue": 2,
+        "specialKeyword": "PLAYER_DECK"
       }
     ]
   },
@@ -18,7 +18,7 @@
     "effects": [
       {
         "type": "HealEffect",
-        "healAmount": 3
+        "effectValue": 3
       }
     ]
   },
@@ -29,8 +29,8 @@
     "effects": [
       {
         "type": "DrawCardEffect",
-        "drawNumber": 2,
-        "drawDeck": "ESSENCE_DECK"
+        "effectValue": 2,
+        "specialKeyword": "ESSENCE_DECK"
       }
     ]
   },
@@ -51,7 +51,7 @@
     "effects": [
       {
         "type": "HealEffect",
-        "healAmount": 10
+        "effectValue": 10
       }
     ]
   },
@@ -62,7 +62,7 @@
     "effects": [
       {
         "type": "HealthModifyEffect",
-        "modifyAmount": 3
+        "effectValue": 3
       }
     ]
   },
@@ -73,7 +73,7 @@
     "effects": [
       {
         "type": "DamageModifyEffect",
-        "modifyAmount": 5
+        "effectValue": 5
       }
     ]
   },
@@ -84,7 +84,7 @@
     "effects": [
       {
         "type": "DamageEffect",
-        "damage": 10
+        "effectValue": 10
       }
     ]
   },
@@ -95,7 +95,7 @@
     "effects": [
       {
         "type": "DamageBuffEffect",
-        "buffAmount": -5
+        "effectValue": -5
       }
     ]
   },
@@ -126,11 +126,11 @@
     "effects": [
       {
         "type": "HealthBuffEffect",
-        "buffAmount": 3
+        "effectValue": 3
       },
       {
         "type": "DamageBuffEffect",
-        "buffAmount": 3
+        "effectValue": 3
       }
     ]
   }
