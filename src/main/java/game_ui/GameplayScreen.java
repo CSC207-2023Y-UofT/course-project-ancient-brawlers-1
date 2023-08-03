@@ -1,5 +1,6 @@
 package game_ui;
 
+import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.GameStartController;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
@@ -17,6 +18,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     private GameplayScreenModel gameplayScreenModel;
     private GameStartController gameStartController;
     private JPanel p1HandPanel, p2HandPanel, creaturePanel;
+    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
     public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController) {
         this.gameplayScreenModel = gameplayScreenModel;
@@ -101,7 +103,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         attacks.addAll(p2.getCreatureAttacks());
         // Creatures
         for (int i = 0; i < ids.size(); i++) {
-            CardButton creature = new CardButton(ids.get(i), names.get(i));
+            CardButton creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName(names.get(i)));
             JLabel hitPoint = new JLabel("HP: " + hitPoints.get(i));
             JLabel attack = new JLabel("ATK: " + attacks.get(i));
             hitPoint.setFont(font2);
@@ -114,17 +116,17 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         CardButton structure1;
         CardButton structure2;
         if (p1.getStructureName() != null) {
-            structure1 = new CardButton(p1.getStructureId(), p1.getStructureName());
+            structure1 = new CardButton(p1.getStructureId(), p1.getStructureName(), imageMapper.getImageByName(p1.getStructureName()));
             structure1.setToolTipText("Description...");
         } else {
-            structure1 = new CardButton(-1, "");
+            structure1 = new CardButton(-1, "", null);
             structure1.setToolTipText("Structure Card Slot");
         }
         if (p2.getStructureName() != null) {
-            structure2 = new CardButton(p2.getStructureId(), p2.getStructureName());
+            structure2 = new CardButton(p2.getStructureId(), p2.getStructureName(), imageMapper.getImageByName(p2.getStructureName()));
             structure2.setToolTipText("Description...");
         } else {
-            structure2 = new CardButton(-1, "");
+            structure2 = new CardButton(-1, "", null);
             structure2.setToolTipText("Structure Card Slot");
         }
         structure1.setEnabled(false);
@@ -134,19 +136,19 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         List<HandCardButton> p2Hand = new ArrayList<>();
         for (int i = 0; i < p1.getHandCardIds().size(); i++) {
             HandCardButton handCard = new HandCardButton(p1.getHandCardIds().get(i), p1.getHandCardNames().get(i),
-                    "Description");
+                    "Description", imageMapper.getImageByName(p1.getHandCardNames().get(i)));
             p1Hand.add(handCard);
         }
         for (int i = 0; i < p2.getHandCardIds().size(); i++) {
             HandCardButton handCard = new HandCardButton(p2.getHandCardIds().get(i), p2.getHandCardNames().get(i),
-                    "Description");
+                    "Description", imageMapper.getImageByName(p2.getHandCardNames().get(i)));
             p2Hand.add(handCard);
         }
         // Miscellaneous
         JLabel message = new JLabel("To attack, select a friendly creature and then an enemy structure.");
         message.setFont(font2);
-        CardButton selectedCard1 = new CardButton(-1, "");
-        CardButton selectedCard2 = new CardButton(-1, "");
+        CardButton selectedCard1 = new CardButton(-1, "", null);
+        CardButton selectedCard2 = new CardButton(-1, "", null);
         selectedCard1.setToolTipText("Card to be played");
         selectedCard2.setToolTipText("Card to be played");
         selectedCard1.setEnabled(false);

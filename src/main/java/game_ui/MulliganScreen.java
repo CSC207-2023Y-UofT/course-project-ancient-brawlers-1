@@ -1,5 +1,6 @@
 package game_ui;
 
+import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.TurnEndController;
 import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.MulliganScreenModel;
@@ -19,6 +20,7 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
     private GameStartController gameStartController;
     private TurnStartController turnStartController;
     private TurnEndController turnEndController;
+    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private MulliganScreenModel mulliganScreenModel;
     private boolean bothMulliansComplete = false;
     private Timer timer;
@@ -50,9 +52,9 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
     }
 
     private void setCardsOnPanel(List<String> cardNames, List<Integer> cardIds) {
-        CardButton card1 = new CardButton(cardIds.get(0), cardNames.get(0));
-        CardButton card2 = new CardButton(cardIds.get(1), cardNames.get(1));
-        CardButton card3 = new CardButton(cardIds.get(2), cardNames.get(2));
+        CardButton card1 = new CardButton(cardIds.get(0), cardNames.get(0), imageMapper.getImageByName(cardNames.get(0)));
+        CardButton card2 = new CardButton(cardIds.get(1), cardNames.get(1), imageMapper.getImageByName(cardNames.get(1)));
+        CardButton card3 = new CardButton(cardIds.get(2), cardNames.get(2), imageMapper.getImageByName(cardNames.get(2)));
 
         this.add(card1, getGBC(0, 1, 1, 1, 140, 240, 1, 1));
         this.add(card2, getGBC(1, 1, 1, 1, 140, 240, 1, 1));

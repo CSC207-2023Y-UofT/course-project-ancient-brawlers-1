@@ -8,11 +8,11 @@ public class HandCardButton extends JButton {
     private String name;
     private String description;
 
-    public HandCardButton(int id, String name, String description) {
+    public HandCardButton(int id, String name, String description, ImageIcon icon) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.setText(name);
+        this.setIcon(icon);
     }
 
     public int getId() {
