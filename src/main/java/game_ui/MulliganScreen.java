@@ -1,6 +1,7 @@
 package game_ui;
 
 import interface_adapters.controllers.TurnEndController;
+import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.MulliganScreenModel;
 import interface_adapters.view_models.ScreenUpdateListener;
 
@@ -16,14 +17,16 @@ import interface_adapters.controllers.GameStartController;
 public class MulliganScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private GameStartController gameStartController;
+    private TurnStartController turnStartController;
     private TurnEndController turnEndController;
     private MulliganScreenModel mulliganScreenModel;
     private boolean bothMulliansComplete = false;
     private Timer timer;
 
-    public MulliganScreen(MulliganScreenModel mulliganScreenModel, GameStartController gameStartController, TurnEndController turnEndController) {
+    public MulliganScreen(MulliganScreenModel mulliganScreenModel, GameStartController gameStartController, TurnStartController turnStartController, TurnEndController turnEndController) {
         this.gameStartController = gameStartController;
         this.mulliganScreenModel = mulliganScreenModel;
+        this.turnStartController = turnStartController;
         this.turnEndController = turnEndController;
     }
 
@@ -102,6 +105,9 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
                 if (!bothMulliansComplete) {
                     bothMulliansComplete = true;
                     gameStartController.startMulligan();
+                } else {
+                    System.out.println("Turn Start! Drawing cards, clearing buffs, ...");
+                    turnStartController.processTurnStart();
                 }
             }
         };
