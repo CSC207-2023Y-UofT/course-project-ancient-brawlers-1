@@ -11,8 +11,10 @@ public class TurnEndResponseModel {
     private List<Integer> creatureIds2;
     private List<Integer> playerHandIds1;
     private List<Integer> playerHandIds2;
+    private List<String> playerHandNames1;
+    private List<String> playerHandNames2;
 
-    public TurnEndResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2, List<Integer> attack1, List<Integer> attack2, List<Integer> creatureIds1, List<Integer> creatureIds2, List<Integer> playerHandIds1, List<Integer> playerHandIds2) {
+    public TurnEndResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2, List<Integer> attack1, List<Integer> attack2, List<Integer> creatureIds1, List<Integer> creatureIds2, List<Integer> playerHandIds1, List<Integer> playerHandIds2, List<String> playerHandNames1, List<String> playerHandNames2) {
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
         this.attack1 = attack1;
@@ -21,6 +23,8 @@ public class TurnEndResponseModel {
         this.creatureIds2 = creatureIds2;
         this.playerHandIds1 = playerHandIds1;
         this.playerHandIds2 = playerHandIds2;
+        this.playerHandNames1 = playerHandNames1;
+        this.playerHandNames2 = playerHandNames2;
     }
 
     public List<Integer> getCreatureIds1() {
@@ -55,6 +59,14 @@ public class TurnEndResponseModel {
         return this.playerHandIds2;
     }
 
+    public List<String> getPlayerHandNames1() {
+        return this.playerHandNames1;
+    }
+
+    public List<String> getPlayerHandNames2() {
+        return this.playerHandNames2;
+    }
+
     public void setAttack1(List<Integer> attack1) {
         this.attack1 = attack1;
     }
@@ -79,11 +91,20 @@ public class TurnEndResponseModel {
         this.creatureIds2 = creatureIds2;
     }
 
-    public void setPlayerHands1(List<Integer> playerHandIds1) {
+    public void setPlayerHandsIds1(List<Integer> playerHandIds1) {
         this.playerHandIds1 = playerHandIds1;
     }
 
-    public void setPlayerHands2(List<Integer> playerHandIds2) {
+    public void setPlayerHandsIds2(List<Integer> playerHandIds2) {
         this.playerHandIds2 = playerHandIds2;
     }
+
+    public void setPlayerHandsNames1(List<String> playerHandNames1) {
+        this.playerHandNames1 = playerHandNames1;
+    }
+
+    public void setPlayerHandsNames2(List<String> playerHandNames2) {
+        this.playerHandNames2 = playerHandNames2;
+    }
+    
 }
