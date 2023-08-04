@@ -83,6 +83,8 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         List<Integer> attack2 = new ArrayList<>();
         List<Integer> playerHandIds1 = new ArrayList<>();
         List<Integer> playerHandIds2 = new ArrayList<>();
+        List<String> playerHandNames1 = new ArrayList<>();
+        List<String> playerHandNames2 = new ArrayList<>();
         
         for (CreatureCard creature : currentPlayer.getCreatures()) {
             creature.clearStun();
@@ -93,6 +95,7 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
 
         for (Card currentCard : currentPlayer.getHand()) {
             playerHandIds1.add(currentCard.getId());
+            playerHandNames1.add(currentCard.getName());
         }
 
         for (CreatureCard creature : nextPlayer.getCreatures()) {
@@ -103,9 +106,10 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
 
         for (Card currentCard : nextPlayer.getHand()) {
             playerHandIds2.add(currentCard.getId());
+            playerHandNames2.add(currentCard.getName());
         }
 
-        TurnEndResponseModel turnEndModel = new TurnEndResponseModel(hitPoints1, hitPoints2, attack1, attack2, creatureIds1, creatureIds2, playerHandIds1, playerHandIds2);
+        TurnEndResponseModel turnEndModel = new TurnEndResponseModel(hitPoints1, hitPoints2, attack1, attack2, creatureIds1, creatureIds2, playerHandIds1, playerHandIds2, playerHandNames1, playerHandNames2);
         
         return turnEndPresenter.showTurnEndScreen(turnEndModel);
     }
