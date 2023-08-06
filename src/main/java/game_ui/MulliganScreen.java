@@ -1,10 +1,10 @@
 package game_ui;
 
-import interface_adapters.GamePrepException;
-import interface_adapters.controllers.GamePrepController;
+import interface_adapters.CardImageMapper;
+import interface_adapters.controllers.TurnEndController;
+import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.MulliganScreenModel;
 import interface_adapters.view_models.ScreenUpdateListener;
-import interface_adapters.view_models.SetupScreenModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,45 +16,49 @@ import java.util.List;
 import interface_adapters.controllers.GameStartController;
 
 public class MulliganScreen extends JPanel implements ActionListener, ScreenUpdateListener {
-    // OVERALL VIEW
-    // jlabel with text - select which cards to replace
-    // three cards in the middle
-    // confirm button
-
-    // Functionality
-    // Lift, Seek, etc..
-    // 22-feature-
 
     private GameStartController gameStartController;
+    private TurnStartController turnStartController;
+    private TurnEndController turnEndController;
+    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private MulliganScreenModel mulliganScreenModel;
+    private boolean bothMulliansComplete = false;
+    private Timer timer;
 
-    public MulliganScreen(MulliganScreenModel mulliganScreenModel, GameStartController gameStartController) {
+    public MulliganScreen(MulliganScreenModel mulliganScreenModel, GameStartController gameStartController, TurnStartController turnStartController, TurnEndController turnEndController) {
         this.gameStartController = gameStartController;
         this.mulliganScreenModel = mulliganScreenModel;
+        this.turnStartController = turnStartController;
+        this.turnEndController = turnEndController;
     }
 
     public void updateMulliganScreen() {
-        setCardsOnPanel(mulliganScreenModel.getCardNames(), mulliganScreenModel.getCardIds());
-        setLayout(new GridBagLayout());
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
 
-        JLabel title = new JLabel("Select cards");
+        this.setLayout(new GridBagLayout());
+        Font font = new Font("Herculanum", Font.BOLD, 30);
 
+        JLabel message = new JLabel("Initial Hand: Choose cards to replace");
+        message.setFont(font);
         JButton confirmButton = new JButton("Confirm");
         confirmButton.addActionListener(this);
-        Font font = new Font("Herculanum", Font.BOLD, 30);
         confirmButton.setFont(font);
-        this.add(confirmButton, getGBC(0, 3, 1, 1, 40, 20, 3, 1));
-        this.add(title, getGBC(0, 0, 1, 1, 40, 20, 3, 1));
+
+        this.add(message, getGBC(0, 0, 1, 1, 80, 20, 3, 1));
+        setCardsOnPanel(mulliganScreenModel.getCardNames(), mulliganScreenModel.getCardIds());
+        this.add(confirmButton, getGBC(0, 2, 1, 1, 80, 20, 3, 1));
     }
 
     private void setCardsOnPanel(List<String> cardNames, List<Integer> cardIds) {
-        CardButton card1 = new CardButton(cardIds.get(0), cardNames.get(0));
-        CardButton card2 = new CardButton(cardIds.get(1), cardNames.get(1));
-        CardButton card3 = new CardButton(cardIds.get(2), cardNames.get(2));
+        CardButton card1 = new CardButton(cardIds.get(0), cardNames.get(0), imageMapper.getImageByName(cardNames.get(0)));
+        CardButton card2 = new CardButton(cardIds.get(1), cardNames.get(1), imageMapper.getImageByName(cardNames.get(1)));
+        CardButton card3 = new CardButton(cardIds.get(2), cardNames.get(2), imageMapper.getImageByName(cardNames.get(2)));
 
-        this.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 2));
-        this.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 2));
-        this.add(card3, getGBC(2, 1, 1, 1, 80, 200, 1, 2));
+        this.add(card1, getGBC(0, 1, 1, 1, 140, 240, 1, 1));
+        this.add(card2, getGBC(1, 1, 1, 1, 140, 240, 1, 1));
+        this.add(card3, getGBC(2, 1, 1, 1, 140, 240, 1, 1));
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
@@ -80,7 +84,37 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e);
-    }
+        List<String> replaceCardNames = new ArrayList<>();
+        List<Integer> replaceCardIds = new ArrayList<>();
 
+        for (Component component : this.getComponents()) {
+            if (component instanceof CardButton) {
+                CardButton cardButton = (CardButton) component;
+                if (cardButton.isSelected()) {
+                    replaceCardNames.add(cardButton.getName());
+                    replaceCardIds.add(cardButton.getId());
+                }
+            }
+        }
+        System.out.println("Cards to replace: " + replaceCardNames);
+        gameStartController.endMulligan(replaceCardIds, replaceCardNames);
+        turnEndController.passTurn();
+
+        int delay = 2000;
+        ActionListener delayAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!bothMulliansComplete) {
+                    bothMulliansComplete = true;
+                    gameStartController.startMulligan();
+                } else {
+                    System.out.println("Turn Start! Drawing cards, clearing buffs, ...");
+                    turnStartController.processTurnStart();
+                }
+            }
+        };
+        timer = new Timer(delay, delayAction);
+        timer.setRepeats(false);
+        timer.start();
+    }
 }

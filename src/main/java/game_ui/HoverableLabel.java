@@ -6,21 +6,21 @@ import java.awt.event.MouseListener;
 
 public class HoverableLabel extends JLabel implements MouseListener {
 
-    private String deckSize;
+    private String hoverMessage;
 
-    public HoverableLabel(String text, String deckSize) {
+    public HoverableLabel(String text, String hoverMessage) {
         super(text);
-        this.deckSize = deckSize;
+        this.hoverMessage = hoverMessage;
         addMouseListener(this);
     }
 
-    public void setDeckSize(String deckSize) {
-        this.deckSize = deckSize;
+    public void setHoverMessage(String hoverMessage) {
+        this.hoverMessage = hoverMessage;
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        setToolTipText(deckSize);
+        setToolTipText(hoverMessage);
     }
 
     @Override

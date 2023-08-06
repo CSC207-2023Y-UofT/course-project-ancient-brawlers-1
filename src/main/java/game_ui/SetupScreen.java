@@ -1,8 +1,11 @@
 package game_ui;
 
+import entities.cards.Card;
+import interface_adapters.CardImageMapper;
 import interface_adapters.GamePrepException;
 import interface_adapters.controllers.GamePrepController;
 import interface_adapters.controllers.GameStartController;
+import interface_adapters.controllers.TurnEndController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.SetupScreenModel;
 
@@ -15,63 +18,77 @@ import java.util.List;
 
 public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private SetupScreenModel setupScreenModel;
-    private GamePrepController gamePrepController;
+    private final SetupScreenModel setupScreenModel;
+    private final GamePrepController gamePrepController;
+    private final GameStartController gameStartController;
+    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private JPanel playerPanel1, playerPanel2;
     private JTextField nameField1, nameField2;
-    private GameStartController gameStartController;
+    private Timer timer;
+    private int timerStep;
 
     public SetupScreen(SetupScreenModel setupScreenModel, GamePrepController gamePrepController, GameStartController gameStartController) {
         this.setupScreenModel = setupScreenModel;
         this.gamePrepController = gamePrepController;
         this.gameStartController = gameStartController;
+        this.setBackground(new Color(210, 180, 140));
     }
 
     public void updateSetupScreen() {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
         setLayout(new GridBagLayout());
         playerPanel1 = new JPanel();
         playerPanel2 = new JPanel();
         playerPanel1.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         playerPanel2.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
+        Font font = new Font("Herculanum", Font.BOLD, 30);
         nameField1 = new JTextField(20);
         nameField2 = new JTextField(20);
+        nameField1.setFont(font);
+        nameField2.setFont(font);
+
         JButton doneButton = new JButton("Let the battle begin!");
         doneButton.addActionListener(this);
-        Font font = new Font("Herculanum", Font.BOLD, 30);
         doneButton.setFont(font);
 
-        List<String> creatures = setupScreenModel.getCreaturesToChoose();
+        JLabel instruction = new JLabel("Please enter both players' names and each select 3 creatures");
+        instruction.setFont(font);
 
-        add(playerPanel1, getGBC(0, 0, 1, 1, 0, 0, 3, 4));
-        add(playerPanel2, getGBC(3, 0, 1, 1, 0, 0, 3, 4));
-        add(doneButton, getGBC(2, 4, 0.1, 0.1, 30, 30, 2, 1));
+        add(instruction, getGBC(0, 0, 1, 1, 0, 0, 2, 1));
+        add(playerPanel1, getGBC(0, 1, 1, 1, 0, 0, 1, 1));
+        add(playerPanel2, getGBC(1, 1, 1, 1, 0, 0, 1, 1));
+        add(doneButton, getGBC(0, 2, 1, 1, 0, 0, 2, 1));
 
         playerPanel1.setLayout(new GridBagLayout());
         playerPanel2.setLayout(new GridBagLayout());
-
-        playerPanel1.add(nameField1, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
-        playerPanel2.add(nameField2, getGBC(0, 0, 1, 1, 100, 30, 3, 1));
-
+        playerPanel1.setBackground(new Color(210, 180, 140));
+        playerPanel2.setBackground(new Color(210, 180, 140));
+        playerPanel1.add(nameField1, getGBC(0, 0, 0.5, 0.5, 240, 0, 3, 1));
+        playerPanel2.add(nameField2, getGBC(0, 0, 0.5, 0.5, 240, 0, 3, 1));
         setCardsOnPanel(playerPanel1, setupScreenModel.getCreaturesToChoose());
         setCardsOnPanel(playerPanel2, setupScreenModel.getCreaturesToChoose());
     }
 
     private void setCardsOnPanel(JPanel playerPanel, List<String> creatures) {
         // Hard coded, because right now the game is fixed at 6 possible creature cards
-        CardButton card1 = new CardButton(-1, creatures.get(0));
-        CardButton card2 = new CardButton(-1, creatures.get(1));
-        CardButton card3 = new CardButton(-1, creatures.get(2));
-        CardButton card4 = new CardButton(-1, creatures.get(3));
-        CardButton card5 = new CardButton(-1, creatures.get(4));
-        CardButton card6 = new CardButton(-1, creatures.get(5));
-
-        playerPanel.add(card1, getGBC(0, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card2, getGBC(1, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card3, getGBC(2, 1, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card4, getGBC(0, 3, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card5, getGBC(1, 3, 1, 1, 80, 200, 1, 2));
-        playerPanel.add(card6, getGBC(2, 3, 1, 1, 80, 200, 1, 2));
+        List<CardButton> cards = new ArrayList<>();
+        for (String name : creatures) {
+            CardButton card = new CardButton(-1, name, imageMapper.getImageByName(name));
+            card.setOpaque(true);
+            card.setPreferredSize(new Dimension(150, 260));
+            card.addActionListener(this);
+            cards.add(card);
+        }
+        for (int i = 0; i < cards.size(); i++) {
+            if (i < 3) {
+                playerPanel.add(cards.get(i), getGBC(i, 1, 1.5, 1.5, 30, 55, 1, 1));
+            } else {
+                playerPanel.add(cards.get(i), getGBC(i - 3, 2, 1.5, 1.5, 30, 55, 1, 1));
+            }
+        }
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
@@ -100,6 +117,19 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof CardButton) {
+            if (((CardButton) e.getSource()).isSelected()) {
+                ((CardButton) e.getSource()).setBackground(Color.RED);
+            } else {
+                ((CardButton) e.getSource()).setBackground(null);
+            }
+            playerPanel1.revalidate();
+            playerPanel1.repaint();
+            playerPanel2.revalidate();
+            playerPanel2.repaint();
+            return;
+        }
+
         List<String> selections1 = new ArrayList<>();
         List<String> selections2 = new ArrayList<>();
 
@@ -127,13 +157,43 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         System.out.println("Name field text for player 2: " + nameFieldText2);
 
         try {
-            gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
-
+            performDelayedActions(nameFieldText1, nameFieldText2, selections1, selections2);
         } catch (GamePrepException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage());
         }
+    }
 
-        gameStartController.decidePlayOrder();
-        gameStartController.startMulligan();
+    /**
+     * A helper for the sequence of events to trigger with some delays in between.
+     */
+    private void performDelayedActions(String nameFieldText1, String nameFieldText2,
+                                       List<String> selections1, List<String> selections2) {
+        int delay = 1000;
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (timerStep) {
+                    case 0:
+                        gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
+                        System.out.println("Initial game state set!");
+                        break;
+                    case 1:
+                        gameStartController.decidePlayOrder();
+                        System.out.println("Deciding play order...");
+                        break;
+                    case 2:
+                        gameStartController.startMulligan();
+                        System.out.println("Starting first mulligan!");
+                        break;
+                    default:
+                        timer.stop();
+                        break;
+                }
+                timerStep++;
+            }
+        };
+        timer = new Timer(delay, actionListener);
+        timer.setInitialDelay(0);
+        timer.start();
     }
 }

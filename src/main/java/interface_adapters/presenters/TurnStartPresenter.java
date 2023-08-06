@@ -1,6 +1,7 @@
 package interface_adapters.presenters;
 
 import interface_adapters.view_models.GameFrameModel;
+import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
 import use_cases.turn_start_use_case.CreatureStatsUpdateModel;
@@ -28,6 +29,7 @@ public class TurnStartPresenter implements TurnStartOutputBoundary {
         }
         playerData.getHandCardNames().addAll(outputData.getNewCardNames());
         playerData.getHandCardIds().addAll(outputData.getNewCardIds());
+        frameModel.refresh();
         return null;
     }
 
@@ -40,6 +42,7 @@ public class TurnStartPresenter implements TurnStartOutputBoundary {
         playerData1.setCreatureAttacks(outputData.getAttacks1());
         playerData2.setCreatureHPs(outputData.getHitPoints2());
         playerData2.setCreatureAttacks(outputData.getAttacks2());
+        frameModel.refresh();
         return null;
     }
 
@@ -61,6 +64,7 @@ public class TurnStartPresenter implements TurnStartOutputBoundary {
             playerData2.setHandCardIds(outputData.getFinalHandIds());
             playerData2.setHandCardNames(outputData.getFinalHandNames());
         }
+        frameModel.refresh();
         return null;
     }
 }
