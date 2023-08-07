@@ -6,5 +6,5 @@ public interface GameStartOutputBoundary {
 
     GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData);
 
-    void displayPlayerOrder(String message);
+    void displayPlayerOrder(String message, int playerIndex);
 }

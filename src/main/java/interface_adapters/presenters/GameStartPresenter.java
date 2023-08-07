@@ -25,6 +25,13 @@ public class GameStartPresenter implements GameStartOutputBoundary {
     }
 
     @Override
+    public void displayPlayerOrder(String message, int playerIndex) {
+        gameplayScreenModel.setGameMessage(message);
+        gameplayScreenModel.setCurrentPlayerIndex(playerIndex);
+        frameModel.refresh();
+    }
+
+    @Override
     public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
         mulliganScreenModel.setCardIds(outputData.getCardIds());
         mulliganScreenModel.setCardNames(outputData.getCardNames());
@@ -50,10 +57,5 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         }
         frameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return outputData;
-    }
-
-    @Override
-    public void displayPlayerOrder(String message) {
-        gameplayScreenModel.setGameMessage(message);
     }
 }

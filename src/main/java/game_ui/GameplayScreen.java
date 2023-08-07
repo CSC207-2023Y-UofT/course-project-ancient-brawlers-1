@@ -15,10 +15,12 @@ import java.util.List;
 
 public class GameplayScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private GameplayScreenModel gameplayScreenModel;
-    private GameStartController gameStartController;
-    private JPanel p1HandPanel, p2HandPanel, creaturePanel;
-    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private final GameplayScreenModel gameplayScreenModel;
+    private final GameStartController gameStartController;
+    private final JPanel p1HandPanel;
+    private final JPanel p2HandPanel;
+    private final JPanel creaturePanel;
+    private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
     public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController) {
         this.gameplayScreenModel = gameplayScreenModel;
@@ -77,6 +79,12 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         c = getGBC(3, 0, 1, 1, 0, 0, 1, 3);
         c.anchor = GridBagConstraints.EAST;
         this.add(sidePanel, c);
+
+        // Listeners
+        pauseButton.addActionListener(this);
+        endTurnButton.addActionListener(this);
+        playCardButton1.addActionListener(this);
+        playCardButton2.addActionListener(this);
     }
 
     public void updateGameplayScreen() {
