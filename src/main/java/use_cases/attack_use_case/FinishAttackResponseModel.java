@@ -4,22 +4,30 @@ import java.util.List;
 
 public class FinishAttackResponseModel {
 
+
     private List<Integer> hitPoints1;
     private List<Integer> hitPoints2;
     private List<Integer> creatureIds1;
     private List<Integer> creatureIds2;
     private List<Integer> handCardsIds1;
     private List<Integer> handCardsIds2;
+    private final List<String> handCardsDescription1;
+
+    private List<String> handCardsDescription2;
+
 
     public FinishAttackResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2,
                                      List<Integer> creatureIds1, List<Integer> creatureIds2,
-                                     List<Integer> handCardsIds1, List<Integer> handCardsIds2) {
+                                     List<Integer> handCardsIds1, List<Integer> handCardsIds2,
+                                     List<String> handCardsDescription1, List<String> handCardsDescription2) {
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
         this.creatureIds1 = creatureIds1;
         this.creatureIds2 = creatureIds2;
         this.handCardsIds1 = handCardsIds1;
         this.handCardsIds2 = handCardsIds2;
+        this.handCardsDescription1 = handCardsDescription1;
+        this.handCardsDescription2 = handCardsDescription2;
     }
 
     public List<Integer> getHitPoints1() {
@@ -69,4 +77,20 @@ public class FinishAttackResponseModel {
     public void setHandCardsIds2(List<Integer> handCardsIds2) {
         this.handCardsIds2 = handCardsIds2;
     }
+
+    public List<String> getHandCardsDescription1() {
+        return handCardsDescription1;
+    }
+
+    public List<String> getHandCardsDescription2() {
+        return handCardsDescription2;
+    }
+    public void setHandCardsDescription1(List<String> handCardsDescription2) {
+        this.handCardsDescription2 = handCardsDescription2;
+    }
+    public void setHandCardsDescription2(List<String> handCardsDescription2) {
+        this.handCardsDescription2 = handCardsDescription2;
+    }
+
+
 }

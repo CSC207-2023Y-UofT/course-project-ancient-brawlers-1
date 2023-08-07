@@ -2,8 +2,7 @@ package use_cases.attack_use_case;
 
 import entities.GameState;
 import entities.Player;
-import entities.cards.Card;
-import entities.cards.CreatureCard;
+import entities.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +85,8 @@ public class AttackInteractor implements AttackInputBoundary {
         List<Integer> creatureIds2 = new ArrayList<>();
         List<Integer> handIds1 = new ArrayList<>();
         List<Integer> handIds2 = new ArrayList<>();
+        List<String> handCardDescription1 = new ArrayList<>();
+        List<String> handCardDescription2 = new ArrayList<>();
 
         for (CreatureCard creature : player1.getCreatures()) {
             hitPoints1.add(creature.getTotalHitPoints());
@@ -99,14 +100,34 @@ public class AttackInteractor implements AttackInputBoundary {
 
         for (Card card : player1.getHand()) {
             handIds1.add(card.getId());
+
+            if (card instanceof ActionCard){
+                handCardDescription1.add(((ActionCard) card).getDescription());
+            }
+            else if (card instanceof StructureCard){
+                handCardDescription1.add(((StructureCard) card).getDescription());
+            }
+            else{
+                handCardDescription1.add("Essence");
+            }
+
         }
 
         for (Card card : player2.getHand()) {
             handIds2.add(card.getId());
+            if (card instanceof ActionCard){
+                handCardDescription2.add(((ActionCard) card).getDescription());
+            }
+            else if (card instanceof StructureCard){
+                handCardDescription2.add(((StructureCard) card).getDescription());
+            }
+            else{
+                handCardDescription2.add("Essence");
+            }
         }
 
         FinishAttackResponseModel updatedModel = new FinishAttackResponseModel(hitPoints1,
-                hitPoints2, creatureIds1, creatureIds2, handIds1, handIds2);
+                hitPoints2, creatureIds1, creatureIds2, handIds1, handIds2, handCardDescription1, handCardDescription2);
 
         return attackPresenter.exitDefendInputScreen(updatedModel);
     }
