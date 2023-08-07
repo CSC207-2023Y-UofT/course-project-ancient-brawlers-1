@@ -1,10 +1,15 @@
 package game_ui;
 
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class DefendScreen extends JPanel {
+import interface_adapters.controllers.AttackController;
 
+public class DefendScreen extends JPanel implements ActionListener {
+    private AttackController attackController;
     private static GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
                                              int ipadx, int ipady, int gridwidth, int gridheight) {
         GridBagConstraints c = new GridBagConstraints();
@@ -18,8 +23,7 @@ public class DefendScreen extends JPanel {
         c.gridheight = gridheight;
         return c;
     }
-
-    public static void main(String[] args) {
+    public DefendScreen(){
         Font fontLable = new Font("Herculanum", Font.BOLD, 40);
         Font fontButton = new Font("Herculanum", Font.BOLD, 40);
         Font smallfontButton = new Font("Herculanum", Font.BOLD, 30);
@@ -90,12 +94,33 @@ public class DefendScreen extends JPanel {
         panel.add(C4Hp, getGBC(3,4,1,1,0,0,1,1));
         panel.add(C4Atk, getGBC(4,4,1,1,0,0,1,1));
 
-////////////////////
         frame.setSize(1200, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel, BorderLayout.CENTER);
         frame.setVisible(true);
 
+        confirmButton.addActionListener(this);
+        passButton.addActionListener(this);
+
+
+    }
+    /**
+     * Invoked when an action occurs.
+     *
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        switch (command){
+            case "Confirm":
+                System.out.println("confirm pressed");
+            case "Pass":
+                System.out.println("pass pressed");
+        }
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new DefendScreen());
 
     }
 }
