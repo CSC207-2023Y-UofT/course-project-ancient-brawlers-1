@@ -55,10 +55,18 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
         CardButton card1 = new CardButton(cardIds.get(0), cardNames.get(0), imageMapper.getImageByName(cardNames.get(0)));
         CardButton card2 = new CardButton(cardIds.get(1), cardNames.get(1), imageMapper.getImageByName(cardNames.get(1)));
         CardButton card3 = new CardButton(cardIds.get(2), cardNames.get(2), imageMapper.getImageByName(cardNames.get(2)));
-
-        this.add(card1, getGBC(0, 1, 1, 1, 140, 240, 1, 1));
-        this.add(card2, getGBC(1, 1, 1, 1, 140, 240, 1, 1));
-        this.add(card3, getGBC(2, 1, 1, 1, 140, 240, 1, 1));
+        card1.setPreferredSize(new Dimension(220, 360));
+        card2.setPreferredSize(new Dimension(220, 360));
+        card3.setPreferredSize(new Dimension(220, 360));
+        card1.setOpaque(true);
+        card2.setOpaque(true);
+        card3.setOpaque(true);
+        card1.addActionListener(this);
+        card2.addActionListener(this);
+        card3.addActionListener(this);
+        this.add(card1, getGBC(0, 1, 1, 1, 10, 10, 1, 1));
+        this.add(card2, getGBC(1, 1, 1, 1, 10, 10, 1, 1));
+        this.add(card3, getGBC(2, 1, 1, 1, 10, 10, 1, 1));
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
@@ -84,6 +92,12 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof CardButton) {
+            this.revalidate();
+            this.repaint();
+            return;
+        }
+
         List<String> replaceCardNames = new ArrayList<>();
         List<Integer> replaceCardIds = new ArrayList<>();
 

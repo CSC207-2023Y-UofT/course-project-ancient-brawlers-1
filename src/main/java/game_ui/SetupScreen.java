@@ -21,7 +21,7 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     private final SetupScreenModel setupScreenModel;
     private final GamePrepController gamePrepController;
     private final GameStartController gameStartController;
-    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private JPanel playerPanel1, playerPanel2;
     private JTextField nameField1, nameField2;
     private Timer timer;
@@ -78,17 +78,19 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         for (String name : creatures) {
             CardButton card = new CardButton(-1, name, imageMapper.getImageByName(name));
             card.setOpaque(true);
-            card.setPreferredSize(new Dimension(150, 260));
+            card.setPreferredSize(new Dimension(170, 280));
             card.addActionListener(this);
             cards.add(card);
         }
         for (int i = 0; i < cards.size(); i++) {
             if (i < 3) {
-                playerPanel.add(cards.get(i), getGBC(i, 1, 1.5, 1.5, 30, 55, 1, 1));
+                playerPanel.add(cards.get(i), getGBC(i, 1, 2.0, 2.0, 0, 0, 1, 1));
             } else {
-                playerPanel.add(cards.get(i), getGBC(i - 3, 2, 1.5, 1.5, 30, 55, 1, 1));
+                playerPanel.add(cards.get(i), getGBC(i - 3, 2, 2.0, 2.0, 0, 0, 1, 1));
             }
         }
+        playerPanel.revalidate();
+        playerPanel.repaint();
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
@@ -118,11 +120,6 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof CardButton) {
-            if (((CardButton) e.getSource()).isSelected()) {
-                ((CardButton) e.getSource()).setBackground(Color.RED);
-            } else {
-                ((CardButton) e.getSource()).setBackground(null);
-            }
             playerPanel1.revalidate();
             playerPanel1.repaint();
             playerPanel2.revalidate();
@@ -157,7 +154,9 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         System.out.println("Name field text for player 2: " + nameFieldText2);
 
         try {
-            performDelayedActions(nameFieldText1, nameFieldText2, selections1, selections2);
+            gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
+            System.out.println("Initial game state set!");
+            performDelayedActions();
         } catch (GamePrepException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage());
         }
@@ -166,22 +165,17 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
     /**
      * A helper for the sequence of events to trigger with some delays in between.
      */
-    private void performDelayedActions(String nameFieldText1, String nameFieldText2,
-                                       List<String> selections1, List<String> selections2) {
+    private void performDelayedActions() {
         int delay = 1000;
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (timerStep) {
                     case 0:
-                        gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
-                        System.out.println("Initial game state set!");
-                        break;
-                    case 1:
                         gameStartController.decidePlayOrder();
                         System.out.println("Deciding play order...");
                         break;
-                    case 2:
+                    case 1:
                         gameStartController.startMulligan();
                         System.out.println("Starting first mulligan!");
                         break;

@@ -2,6 +2,8 @@ package game_ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,6 +21,7 @@ public class CardButton extends JToggleButton {
         this.name = name;
         this.icon = icon;
         this.setIcon(icon);
+        this.addActionListener(new CustomActionListener());
     }
 
     public int getId() {
@@ -51,7 +54,7 @@ public class CardButton extends JToggleButton {
     public void setIcon(Icon icon) {
         if (icon != null) {
             // Get the button's size
-            Dimension buttonSize = new Dimension(140, 240);
+            Dimension buttonSize = getPreferredSize();
 
             // Get the image and scale it to fit the button
             Image image = ((ImageIcon) icon).getImage();
@@ -64,6 +67,20 @@ public class CardButton extends JToggleButton {
             super.setIcon(scaledIcon);
         } else {
             super.setIcon(icon);
+        }
+    }
+
+    private static class CustomActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() instanceof CardButton) {
+                if (((CardButton) e.getSource()).isSelected()) {
+                    ((CardButton) e.getSource()).setBackground(Color.RED);
+                } else {
+                    ((CardButton) e.getSource()).setBackground(null);
+                }
+            }
         }
     }
 }

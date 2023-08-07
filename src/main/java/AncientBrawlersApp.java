@@ -84,7 +84,7 @@ public class AncientBrawlersApp {
     }
 
     private static TurnEndController getTurnEndController() {
-        TurnEndOutputBoundary presenter = new TurnEndPresenter();
+        TurnEndOutputBoundary presenter = new TurnEndPresenter(gameFrameModel, gameplayScreenModel);
         TurnEndInputBoundary interactor = new TurnEndInteractor(gameState, presenter);
         return new TurnEndController(interactor);
     }
