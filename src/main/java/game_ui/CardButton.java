@@ -44,8 +44,6 @@ public class CardButton extends JToggleButton {
 
     @Override
     public void setPreferredSize(Dimension preferredSize) {
-        // Optionally, you can add additional logic here to enforce constraints
-        // on the preferredSize before setting it.
         super.setPreferredSize(preferredSize);
         this.setIcon(icon);
     }
