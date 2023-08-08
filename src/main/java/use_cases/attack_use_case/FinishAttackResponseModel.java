@@ -4,7 +4,6 @@ import java.util.List;
 
 public class FinishAttackResponseModel {
 
-
     private List<Integer> hitPoints1;
     private List<Integer> hitPoints2;
     private List<Integer> creatureIds1;

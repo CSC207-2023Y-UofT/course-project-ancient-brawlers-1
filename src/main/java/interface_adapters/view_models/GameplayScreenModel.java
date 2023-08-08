@@ -2,17 +2,17 @@ package interface_adapters.view_models;
 
 public class GameplayScreenModel {
 
-    private int currentPlayerIndex;
+    private String currentPlayer;
     private PlayerDataModel player1;
     private PlayerDataModel player2;
     private String gameMessage;
 
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public void setCurrentPlayerIndex(int currentPlayerIndex) {
-        this.currentPlayerIndex = currentPlayerIndex;
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public PlayerDataModel getPlayer1() {

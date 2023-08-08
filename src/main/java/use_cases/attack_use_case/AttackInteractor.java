@@ -3,6 +3,7 @@ package use_cases.attack_use_case;
 import entities.GameState;
 import entities.Player;
 import entities.cards.*;
+import use_cases.CreatureCardModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,25 +20,34 @@ public class AttackInteractor implements AttackInputBoundary {
 
     @Override
     public void initiateAttack(AttackRequestModel inputData) {
-
         Player player1 = gameState.getCurrentPlayer();
         Player player2 = gameState.getOpposingPlayer();
-        CreatureCard creatureAttacker = player1.getCreatureById(inputData.getAttackerId());
-        if (player1.getNumOfEssence() < creatureAttacker.getAttackCost()) {
+        CreatureCard attacker = player1.getCreatureById(inputData.getAttackerId());
+        CreatureCard target = player2.getCreatureById(inputData.getTargetId());
+        if (attacker == null || target == null) {
+            attackPresenter.displayFailMessage("Invalid Attacker/Target.");
+            return;
+        } else if (player1.getNumOfEssence() < attacker.getAttackCost()) {
             attackPresenter.displayFailMessage("You do not have enough essence.");
-        }
-        else {
-            List<Integer> possibleDefenders = new ArrayList<Integer>();
-            for (CreatureCard card : player2.getCreatures()) {
-                int cardId = card.getId();
-                if (cardId != inputData.getTargetId() && card.getDefendCost() <= player2.getNumOfEssence()) {
-                    possibleDefenders.add(card.getId());
-                }
-            }
-            AttackResponseModel attackModel = new AttackResponseModel(inputData.getAttackerId(), inputData.getTargetId(), possibleDefenders);
-            attackPresenter.showDefendInputScreen(attackModel);
+            return;
         }
 
+        CreatureCardModel attackerData = new CreatureCardModel(attacker.getName(), attacker.getAttackCost(),
+                attacker.getDefendCost(), attacker.getTotalAttackDamage(), attacker.getTotalHitPoints());
+        CreatureCardModel targetData = new CreatureCardModel(target.getName(), target.getAttackCost(),
+                target.getDefendCost(), target.getTotalAttackDamage(), target.getTotalHitPoints());
+
+        List<Integer> defenderIds = new ArrayList<>();
+        List<CreatureCardModel> defenderData = new ArrayList<>();
+        for (CreatureCard card : player2.getCreatures()) {
+            if (card.getId() != target.getId() && card.getDefendCost() <= player2.getNumOfEssence()) {
+                defenderIds.add(card.getId());
+                defenderData.add(new CreatureCardModel(card.getName(), card.getAttackCost(), card.getDefendCost(),
+                        card.getTotalAttackDamage(), card.getTotalHitPoints()));
+            }
+        }
+        AttackResponseModel attackModel = new AttackResponseModel(inputData.getAttackerId(), attackerData, inputData.getTargetId(), targetData, defenderIds, defenderData);
+        attackPresenter.showDefendInputScreen(attackModel);
     }
 
     /**
@@ -58,7 +68,6 @@ public class AttackInteractor implements AttackInputBoundary {
         CreatureCard creatureDefender = player2.getCreatureById(inputData.getTargetId());
         player1.spendEssence(creatureAttacker.getAttackCost());
         return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
-
     }
 
     @Override
@@ -71,14 +80,13 @@ public class AttackInteractor implements AttackInputBoundary {
         player1.spendEssence(creatureAttacker.getAttackCost());
         player2.spendEssence(creatureDefender.getDefendCost());
         return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
-
     }
 
     private FinishAttackResponseModel getFinishAttackResponseModel(Player player1, Player player2,
                                                                    CreatureCard creatureAttacker,
                                                                    CreatureCard creatureDefender) {
         creatureDefender.takeDamage(creatureAttacker.getAttackDamage());
-        
+
         List<Integer> hitPoints1 = new ArrayList<>();
         List<Integer> hitPoints2 = new ArrayList<>();
         List<Integer> creatureIds1 = new ArrayList<>();
@@ -101,13 +109,11 @@ public class AttackInteractor implements AttackInputBoundary {
         for (Card card : player1.getHand()) {
             handIds1.add(card.getId());
 
-            if (card instanceof ActionCard){
+            if (card instanceof ActionCard) {
                 handCardDescription1.add(((ActionCard) card).getDescription());
-            }
-            else if (card instanceof StructureCard){
+            } else if (card instanceof StructureCard) {
                 handCardDescription1.add(((StructureCard) card).getDescription());
-            }
-            else{
+            } else {
                 handCardDescription1.add("Essence");
             }
 
@@ -115,13 +121,11 @@ public class AttackInteractor implements AttackInputBoundary {
 
         for (Card card : player2.getHand()) {
             handIds2.add(card.getId());
-            if (card instanceof ActionCard){
+            if (card instanceof ActionCard) {
                 handCardDescription2.add(((ActionCard) card).getDescription());
-            }
-            else if (card instanceof StructureCard){
+            } else if (card instanceof StructureCard) {
                 handCardDescription2.add(((StructureCard) card).getDescription());
-            }
-            else{
+            } else {
                 handCardDescription2.add("Essence");
             }
         }
@@ -131,5 +135,4 @@ public class AttackInteractor implements AttackInputBoundary {
 
         return attackPresenter.exitDefendInputScreen(updatedModel);
     }
-
 }

@@ -156,6 +156,7 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
         try {
             gamePrepController.setInitialGameState(nameFieldText1, nameFieldText2, selections1, selections2);
             System.out.println("Initial game state set!");
+
             performDelayedActions();
         } catch (GamePrepException exception) {
             JOptionPane.showMessageDialog(this, exception.getMessage());
@@ -172,8 +173,20 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
             public void actionPerformed(ActionEvent e) {
                 switch (timerStep) {
                     case 0:
-                        gameStartController.decidePlayOrder();
-                        System.out.println("Deciding play order...");
+                        /*
+                        This deciding player order part has a problem:
+                        - We have set the game board before we call this method.
+                        - We fixed the game board such that the bottom half is the first player
+                        and the top half is the second player.
+                        - The player index has been fixed as well (0 is for bottom half, 1 is for top half)
+                        - But switching the player order attempts to swap the bottom and top information
+                        - This fails and causes the screen to show inconsistent information
+                        - (It fails because the play order has changed but the UI is still treating it like before).
+                        Needs a separate branch to work on this issue, but before that we are focusing on other logics.
+                         */
+
+                        // gameStartController.decidePlayOrder();
+                        // System.out.println("Deciding play order...");
                         break;
                     case 1:
                         gameStartController.startMulligan();

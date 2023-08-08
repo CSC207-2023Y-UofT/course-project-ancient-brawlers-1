@@ -1,7 +1,9 @@
 package game_ui;
 
 import interface_adapters.CardImageMapper;
+import interface_adapters.controllers.AttackController;
 import interface_adapters.controllers.GameStartController;
+import interface_adapters.controllers.TurnEndController;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
 import interface_adapters.view_models.ScreenUpdateListener;
@@ -16,15 +18,17 @@ import java.util.List;
 public class GameplayScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private final GameplayScreenModel gameplayScreenModel;
-    private final GameStartController gameStartController;
+    private final AttackController attackController;
+    private final TurnEndController turnEndController;
     private final JPanel p1HandPanel;
     private final JPanel p2HandPanel;
     private final JPanel creaturePanel;
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
-    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController) {
+    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnEndController turnEndController) {
         this.gameplayScreenModel = gameplayScreenModel;
-        this.gameStartController = gameStartController;
+        this.attackController = attackController;
+        this.turnEndController = turnEndController;
 
         this.setLayout(new GridBagLayout());
 
@@ -57,6 +61,10 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         JButton pauseButton = new JButton("Pause");
         JButton playCardButton1 = new JButton("Play Card");
         JButton playCardButton2 = new JButton("Play Card");
+        endTurnButton.setActionCommand("END_TURN");
+        pauseButton.setActionCommand("PAUSE");
+        playCardButton1.setActionCommand("PLAY_CARD1");
+        playCardButton2.setActionCommand("PLAY_CARD2");
 
         /* ----------------------UI components LAYOUT-------------------------*/
         JPanel sidePanel = new JPanel();
@@ -122,6 +130,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         // Creatures
         for (int i = 0; i < ids.size(); i++) {
             CardButton creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName(names.get(i)));
+            creature.addActionListener(this);
             creature.setPreferredSize(new Dimension(140, 200));
             JLabel hitPoint = new JLabel("HP: " + hitPoints.get(i));
             JLabel attack = new JLabel("ATK: " + attacks.get(i));
@@ -168,7 +177,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             p2Hand.add(handCard);
         }
         // Miscellaneous
-        JLabel message = new JLabel("To attack, select a friendly creature and then an enemy creature.");
+        JLabel message = new JLabel("Current turn: " + gameplayScreenModel.getCurrentPlayer());
         message.setFont(font2);
         CardButton selectedCard1 = new CardButton(-1, "", null);
         CardButton selectedCard2 = new CardButton(-1, "", null);
@@ -215,8 +224,8 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         creaturePanel.add(new JLabel(), getGBC(0, 4, 1, 1, 0, 0, 1, 1));
         creaturePanel.add(new JLabel(), getGBC(7, 4, 1, 1, 0, 0, 1, 1));
 
-        this.add(p1Name, getGBC(0, 0, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
-        this.add(p2Name, getGBC(0, 2, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
+        this.add(p1Name, getGBC(0, 2, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
+        this.add(p2Name, getGBC(0, 0, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
         this.add(p1HandPanel, getGBC(1, 2, 0.75, 0.5, 0, 0, 1, 1));
         this.add(p2HandPanel, getGBC(1, 0, 0.75, 0.5, 0, 0, 1, 1));
         this.add(creaturePanel, getGBC(0, 1, 1, 1, 0, 0, 3, 1));
@@ -265,6 +274,59 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+        // If a creature is selected, check if there is one other creature selected
+        // before this. If so, treat this as an attacker-target pair, send their ids
+        // to the controller for processing (and unselect these buttons). Else, just
+        // leave it.
+        if (e.getSource() instanceof CardButton) {
+            System.out.println("Selected: Id = " + ((CardButton) e.getSource()).getId() + " Name = " + ((CardButton) e.getSource()).getName());
+            List<CardButton> allSelected = getSelectedCreatures();
+            if (allSelected.size() == 2) {
+                int attackerId = allSelected.get(0).getId();
+                int targetId = allSelected.get(1).getId();
+                allSelected.get(0).setSelected(false);
+                allSelected.get(1).setSelected(false);
+                attackController.initiateAttack(attackerId, targetId);
+            }
+            this.revalidate();
+            this.repaint();
+            return;
+        }
 
+        if (e.getSource() instanceof JButton) {
+            switch (((JButton) e.getSource()).getActionCommand()) {
+                case "END_TURN":
+                    turnEndController.passTurn();
+                    break;
+                case "PAUSE":
+                    System.out.println("Request game pause");
+                    break;
+                case "PLAY_CARD1":
+                    if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer1().getPlayerName())) {
+                        System.out.println("Playing card for player 1");
+                    }
+                    break;
+                case "PLAY_CARD2":
+                    if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer2().getPlayerName())) {
+                        System.out.println("Playing card for player 2");
+                    }
+                    break;
+            }
+        }
+    }
+
+    private List<CardButton> getSelectedCreatures() {
+        Component[] components = creaturePanel.getComponents();
+        List<CardButton> selectedCreatures = new ArrayList<>();
+
+        for (Component component : components) {
+            if (component instanceof CardButton) {
+                CardButton creature = (CardButton) component;
+                if (creature.isSelected()) {
+                    selectedCreatures.add(creature);
+                }
+            }
+        }
+        return selectedCreatures;
     }
 }

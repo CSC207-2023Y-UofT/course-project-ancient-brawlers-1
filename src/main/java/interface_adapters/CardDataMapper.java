@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import use_cases.game_preparation_use_case.ActionCardModel;
 import use_cases.game_preparation_use_case.CardModel;
-import use_cases.game_preparation_use_case.CreatureCardModel;
+import use_cases.CreatureCardModel;
 import use_cases.game_preparation_use_case.StructureCardModel;
 import use_cases.game_preparation_use_case.CardDataGateway;
 

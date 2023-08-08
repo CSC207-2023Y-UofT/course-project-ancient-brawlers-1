@@ -12,6 +12,7 @@ public class PlayerDataModel {
     private List<Integer> creatureAttacks;
     private List<String> handCardNames = new ArrayList<>();
     private List<Integer> handCardIds = new ArrayList<>();
+    private List<String> handCardDescriptions = new ArrayList<>();
     private String structureName;
     private int structureId;
 
@@ -82,6 +83,14 @@ public class PlayerDataModel {
 
     public void setHandCardIds(List<Integer> handCardIds) {
         this.handCardIds = handCardIds;
+    }
+
+    public List<String> getHandCardDescriptions() {
+        return handCardDescriptions;
+    }
+
+    public void setHandCardDescriptions(List<String> handCardDescriptions) {
+        this.handCardDescriptions = handCardDescriptions;
     }
 
     public String getStructureName() {

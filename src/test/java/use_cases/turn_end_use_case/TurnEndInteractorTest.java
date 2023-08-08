@@ -58,6 +58,11 @@ class TurnEndInteractorTest {
                 fail("passTurn() should not call showTurnEndScreen().");
                 return null;
             }
+
+            @Override
+            public void notifyTurnChange(String nextPlayer) {
+
+            }
         };
         TurnEndInteractor interactor = new TurnEndInteractor(gameState, presenter);
         interactor.passTurn();
@@ -91,6 +96,11 @@ class TurnEndInteractorTest {
                 assertEquals(List.of(20, 40, 0), responseModel.getHitPoints2());
                 fail("Trigger turn effects: passTurn() should not call showTurnEndScreen().");
                 return null;
+            }
+
+            @Override
+            public void notifyTurnChange(String nextPlayer) {
+
             }
         };
 

@@ -5,13 +5,146 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
+import entities.cards.Card;
+import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.AttackController;
+import interface_adapters.view_models.DefendScreenModel;
+import interface_adapters.view_models.ScreenUpdateListener;
 
-public class DefendScreen extends JPanel implements ActionListener {
+public class DefendScreen extends JPanel implements ActionListener, ScreenUpdateListener {
+
+    private DefendScreenModel defendScreenModel;
     private AttackController attackController;
-    private static GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
-                                             int ipadx, int ipady, int gridwidth, int gridheight) {
+    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private CardButton attacker, target, defender1, defender2;
+
+    public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController) {
+        this.defendScreenModel = defendScreenModel;
+        this.attackController = attackController;
+    }
+
+    public void updateDefendScreen() {
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
+        this.setLayout(new GridBagLayout());
+
+        Font font = new Font("Herculanum", Font.BOLD, 40);
+        Font font2 = new Font("Herculanum", Font.BOLD, 30);
+
+        JLabel attackerLabel = new JLabel("Attacker");
+        JLabel targetLabel = new JLabel("Target");
+        JLabel messageLabel = new JLabel("Select a ");
+        attackerLabel.setFont(font);
+        targetLabel.setFont(font);
+        messageLabel.setFont(font2);
+
+        attacker = new CardButton(defendScreenModel.getAttackerId(), defendScreenModel.getAttackerName(),
+                                  imageMapper.getImageByName(defendScreenModel.getAttackerName()));
+        target = new CardButton(defendScreenModel.getTargetId(), defendScreenModel.getTargetName(),
+                                imageMapper.getImageByName(defendScreenModel.getTargetName()));
+
+        List<Integer> defenderIds = defendScreenModel.getDefenderIds();
+        List<String> defenderNames = defendScreenModel.getDefenderNames();
+        if (defenderIds.isEmpty()) {
+            defender1 = new CardButton(-1, "", null);
+            defender2 = new CardButton(-1, "", null);
+            defender1.setEnabled(false);
+            defender2.setEnabled(false);
+        } else if (defenderIds.size() == 1) {
+            defender1 = new CardButton(defenderIds.get(0), defenderNames.get(0), imageMapper.getImageByName(defenderNames.get(0)));
+            defender2 = new CardButton(-1, "", null);
+            defender2.setEnabled(false);
+        } else {
+            defender1 = new CardButton(defenderIds.get(0), defenderNames.get(0), imageMapper.getImageByName(defenderNames.get(0)));
+            defender2 = new CardButton(defenderIds.get(1), defenderNames.get(1), imageMapper.getImageByName(defenderNames.get(1)));
+        }
+
+        JButton confirmButton = new JButton("Confirm");
+        JButton passButton = new JButton("Pass");
+        confirmButton.setFont(font);
+        passButton.setFont(font);
+
+        JLabel defender1HP, defender2HP, defender1ATK, defender2ATK;
+        if (defendScreenModel.getDefenderIds().isEmpty()) {
+            defender1HP = new JLabel("HP: -");
+            defender1ATK = new JLabel("ATK: -");
+            defender2HP = new JLabel("HP: -");
+            defender2ATK = new JLabel("ATK: -");
+        } else if (defendScreenModel.getDefenderIds().size() == 1) {
+            defender1HP = new JLabel("HP: " + defendScreenModel.getDefenderHP().get(0));
+            defender1ATK = new JLabel("ATK: " + defendScreenModel.getDefenderATK().get(0));
+            defender2HP = new JLabel("HP: -");
+            defender2ATK = new JLabel("ATL: -");
+        } else {
+            defender1HP = new JLabel("HP: " + defendScreenModel.getDefenderHP().get(0));
+            defender1ATK = new JLabel("ATK: " + defendScreenModel.getDefenderATK().get(0));
+            defender2HP = new JLabel("HP: " + defendScreenModel.getDefenderHP().get(1));
+            defender2ATK = new JLabel("ATK: " + defendScreenModel.getDefenderATK().get(1));
+        }
+        JLabel attackerHP = new JLabel("HP: " + defendScreenModel.getAttackerHP());
+        JLabel attackerATK = new JLabel("ATK: " + defendScreenModel.getAttackerATK());
+        JLabel targetHP = new JLabel("HP: " + defendScreenModel.getTargetHP());
+        JLabel targetATK = new JLabel("ATK: " + defendScreenModel.getTargetATK());
+
+        for (JLabel label : List.of(attackerHP, attackerATK, targetHP, targetATK,
+                                    defender1HP, defender2HP, defender1ATK, defender2ATK)) {
+            label.setFont(font);
+        }
+
+        this.add(attackerLabel, getGBC(0, 0, 1, 1, 0, 0, 1, 1));
+        this.add(targetLabel, getGBC(5, 0, 1, 1, 0, 0, 1, 1));
+        this.add(messageLabel, getGBC(0, 2, 1, 1, 0, 0, 6, 1));
+
+        this.add(attacker, getGBC(1, 0, 1, 1, 150, 240, 2, 1));
+        this.add(target, getGBC(3, 0, 1, 1, 150, 240, 2, 1));
+        this.add(defender1, getGBC(1, 3, 1, 1, 150, 240, 2, 1));
+        this.add(defender2, getGBC(3, 3, 1, 1, 150, 240, 2, 1));
+
+        this.add(confirmButton, getGBC(2, 5, 1, 1, 0, 0, 1, 1));
+        this.add(passButton, getGBC(4, 5, 1, 1, 0, 0, 1, 1));
+
+        this.add(attackerHP, getGBC(1, 1, 1, 1, 0, 0, 1, 1));
+        this.add(attackerATK, getGBC(2, 1, 1, 1, 0, 0, 1, 1));
+        this.add(targetHP, getGBC(3, 1, 1, 1, 0, 0, 1, 1));
+        this.add(targetATK, getGBC(4, 1, 1, 1, 0, 0, 1, 1));
+        this.add(defender1HP, getGBC(1, 4, 1, 1, 0, 0, 1, 1));
+        this.add(defender1ATK, getGBC(2, 4, 1, 1, 0, 0, 1, 1));
+        this.add(defender2HP, getGBC(3, 4, 1, 1, 0, 0, 1, 1));
+        this.add(defender2ATK, getGBC(4, 4, 1, 1, 0, 0, 1, 1));
+
+        confirmButton.addActionListener(this);
+        passButton.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        switch (command) {
+            case "Confirm":
+                System.out.println("Defending!");
+                int defenderId;
+                if (defender1.isSelected()) {
+                    defenderId = defender1.getId();
+                } else if (defender2.isSelected()) {
+                    defenderId = defender2.getId();
+                } else {
+                    JOptionPane.showMessageDialog(this, "You haven't selected a defender.");
+                    return;
+                }
+                attackController.defend(attacker.getId(), defenderId);
+                break;
+            case "Pass":
+                System.out.println("Taking the hit!");
+                attackController.processAttack(attacker.getId(), target.getId());
+                break;
+        }
+    }
+
+    private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
+                                      int ipadx, int ipady, int gridwidth, int gridheight) {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = gridx;
         c.gridy = gridy;
@@ -23,104 +156,11 @@ public class DefendScreen extends JPanel implements ActionListener {
         c.gridheight = gridheight;
         return c;
     }
-    public DefendScreen(){
-        Font fontLable = new Font("Herculanum", Font.BOLD, 40);
-        Font fontButton = new Font("Herculanum", Font.BOLD, 40);
-        Font smallfontButton = new Font("Herculanum", Font.BOLD, 30);
 
-        JFrame frame = new JFrame("Test Defend Screen");
-        JPanel panel = new JPanel();
-
-        panel.setLayout(new GridBagLayout());
-////////////////////
-        JLabel attackerLabel = new JLabel("Attacker");
-        attackerLabel.setFont(fontLable);
-        JLabel targetLabel = new JLabel("Target");
-        targetLabel.setFont(fontLable);
-        JLabel messageLabel = new JLabel("Select a defender or pass if You can't defend");
-        messageLabel.setFont(smallfontButton);
-
-        JButton attackerButton = new JButton("A");
-        attackerButton.setFont(fontButton);
-        JButton targetButton = new JButton("T");
-        targetButton.setFont(fontButton);
-
-        JButton defender1Button = new JButton("D1");
-        defender1Button.setFont(smallfontButton);
-        JButton defender2Button = new JButton("D2");
-        defender2Button.setFont(smallfontButton);
-
-        JButton confirmButton = new JButton("Confirm");
-        confirmButton.setFont(fontButton);
-        JButton passButton = new JButton("Pass");
-        passButton.setFont(fontButton);
-
-        JLabel C1Hp = new JLabel("HP:");
-        C1Hp.setFont(fontButton);
-        JLabel C1Atk = new JLabel("ATK:");
-        C1Atk.setFont(fontButton);
-        JLabel C2Hp = new JLabel("HP:");
-        C2Hp.setFont(fontButton);
-        JLabel C2Atk = new JLabel("ATK:");
-        C2Atk.setFont(fontButton);
-        JLabel C3Hp = new JLabel("HP:");
-        C3Hp.setFont(fontButton);
-        JLabel C3Atk = new JLabel("ATK:");
-        C3Atk.setFont(fontButton);
-        JLabel C4Hp = new JLabel("HP:");
-        C4Hp.setFont(fontButton);
-        JLabel C4Atk = new JLabel("ATK:");
-        C4Atk.setFont(fontButton);
-
-
-        panel.add(attackerLabel, getGBC(0, 0, 1, 1, 0, 0, 1, 1));
-        panel.add(targetLabel, getGBC(5, 0, 1, 1, 0, 0, 1, 1));
-        panel.add(messageLabel, getGBC(0, 2, 1, 1, 0, 0, 6, 1));
-
-        panel.add(attackerButton, getGBC(1, 0, 1, 1, 200, 250, 2, 1));
-        panel.add(targetButton, getGBC(3, 0, 1, 1, 200, 250, 2, 1));
-        panel.add(defender1Button, getGBC(1, 3, 1, 1, 200, 250, 2, 1));
-        panel.add(defender2Button, getGBC(3, 3, 1, 1, 200, 250, 2, 1));
-
-        panel.add(confirmButton, getGBC(2, 5, 1, 1, 0, 0, 1, 1));
-        panel.add(passButton, getGBC(4, 5, 1, 1, 0, 0, 1, 1));
-
-        panel.add(C1Hp, getGBC(1,1,1,1,0,0,1,1));
-        panel.add(C1Atk, getGBC(2,1,1,1,0,0,1,1));
-        panel.add(C2Hp, getGBC(3,1,1,1,0,0,1,1));
-        panel.add(C2Atk, getGBC(4,1,1,1,0,0,1,1));
-        panel.add(C3Hp, getGBC(1,4,1,1,0,0,1,1));
-        panel.add(C3Atk, getGBC(2,4,1,1,0,0,1,1));
-        panel.add(C4Hp, getGBC(3,4,1,1,0,0,1,1));
-        panel.add(C4Atk, getGBC(4,4,1,1,0,0,1,1));
-
-        frame.setSize(1200, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setVisible(true);
-
-        confirmButton.addActionListener(this);
-        passButton.addActionListener(this);
-
-
-    }
-    /**
-     * Invoked when an action occurs.
-     *
-     * @param e the event to be processed
-     */
     @Override
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        switch (command){
-            case "Confirm":
-                System.out.println("confirm pressed");
-            case "Pass":
-                System.out.println("pass pressed");
+    public void onScreenUpdate() {
+        if (defendScreenModel.getAttackerName() != null) {
+            updateDefendScreen();
         }
-    }
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DefendScreen());
-
     }
 }

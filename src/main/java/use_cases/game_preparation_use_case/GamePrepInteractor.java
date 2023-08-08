@@ -10,6 +10,7 @@ import entities.cards.*;
 import entities.decks.DeckFactory;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
+import use_cases.CreatureCardModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,8 @@ public class GamePrepInteractor implements GamePrepInputBoundary {
     public GamePrepResponseModel processPlayerInfo(GamePrepRequestModel requestModel) {
         if (requestModel.getPlayerName1().isEmpty() || requestModel.getPlayerName2().isEmpty()) {
             return gamePrepPresenter.displayErrorMessage("Please enter a name for each player.");
+        } else if (requestModel.getPlayerName1().equals(requestModel.getPlayerName2())) {
+            return gamePrepPresenter.displayErrorMessage("Please enter different player names.");
         } else if (requestModel.getCreatureNames1().size() != 3 || requestModel.getCreatureNames2().size() != 3) {
             return gamePrepPresenter.displayErrorMessage("Please select only 3 creatures.");
         }

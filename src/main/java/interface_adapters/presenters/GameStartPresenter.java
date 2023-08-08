@@ -1,6 +1,5 @@
 package interface_adapters.presenters;
 
-import game_ui.MulliganScreen;
 import interface_adapters.view_models.GameFrameModel;
 import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
@@ -25,9 +24,9 @@ public class GameStartPresenter implements GameStartOutputBoundary {
     }
 
     @Override
-    public void displayPlayerOrder(String message, int playerIndex) {
+    public void displayPlayerOrder(String message, String playerName) {
         gameplayScreenModel.setGameMessage(message);
-        gameplayScreenModel.setCurrentPlayerIndex(playerIndex);
+        gameplayScreenModel.setCurrentPlayer(playerName);
         frameModel.refresh();
     }
 

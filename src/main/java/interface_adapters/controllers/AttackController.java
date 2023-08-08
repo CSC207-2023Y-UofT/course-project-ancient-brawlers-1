@@ -5,9 +5,16 @@ import use_cases.attack_use_case.AttackRequestModel;
 import use_cases.attack_use_case.FinishAttackResponseModel;
 
 public class AttackController {
+
     final AttackInputBoundary attackInterator;
+
     public AttackController(AttackInputBoundary attackInterator){
         this.attackInterator = attackInterator;
+    }
+
+    public void initiateAttack(int attackerId, int targetId) {
+        AttackRequestModel requestModel = new AttackRequestModel(attackerId, targetId);
+        attackInterator.initiateAttack(requestModel);
     }
 
     public FinishAttackResponseModel defend(int attackerId, int defenderId){
@@ -19,5 +26,4 @@ public class AttackController {
         AttackRequestModel requestModel = new AttackRequestModel(attackerId, defenderId);
         return attackInterator.proceedAttack(requestModel);
     }
-
 }
