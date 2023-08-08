@@ -6,6 +6,7 @@ import entities.cardEffects.CardEffect;
 import entities.cardEffects.CreatureStatsEffect;
 import entities.cardEffects.PlayerStatsEffect;
 import entities.cards.*;
+import use_cases.CreatureCardModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
         this.gameState = gameState;
         this.playCardPresenter = playCardPresenter;
     }
-
 
     /**
      * Fetch the card object from the player, and play if it can be played
@@ -46,21 +46,28 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
         }
         // The only other case is the card being Action, so we can safely cast it.
         ActionCard action = (ActionCard) card;
+        String cardName = action.getName();
+        String cardDescription = action.getDescription();
         List<Integer> targetIds = new ArrayList<>();
+        List<CreatureCardModel> targetData = new ArrayList<>();
         switch (action.getTargetType()) {
             case SINGLE_ENEMY:
                 targetIds.addAll(getCreatureIds(opponent.getCreatures()));
+                targetData.addAll(getTargetDataModels(opponent.getCreatures()));
                 break;
             case SINGLE_FRIENDLY:
                 targetIds.addAll(getCreatureIds(player.getCreatures()));
+                targetData.addAll(getTargetDataModels(player.getCreatures()));
                 break;
             case ANY:
                 targetIds.addAll(getCreatureIds(player.getCreatures()));
                 targetIds.addAll(getCreatureIds(opponent.getCreatures()));
+                targetData.addAll(getTargetDataModels(player.getCreatures()));
+                targetData.addAll(getTargetDataModels(opponent.getCreatures()));
                 break;
         }
-        if (targetIds.size() != 0) {
-            TargetModel targetModel = new TargetModel(cardId, targetIds);
+        if (!targetIds.isEmpty()) {
+            TargetModel targetModel = new TargetModel(cardId, cardName, cardDescription, targetIds, targetData);
             return playCardPresenter.showTargetSelectionScreen(targetModel);
         }
 
@@ -134,9 +141,17 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
 
         List<Integer> handIds = new ArrayList<>();
         List<String> handNames = new ArrayList<>();
+        List<String> handDescriptions = new ArrayList<>();
         for (Card c : player1.getHand()) {
             handIds.add(c.getId());
             handNames.add(c.getName());
+            if (c instanceof ActionCard) {
+                handDescriptions.add(((ActionCard) c).getDescription());
+            } else if (c instanceof StructureCard) {
+                handDescriptions.add(((StructureCard) c).getDescription());
+            } else {
+                handDescriptions.add("Essence");
+            }
         }
 
         List<Integer> ids1 = new ArrayList<>();
@@ -145,15 +160,29 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
         List<Integer> hitPoints2 = new ArrayList<>();
         List<Integer> attacks1 = new ArrayList<>();
         List<Integer> attacks2 = new ArrayList<>();
-        for (CreatureCard c : player1.getCreatures()) {
-            ids1.add(c.getId());
-            hitPoints1.add(c.getTotalHitPoints());
-            attacks1.add(c.getTotalAttackDamage());
+        for (int i = 0; i < 3; i++) {
+            if (i > player1.getCreatures().size() - 1) {
+                ids1.add(-1);
+                hitPoints1.add(0);
+                attacks1.add(0);
+            } else {
+                CreatureCard c = player1.getCreatures().get(i);
+                ids1.add(c.getId());
+                hitPoints1.add(c.getTotalHitPoints());
+                attacks1.add(c.getTotalAttackDamage());
+            }
         }
-        for (CreatureCard c : player2.getCreatures()) {
-            ids2.add(c.getId());
-            hitPoints2.add(c.getTotalHitPoints());
-            attacks2.add(c.getTotalAttackDamage());
+        for (int i = 0; i < 3; i++) {
+            if (i > player2.getCreatures().size() - 1) {
+                ids2.add(-1);
+                hitPoints2.add(0);
+                attacks2.add(0);
+            } else {
+                CreatureCard c = player2.getCreatures().get(i);
+                ids2.add(c.getId());
+                hitPoints2.add(c.getTotalHitPoints());
+                attacks2.add(c.getTotalAttackDamage());
+            }
         }
 
         String structure1 = "";
@@ -165,7 +194,7 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
             structure2 = player2.getStructure().getName();
         }
 
-        return new PlayCardOutputModel(handIds, handNames, structure1, structure2,
+        return new PlayCardOutputModel(handIds, handNames, handDescriptions, structure1, structure2,
                 ids1, ids2, hitPoints1, hitPoints2, attacks1, attacks2);
     }
 
@@ -190,9 +219,29 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
      */
     private List<Integer> getCreatureIds(List<CreatureCard> creatures) {
         List<Integer> ids = new ArrayList<>();
-        for (CreatureCard c : creatures) {
-            ids.add(c.getId());
+        for (int i = 0; i < 3; i++) {
+            if (i > creatures.size() - 1) {
+                ids.add(-1);
+            } else {
+                ids.add(creatures.get(i).getId());
+            }
         }
         return ids;
+    }
+
+    private List<CreatureCardModel> getTargetDataModels(List<CreatureCard> creatures) {
+        List<CreatureCardModel> models = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if (i > creatures.size() - 1) {
+                models.add(null);
+            } else {
+                models.add(new CreatureCardModel(creatures.get(i).getName(),
+                        creatures.get(i).getAttackCost(),
+                        creatures.get(i).getDefendCost(),
+                        creatures.get(i).getTotalAttackDamage(),
+                        creatures.get(i).getTotalHitPoints()));
+            }
+        }
+        return models;
     }
 }

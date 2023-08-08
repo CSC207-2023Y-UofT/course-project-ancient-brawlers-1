@@ -2,9 +2,8 @@ package game_ui;
 
 import interface_adapters.AttackException;
 import interface_adapters.CardImageMapper;
-import interface_adapters.controllers.AttackController;
-import interface_adapters.controllers.GameStartController;
-import interface_adapters.controllers.TurnEndController;
+import interface_adapters.PlayCardException;
+import interface_adapters.controllers.*;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
 import interface_adapters.view_models.ScreenUpdateListener;
@@ -20,16 +19,21 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
 
     private final GameplayScreenModel gameplayScreenModel;
     private final AttackController attackController;
+    private final TurnStartController turnStartController;
     private final TurnEndController turnEndController;
+    private final PlayCardController playCardController;
     private final JPanel p1HandPanel, p2HandPanel, creaturePanel;
+    private DisplayCard selectedCard1, selectedCard2;
     private List<CardButton> p1Creatures = new ArrayList<>();
     private List<CardButton> p2Creatures = new ArrayList<>();
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
-    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnEndController turnEndController) {
+    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController) {
         this.gameplayScreenModel = gameplayScreenModel;
         this.attackController = attackController;
+        this.turnStartController = turnStartController;
         this.turnEndController = turnEndController;
+        this.playCardController = playCardController;
 
         this.setLayout(new GridBagLayout());
 
@@ -83,8 +87,8 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         sidePanel.add(playDeck1, getGBC(0, 5, 1, 1, 0, 0, 1, 1, GridBagConstraints.EAST));
         sidePanel.add(new JLabel(), getGBC(0, 6, 0.5, 0.5, 0, 100, 1, 1, GridBagConstraints.EAST));
 
-        this.add(playCardButton1, getGBC(2, 0, 0.5, 0.5, 25, 10, 1, 1));
-        this.add(playCardButton2, getGBC(2, 2, 0.5, 0.5, 25, 10, 1, 1));
+        this.add(playCardButton1, getGBC(2, 2, 0.5, 0.5, 25, 10, 1, 1));
+        this.add(playCardButton2, getGBC(2, 0, 0.5, 0.5, 25, 10, 1, 1));
         c = getGBC(3, 0, 1, 1, 0, 0, 1, 3);
         c.anchor = GridBagConstraints.EAST;
         this.add(sidePanel, c);
@@ -170,25 +174,25 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             HandCardButton handCard = new HandCardButton(p1.getHandCardIds().get(i), p1.getHandCardNames().get(i),
                     "Description", imageMapper.getImageByName(p1.getHandCardNames().get(i)));
             handCard.setPreferredSize(new Dimension(60, 90));
+            handCard.addActionListener(this);
             p1Hand.add(handCard);
         }
         for (int i = 0; i < p2.getHandCardIds().size(); i++) {
             HandCardButton handCard = new HandCardButton(p2.getHandCardIds().get(i), p2.getHandCardNames().get(i),
                     "Description", imageMapper.getImageByName(p2.getHandCardNames().get(i)));
             handCard.setPreferredSize(new Dimension(60, 90));
+            handCard.addActionListener(this);
             p2Hand.add(handCard);
         }
         // Miscellaneous
         JLabel message = new JLabel("Current turn: " + gameplayScreenModel.getCurrentPlayer());
         message.setFont(font2);
-        CardButton selectedCard1 = new CardButton(-1, "", null);
-        CardButton selectedCard2 = new CardButton(-1, "", null);
+        selectedCard1 = new DisplayCard(-1, "", "");
+        selectedCard2 = new DisplayCard(-1, "", "");
         selectedCard1.setToolTipText("Card to be played");
         selectedCard2.setToolTipText("Card to be played");
         selectedCard1.setPreferredSize(new Dimension(140, 200));
         selectedCard2.setPreferredSize(new Dimension(140, 200));
-        selectedCard1.setEnabled(false);
-        selectedCard2.setEnabled(false);
 
         /* ----------------------UI components LAYOUT-------------------------*/
         for (int i = 0; i < p1Hand.size(); i++) {
@@ -197,10 +201,10 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         for (int i = 0; i < p2Hand.size(); i++) {
             p2HandPanel.add(p2Hand.get(i), getGBC(i, 0, 1, 1, 5, 5, 1, 1));
         }
-        GridBagConstraints c = getGBC(0, 0, 1, 1, 5, 5, 1, 1);
+        GridBagConstraints c = getGBC(0, 3, 1, 1, 5, 5, 1, 1);
         c.insets = new Insets(0, 0, 0, 120);
         creaturePanel.add(structure1, c);
-        c = getGBC(0, 3, 1, 1, 5, 5, 1, 1);
+        c = getGBC(0, 0, 1, 1, 5, 5, 1, 1);
         c.insets = new Insets(0, 0, 0, 120);
         creaturePanel.add(structure2, c);
         for (int i = 0; i < creatures.size(); i++) {
@@ -217,10 +221,10 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             }
         }
         creaturePanel.add(message, getGBC(0, 2, 1, 1, 0, 20, 8, 1));
-        c = getGBC(7, 0, 1, 1, 5, 5, 1, 1);
+        c = getGBC(7, 3, 1, 1, 5, 5, 1, 1);
         c.insets = new Insets(0, 120, 0, 0);
         creaturePanel.add(selectedCard1, c);
-        c = getGBC(7, 3, 1, 1, 5, 5, 1, 1);
+        c = getGBC(7, 0, 1, 1, 5, 5, 1, 1);
         c.insets = new Insets(0, 120, 0, 0);
         creaturePanel.add(selectedCard2, c);
         creaturePanel.add(new JLabel(), getGBC(0, 1, 1, 1, 0, 0, 1, 1));
@@ -318,10 +322,24 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             return;
         }
 
+        if (e.getSource() instanceof HandCardButton) {
+            HandCardButton handCard = (HandCardButton) e.getSource();
+            List<Component> p1components = List.of(p1HandPanel.getComponents());
+            if (p1components.contains(handCard)) {
+                displayCard(selectedCard1, handCard);
+            } else {
+                displayCard(selectedCard2, handCard);
+            }
+            creaturePanel.revalidate();
+            creaturePanel.repaint();
+            return;
+        }
+
         if (e.getSource() instanceof JButton) {
             switch (((JButton) e.getSource()).getActionCommand()) {
                 case "END_TURN":
                     turnEndController.passTurn();
+                    turnStartController.processTurnStart();
                     break;
                 case "PAUSE":
                     System.out.println("Request game pause");
@@ -329,11 +347,25 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
                 case "PLAY_CARD1":
                     if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer1().getPlayerName())) {
                         System.out.println("Playing card for player 1");
+                        if (selectedCard1.getId() != -1) {
+                            try {
+                                playCardController.playCard(selectedCard1.getId());
+                            } catch (PlayCardException exception) {
+                                JOptionPane.showMessageDialog(this, exception.getMessage());
+                            }
+                        }
                     }
                     break;
                 case "PLAY_CARD2":
                     if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer2().getPlayerName())) {
                         System.out.println("Playing card for player 2");
+                        if (selectedCard2.getId() != -1) {
+                            try {
+                                playCardController.playCard(selectedCard2.getId());
+                            } catch (PlayCardException exception) {
+                                JOptionPane.showMessageDialog(this, exception.getMessage());
+                            }
+                        }
                     }
                     break;
             }
@@ -366,5 +398,15 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         }
         this.revalidate();
         this.repaint();
+    }
+
+    private void displayCard(DisplayCard display, HandCardButton card) {
+        ImageIcon image = card.getImage();
+        image.setImage(image.getImage().getScaledInstance(140, 200, Image.SCALE_SMOOTH));
+        display.setIcon(image);
+        display.setToolTipText(card.getDescription());
+        display.setId(card.getId());
+        display.setName(card.getName());
+        display.setDescription(card.getDescription());
     }
 }

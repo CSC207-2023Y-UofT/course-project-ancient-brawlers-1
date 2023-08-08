@@ -4,33 +4,36 @@ import java.util.List;
 
 public class TargetSelectScreenModel {
 
-    private String effectiveCardName;
-    private int effectiveCardId;
-    private List<String> targetNames;
+    private String cardName;
+    private int cardId;
+    private String cardDescription;
     private List<Integer> targetIds;
+    private List<Integer> targetHP;
+    private List<Integer> targetATK;
+    private List<String> targetNames;
 
-    public String getEffectiveCardName() {
-        return effectiveCardName;
+    public String getCardName() {
+        return cardName;
     }
 
-    public void setEffectiveCardName(String effectiveCardName) {
-        this.effectiveCardName = effectiveCardName;
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
     }
 
-    public int getEffectiveCardId() {
-        return effectiveCardId;
+    public int getCardId() {
+        return cardId;
     }
 
-    public void setEffectiveCardId(int effectiveCardId) {
-        this.effectiveCardId = effectiveCardId;
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
     }
 
-    public List<String> getTargetNames() {
-        return targetNames;
+    public String getCardDescription() {
+        return cardDescription;
     }
 
-    public void setTargetNames(List<String> targetNames) {
-        this.targetNames = targetNames;
+    public void setCardDescription(String cardDescription) {
+        this.cardDescription = cardDescription;
     }
 
     public List<Integer> getTargetIds() {
@@ -39,5 +42,29 @@ public class TargetSelectScreenModel {
 
     public void setTargetIds(List<Integer> targetIds) {
         this.targetIds = targetIds;
+    }
+
+    public List<Integer> getTargetHP() {
+        return targetHP;
+    }
+
+    public void setTargetHP(List<Integer> targetHP) {
+        this.targetHP = targetHP;
+    }
+
+    public List<Integer> getTargetATK() {
+        return targetATK;
+    }
+
+    public void setTargetATK(List<Integer> targetATK) {
+        this.targetATK = targetATK;
+    }
+
+    public List<String> getTargetNames() {
+        return targetNames;
+    }
+
+    public void setTargetNames(List<String> targetNames) {
+        this.targetNames = targetNames;
     }
 }

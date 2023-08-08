@@ -15,6 +15,7 @@ public class HandCardButton extends JButton {
         this.name = name;
         this.description = description;
         this.icon = icon;
+        this.setToolTipText(description);
         this.setIcon(icon);
     }
 
@@ -24,6 +25,10 @@ public class HandCardButton extends JButton {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ImageIcon getImage() {
+        return icon;
     }
 
     @Override

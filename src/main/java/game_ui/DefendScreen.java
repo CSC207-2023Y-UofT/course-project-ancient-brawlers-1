@@ -41,7 +41,7 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
 
         JLabel attackerLabel = new JLabel("Attacker");
         JLabel targetLabel = new JLabel("Target");
-        JLabel messageLabel = new JLabel("Select a ");
+        JLabel messageLabel = new JLabel("Select a defender to take the damage for the target");
         attackerLabel.setFont(font);
         targetLabel.setFont(font);
         messageLabel.setFont(font2);
@@ -82,7 +82,7 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
             defender1HP = new JLabel("HP: " + defendScreenModel.getDefenderHP().get(0));
             defender1ATK = new JLabel("ATK: " + defendScreenModel.getDefenderATK().get(0));
             defender2HP = new JLabel("HP: -");
-            defender2ATK = new JLabel("ATL: -");
+            defender2ATK = new JLabel("ATK: -");
         } else {
             defender1HP = new JLabel("HP: " + defendScreenModel.getDefenderHP().get(0));
             defender1ATK = new JLabel("ATK: " + defendScreenModel.getDefenderATK().get(0));

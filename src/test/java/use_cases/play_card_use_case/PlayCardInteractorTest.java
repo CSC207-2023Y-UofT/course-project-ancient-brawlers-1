@@ -93,12 +93,12 @@ class PlayCardInteractorTest {
                 assertEquals(3, outputData.getPlayHandIds().size());
                 assertTrue(outputData.getStructure1().isEmpty());
                 assertTrue(outputData.getStructure2().isEmpty());
-                assertEquals(List.of(5), outputData.getCreatureIds1());
-                assertEquals(List.of(11), outputData.getHitPoints1());
-                assertEquals(List.of(1), outputData.getAttacks1());
-                assertEquals(List.of(6), outputData.getCreatureIds2());
-                assertEquals(List.of(1), outputData.getHitPoints2());
-                assertEquals(List.of(1), outputData.getAttacks2());
+                assertEquals(List.of(5, -1, -1), outputData.getCreatureIds1());
+                assertEquals(List.of(11, 0, 0), outputData.getHitPoints1());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks1());
+                assertEquals(List.of(6, -1, -1), outputData.getCreatureIds2());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints2());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks2());
                 return null;
             }
         };
@@ -130,12 +130,12 @@ class PlayCardInteractorTest {
                 assertEquals(6, outputData.getPlayHandIds().size());
                 assertTrue(outputData.getStructure1().isEmpty());
                 assertTrue(outputData.getStructure2().isEmpty());
-                assertEquals(List.of(5), outputData.getCreatureIds1());
-                assertEquals(List.of(1), outputData.getHitPoints1());
-                assertEquals(List.of(1), outputData.getAttacks1());
-                assertEquals(List.of(6), outputData.getCreatureIds2());
-                assertEquals(List.of(1), outputData.getHitPoints2());
-                assertEquals(List.of(1), outputData.getAttacks2());
+                assertEquals(List.of(5, -1, -1), outputData.getCreatureIds1());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints1());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks1());
+                assertEquals(List.of(6, -1, -1), outputData.getCreatureIds2());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints2());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks2());
                 return null;
             }
         };
@@ -164,12 +164,12 @@ class PlayCardInteractorTest {
                 assertEquals(3, outputData.getPlayHandIds().size());
                 assertEquals("Structure1", outputData.getStructure1());
                 assertTrue(outputData.getStructure2().isEmpty());
-                assertEquals(List.of(5), outputData.getCreatureIds1());
-                assertEquals(List.of(1), outputData.getHitPoints1());
-                assertEquals(List.of(1), outputData.getAttacks1());
-                assertEquals(List.of(6), outputData.getCreatureIds2());
-                assertEquals(List.of(1), outputData.getHitPoints2());
-                assertEquals(List.of(1), outputData.getAttacks2());
+                assertEquals(List.of(5, -1, -1), outputData.getCreatureIds1());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints1());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks1());
+                assertEquals(List.of(6, -1, -1), outputData.getCreatureIds2());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints2());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks2());
                 return null;
             }
         };
@@ -188,7 +188,7 @@ class PlayCardInteractorTest {
 
             @Override
             public PlayCardOutputModel showTargetSelectionScreen(TargetModel requestModel) {
-                assertEquals(List.of(5, 6), requestModel.getTargetIds());
+                assertEquals(List.of(5, -1, -1, 6, -1, -1), requestModel.getTargetIds());
                 assertEquals(2, requestModel.getCardId());
                 return null;
             }
@@ -223,12 +223,12 @@ class PlayCardInteractorTest {
                 assertEquals(3, outputData.getPlayHandIds().size());
                 assertTrue(outputData.getStructure1().isEmpty());
                 assertTrue(outputData.getStructure2().isEmpty());
-                assertEquals(List.of(5), outputData.getCreatureIds1());
-                assertEquals(List.of(-9), outputData.getHitPoints1());
-                assertEquals(List.of(1), outputData.getAttacks1());
-                assertEquals(List.of(6), outputData.getCreatureIds2());
-                assertEquals(List.of(1), outputData.getHitPoints2());
-                assertEquals(List.of(1), outputData.getAttacks2());
+                assertEquals(List.of(5, -1, -1), outputData.getCreatureIds1());
+                assertEquals(List.of(-9, 0, 0), outputData.getHitPoints1());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks1());
+                assertEquals(List.of(6, -1, -1), outputData.getCreatureIds2());
+                assertEquals(List.of(1, 0, 0), outputData.getHitPoints2());
+                assertEquals(List.of(1, 0, 0), outputData.getAttacks2());
                 return null;
             }
         };
