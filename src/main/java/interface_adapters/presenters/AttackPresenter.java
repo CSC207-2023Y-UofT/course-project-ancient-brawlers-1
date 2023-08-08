@@ -50,13 +50,11 @@ public class AttackPresenter implements AttackOutputBoundary {
     public FinishAttackResponseModel exitDefendInputScreen(FinishAttackResponseModel responseModel) {
         PlayerDataModel player1 = gameplayScreenModel.getPlayer1();
         player1.setCreatureHPs(responseModel.getHitPoints1());
-        player1.setCreatureIds(responseModel.getCreatureIds1());
         player1.setHandCardIds(responseModel.getHandCardsIds1());
         player1.setHandCardDescriptions(responseModel.getHandCardsDescription1());
 
         PlayerDataModel player2 = gameplayScreenModel.getPlayer2();
         player2.setCreatureHPs(responseModel.getHitPoints2());
-        player2.setCreatureIds(responseModel.getCreatureIds2());
         player2.setHandCardIds(responseModel.getHandCardsIds2());
         player2.setHandCardDescriptions(responseModel.getHandCardsDescription2());
 
