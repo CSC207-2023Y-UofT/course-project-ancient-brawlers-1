@@ -173,8 +173,13 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
      * attack of all creatures in the GameState (for both players).
      */
     private CreatureStatsUpdateModel getCreatureStatsModel() {
+
         Player player1 = gameState.getCurrentPlayer();
         Player player2 = gameState.getOpposingPlayer();
+
+        if (gameState.getCurrentPlayerIndex() == 1) {
+            player1 = gameState.getOpposingPlayer();
+            player2 = gameState.getCurrentPlayer();}
 
         List<Integer> ids1 = new ArrayList<>();
         List<Integer> ids2 = new ArrayList<>();
@@ -192,11 +197,6 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
             ids2.add(c.getId());
             hitPoints2.add(c.getTotalHitPoints());
             attacks2.add(c.getTotalAttackDamage());
-        }
-
-        if (gameState.getCurrentPlayerIndex() == 1){
-            return new CreatureStatsUpdateModel(gameState.getCurrentPlayerIndex(), ids2, ids1, hitPoints2, hitPoints1,
-                    attacks2, attacks1);
         }
 
         return new CreatureStatsUpdateModel(gameState.getCurrentPlayerIndex(), ids1, ids2, hitPoints1, hitPoints2,
