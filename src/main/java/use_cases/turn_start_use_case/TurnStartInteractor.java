@@ -194,6 +194,11 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
             attacks2.add(c.getTotalAttackDamage());
         }
 
+        if (gameState.getCurrentPlayerIndex() == 1){
+            return new CreatureStatsUpdateModel(gameState.getCurrentPlayerIndex(), ids2, ids1, hitPoints2, hitPoints1,
+                    attacks2, attacks1);
+        }
+
         return new CreatureStatsUpdateModel(gameState.getCurrentPlayerIndex(), ids1, ids2, hitPoints1, hitPoints2,
                 attacks1, attacks2);
     }
