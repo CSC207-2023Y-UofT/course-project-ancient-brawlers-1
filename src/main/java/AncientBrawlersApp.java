@@ -54,7 +54,7 @@ public class AncientBrawlersApp {
         SetupScreen setupScreen = new SetupScreen(setupScreenModel, gamePrepController, gameStartController);
         GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController, attackController, turnEndController);
         MulliganScreen mulliganScreen = new MulliganScreen(mulliganScreenModel, gameStartController, turnStartController, turnEndController);
-        DefendScreen defendScreen = new DefendScreen(defendScreenModel, attackController);
+        DefendScreen defendScreen = new DefendScreen(defendScreenModel, attackController, turnEndController, turnStartController);
 
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);

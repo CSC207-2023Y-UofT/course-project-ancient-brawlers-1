@@ -1,5 +1,6 @@
 package interface_adapters.presenters;
 
+import interface_adapters.AttackException;
 import interface_adapters.view_models.*;
 import use_cases.CreatureCardModel;
 import use_cases.attack_use_case.AttackOutputBoundary;
@@ -65,7 +66,6 @@ public class AttackPresenter implements AttackOutputBoundary {
 
     @Override
     public void displayFailMessage(String message) {
-        gameplayScreenModel.setGameMessage(message);
-        gameFrameModel.refresh();
+        throw new AttackException(message);
     }
 }

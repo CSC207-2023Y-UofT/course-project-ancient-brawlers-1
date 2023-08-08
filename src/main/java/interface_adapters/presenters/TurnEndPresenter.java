@@ -7,6 +7,7 @@ import use_cases.turn_end_use_case.TurnEndOutputBoundary;
 import use_cases.turn_end_use_case.TurnEndResponseModel;
 
 public class TurnEndPresenter implements TurnEndOutputBoundary {
+
     private final GameFrameModel gameFrameModel;
     private final GameplayScreenModel gameplayScreenModel;
 

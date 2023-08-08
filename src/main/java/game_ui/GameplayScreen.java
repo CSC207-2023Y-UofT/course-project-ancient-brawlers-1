@@ -1,5 +1,6 @@
 package game_ui;
 
+import interface_adapters.AttackException;
 import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.AttackController;
 import interface_adapters.controllers.GameStartController;
@@ -20,9 +21,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     private final GameplayScreenModel gameplayScreenModel;
     private final AttackController attackController;
     private final TurnEndController turnEndController;
-    private final JPanel p1HandPanel;
-    private final JPanel p2HandPanel;
-    private final JPanel creaturePanel;
+    private final JPanel p1HandPanel, p2HandPanel, creaturePanel;
+    private List<CardButton> p1Creatures = new ArrayList<>();
+    private List<CardButton> p2Creatures = new ArrayList<>();
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
     public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnEndController turnEndController) {
@@ -131,6 +132,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         for (int i = 0; i < ids.size(); i++) {
             CardButton creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName(names.get(i)));
             creature.addActionListener(this);
+            creature.setOpaque(true);
             creature.setPreferredSize(new Dimension(140, 200));
             JLabel hitPoint = new JLabel("HP: " + hitPoints.get(i));
             JLabel attack = new JLabel("ATK: " + attacks.get(i));
@@ -203,13 +205,15 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         creaturePanel.add(structure2, c);
         for (int i = 0; i < creatures.size(); i++) {
             if (i < 3) {
-                creaturePanel.add(creatures.get(i), getGBC(1 + 2 * i, 3, 1, 1, 5, 5, 2, 1));
+                creaturePanel.add(creatures.get(i), getGBC(1 + 2 * i, 3, 1, 1, 10, 10, 2, 1));
                 creaturePanel.add(hitPointLabels.get(i), getGBC(1 + 2 * i, 4, 1, 1, 0, 0, 1, 1));
                 creaturePanel.add(attackLabels.get(i), getGBC(2 + 2 * i, 4, 1, 1, 0, 0, 1, 1));
+                p1Creatures.add(creatures.get(i));
             } else {
-                creaturePanel.add(creatures.get(i), getGBC(1 + 2 * (i - 3), 0, 1, 1, 5, 5, 2, 1));
+                creaturePanel.add(creatures.get(i), getGBC(1 + 2 * (i - 3), 0, 1, 1, 10, 10, 2, 1));
                 creaturePanel.add(hitPointLabels.get(i), getGBC(1 + 2 * (i - 3), 1, 1, 1, 0, 0, 1, 1));
                 creaturePanel.add(attackLabels.get(i), getGBC(2 + 2 * (i - 3), 1, 1, 1, 0, 0, 1, 1));
+                p2Creatures.add(creatures.get(i));
             }
         }
         creaturePanel.add(message, getGBC(0, 2, 1, 1, 0, 20, 8, 1));
@@ -282,11 +286,32 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             System.out.println("Selected: Id = " + ((CardButton) e.getSource()).getId() + " Name = " + ((CardButton) e.getSource()).getName());
             List<CardButton> allSelected = getSelectedCreatures();
             if (allSelected.size() == 2) {
-                int attackerId = allSelected.get(0).getId();
-                int targetId = allSelected.get(1).getId();
-                allSelected.get(0).setSelected(false);
-                allSelected.get(1).setSelected(false);
-                attackController.initiateAttack(attackerId, targetId);
+                int attackerId, targetId;
+
+                // when it is player1's turn
+                if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer1().getPlayerName())) {
+                    if (p1Creatures.contains(allSelected.get(0))) {
+                        attackerId = allSelected.get(0).getId();
+                        targetId = allSelected.get(1).getId();
+                    } else {
+                        attackerId = allSelected.get(1).getId();
+                        targetId = allSelected.get(0).getId();
+                    }
+                } else {  // player2's turn
+                    if (p2Creatures.contains(allSelected.get(0))) {
+                        attackerId = allSelected.get(0).getId();
+                        targetId = allSelected.get(1).getId();
+                    } else {
+                        attackerId = allSelected.get(1).getId();
+                        targetId = allSelected.get(0).getId();
+                    }
+                }
+                resetButtons();
+                try {
+                    attackController.initiateAttack(attackerId, targetId);
+                } catch (AttackException exception) {
+                    JOptionPane.showMessageDialog(this, exception.getMessage());
+                }
             }
             this.revalidate();
             this.repaint();
@@ -328,5 +353,18 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             }
         }
         return selectedCreatures;
+    }
+
+    private void resetButtons() {
+        Component[] components = creaturePanel.getComponents();
+
+        for (Component component : components) {
+            if (component instanceof CardButton) {
+                ((CardButton) component).setSelected(false);
+                component.setBackground(null);
+            }
+        }
+        this.revalidate();
+        this.repaint();
     }
 }

@@ -7,9 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import entities.cards.Card;
 import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.AttackController;
+import interface_adapters.controllers.TurnEndController;
+import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.DefendScreenModel;
 import interface_adapters.view_models.ScreenUpdateListener;
 
@@ -17,12 +18,16 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
 
     private DefendScreenModel defendScreenModel;
     private AttackController attackController;
+    private TurnEndController turnEndController;
+    private TurnStartController turnStartController;
     private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private CardButton attacker, target, defender1, defender2;
 
-    public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController) {
+    public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController, TurnEndController turnEndController, TurnStartController turnStartController) {
         this.defendScreenModel = defendScreenModel;
         this.attackController = attackController;
+        this.turnEndController = turnEndController;
+        this.turnStartController = turnStartController;
     }
 
     public void updateDefendScreen() {
@@ -98,10 +103,16 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
         this.add(targetLabel, getGBC(5, 0, 1, 1, 0, 0, 1, 1));
         this.add(messageLabel, getGBC(0, 2, 1, 1, 0, 0, 6, 1));
 
-        this.add(attacker, getGBC(1, 0, 1, 1, 150, 240, 2, 1));
-        this.add(target, getGBC(3, 0, 1, 1, 150, 240, 2, 1));
-        this.add(defender1, getGBC(1, 3, 1, 1, 150, 240, 2, 1));
-        this.add(defender2, getGBC(3, 3, 1, 1, 150, 240, 2, 1));
+        attacker.setPreferredSize(new Dimension(150, 240));
+        target.setPreferredSize(new Dimension(150, 240));
+        defender1.setPreferredSize(new Dimension(150, 240));
+        defender2.setPreferredSize(new Dimension(150, 240));
+        defender1.setOpaque(true);
+        defender2.setOpaque(true);
+        this.add(attacker, getGBC(1, 0, 1, 1, 0, 0, 2, 1));
+        this.add(target, getGBC(3, 0, 1, 1, 0, 0, 2, 1));
+        this.add(defender1, getGBC(1, 3, 1, 1, 0, 0, 2, 1));
+        this.add(defender2, getGBC(3, 3, 1, 1, 0, 0, 2, 1));
 
         this.add(confirmButton, getGBC(2, 5, 1, 1, 0, 0, 1, 1));
         this.add(passButton, getGBC(4, 5, 1, 1, 0, 0, 1, 1));
@@ -121,6 +132,12 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof CardButton) {
+            this.revalidate();
+            this.repaint();
+            return;
+        }
+
         String command = e.getActionCommand();
         switch (command) {
             case "Confirm":
@@ -141,6 +158,8 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
                 attackController.processAttack(attacker.getId(), target.getId());
                 break;
         }
+        turnEndController.passTurn();
+        turnStartController.processTurnStart();
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
