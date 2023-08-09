@@ -111,8 +111,8 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
         defender2.setOpaque(true);
         this.add(attacker, getGBC(1, 0, 1, 1, 0, 0, 2, 1));
         this.add(target, getGBC(3, 0, 1, 1, 0, 0, 2, 1));
-        this.add(defender1, getGBC(1, 3, 1, 1, 0, 0, 2, 1));
-        this.add(defender2, getGBC(3, 3, 1, 1, 0, 0, 2, 1));
+        this.add(defender1, getGBC(1, 3, 1, 1, 10, 10, 2, 1));
+        this.add(defender2, getGBC(3, 3, 1, 1, 10, 10, 2, 1));
 
         this.add(confirmButton, getGBC(2, 5, 1, 1, 0, 0, 1, 1));
         this.add(passButton, getGBC(4, 5, 1, 1, 0, 0, 1, 1));
@@ -126,6 +126,8 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
         this.add(defender2HP, getGBC(3, 4, 1, 1, 0, 0, 1, 1));
         this.add(defender2ATK, getGBC(4, 4, 1, 1, 0, 0, 1, 1));
 
+        defender1.addActionListener(this);
+        defender2.addActionListener(this);
         confirmButton.addActionListener(this);
         passButton.addActionListener(this);
     }
