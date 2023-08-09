@@ -16,19 +16,23 @@ clear: outwit your opponent, unleash devastating attacks, and secure victory by 
     is responsible for just one effect and all these effects are handled by the CardEffectFactory. Overall, this behavior can be
     for every class and interface in our program.
 * Open/Closed Principle (OCP)<br>
+
     The OCP requires for code to be open to extension but not modification. Taking the same example as above, for a future 
     update if a new effect was to be considered just an new class for the new effect would be needed. Similarly, the same 
     follows for the entity cards. Coming to the use cases, they all also closely follow OCP as there parent classes with
     common methods from which child classes can pull and override from.
 * Liskov Substitution Principle (LSP)<br>
+
     The LSP states that subclasses should only extend and not modify or remove. Our code closely follows this as is seen 
     in all the use cases where none of the child classes modify or remove but only extend. For instance, in the turn start
     use case the TurnStartInteractor only extends the methods from TurnStartInteractor.
 * Interface Segregation Principle (ISP)<br>
+
     ISP states that interfaces should be small so that users don't depend on things they dont need. Drawing from the 
     same example as above in all of our use cases. The interfaces implemented for the particular use case only has methods
     needed to run that use case.
 * Dependency Inversion Principle (DIP)<br>
+
     DIP states that one should be able to change individual pieces without having to change anything other than the 
     individual pieces. Again drawing from the use cases in our code base, for each use case, Interfaces are present to 
     insure that high-level modules don't depend on low level modules and there exists no source code dependency.
