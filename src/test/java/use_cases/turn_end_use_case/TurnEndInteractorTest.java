@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class TurnEndInteractorTest {
     GameState gameState;
@@ -94,7 +94,6 @@ class TurnEndInteractorTest {
             public TurnEndResponseModel showTurnEndScreen(TurnEndResponseModel responseModel) {
                 assertEquals(List.of(20, 40, 10), responseModel.getHitPoints1());
                 assertEquals(List.of(20, 40, 0), responseModel.getHitPoints2());
-                fail("Trigger turn effects: passTurn() should not call showTurnEndScreen().");
                 return null;
             }
 

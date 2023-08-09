@@ -52,12 +52,16 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
         List<CreatureCardModel> targetData = new ArrayList<>();
         switch (action.getTargetType()) {
             case SINGLE_ENEMY:
+                targetIds.addAll(getCreatureIds(new ArrayList<>()));  // placeholder, keeping the total size = 6
                 targetIds.addAll(getCreatureIds(opponent.getCreatures()));
+                targetData.addAll(getTargetDataModels(new ArrayList<>()));
                 targetData.addAll(getTargetDataModels(opponent.getCreatures()));
                 break;
             case SINGLE_FRIENDLY:
                 targetIds.addAll(getCreatureIds(player.getCreatures()));
+                targetIds.addAll(getCreatureIds(new ArrayList<>()));
                 targetData.addAll(getTargetDataModels(player.getCreatures()));
+                targetData.addAll(getTargetDataModels(new ArrayList<>()));
                 break;
             case ANY:
                 targetIds.addAll(getCreatureIds(player.getCreatures()));
@@ -136,13 +140,24 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
      * A helper to prepare the output data.
      */
     private PlayCardOutputModel getOutputModel() {
-        Player player1 = gameState.getCurrentPlayer();
-        Player player2 = gameState.getOpposingPlayer();
+        // Need attention in the future: right now, the output model ensures that
+        // the data labeled with a '1' will always be the player at the bottom of the screen
+        // which is also the player going first.
+        // If we introduce the random play order, this needs some revisions
+        Player player1, player2;
+        if (gameState.getCurrentPlayerIndex() == 0) {
+            player1 = gameState.getCurrentPlayer();
+            player2 = gameState.getOpposingPlayer();
+        } else {
+            player1 = gameState.getOpposingPlayer();
+            player2 = gameState.getCurrentPlayer();
+        }
 
+        Player playerToUpdateHand = gameState.getCurrentPlayer();
         List<Integer> handIds = new ArrayList<>();
         List<String> handNames = new ArrayList<>();
         List<String> handDescriptions = new ArrayList<>();
-        for (Card c : player1.getHand()) {
+        for (Card c : playerToUpdateHand.getHand()) {
             handIds.add(c.getId());
             handNames.add(c.getName());
             if (c instanceof ActionCard) {

@@ -69,35 +69,35 @@ public class TargetSelectionScreen extends JPanel implements ActionListener, Scr
         cardInEffect.setPreferredSize(new Dimension(140, 240));
         cardInEffect.setEnabled(false);
 
-        this.add(instruction, getGBC(0,0,1,1,1,1,6,1));
-        this.add(confirmButton, getGBC(0,5,1,1,1,1,6,1));
+        this.add(instruction, getGBC(0,0,1,1,0, 0,6,1));
+        this.add(confirmButton, getGBC(0,5,1,1,0, 0,6,1));
 
-        this.add(targets.get(0), getGBC(0,1,1,1,140,240,2,1));
-        this.add(targetHPs.get(0), getGBC(0,2,1,1,1,1,1,1));
-        this.add(targetATKs.get(0), getGBC(1,2,1,1,1,1,1,1));
+        this.add(targets.get(0), getGBC(0,3,1,1,5, 5,2,1));
+        this.add(targetHPs.get(0), getGBC(0,4,1,1,0, 0,1,1));
+        this.add(targetATKs.get(0), getGBC(1,4,1,1,0, 0,1,1));
 
-        this.add(targets.get(1), getGBC(2,1,1,1,140,240,2,1));
-        this.add(targetHPs.get(1), getGBC(2,2,1,1,1,1,1,1));
-        this.add(targetATKs.get(1), getGBC(3,2,1,1,1,1,1,1));
+        this.add(targets.get(1), getGBC(2,3,1,1,5, 5,2,1));
+        this.add(targetHPs.get(1), getGBC(2,4,1,1,0, 0,1,1));
+        this.add(targetATKs.get(1), getGBC(3,4,1,1,0, 0,1,1));
 
-        this.add(targets.get(2), getGBC(4,1,1,1,140,240,2,1));
-        this.add(targetHPs.get(2), getGBC(4,2,1,1,1,1,1,1));
-        this.add(targetATKs.get(2), getGBC(5,2,1,1,1,1,1,1));
+        this.add(targets.get(2), getGBC(4,3,1,1,5, 5,2,1));
+        this.add(targetHPs.get(2), getGBC(4,4,1,1,0, 0,1,1));
+        this.add(targetATKs.get(2), getGBC(5,4,1,1,0, 0,1,1));
 
-        this.add(targets.get(3), getGBC(0,3,1,1,140,240,2,1));
-        this.add(targetHPs.get(3), getGBC(0,4,1,1,1,1,1,1));
-        this.add(targetATKs.get(3), getGBC(1,4,1,1,1,1,1,1));
+        this.add(targets.get(3), getGBC(0,1,1,1,5, 5,2,1));
+        this.add(targetHPs.get(3), getGBC(0,2,1,1,0, 0,1,1));
+        this.add(targetATKs.get(3), getGBC(1,2,1,1,0, 0,1,1));
 
-        this.add(targets.get(4), getGBC(2,3,1,1,140,240,2,1));
-        this.add(targetHPs.get(4), getGBC(2,4,1,1,1,1,1,1));
-        this.add(targetATKs.get(4), getGBC(3,4,1,1,1,1,1,1));
+        this.add(targets.get(4), getGBC(2,1,1,1,5, 5,2,1));
+        this.add(targetHPs.get(4), getGBC(2,2,1,1,0, 0,1,1));
+        this.add(targetATKs.get(4), getGBC(3,2,1,1,0, 0,1,1));
 
-        this.add(targets.get(5), getGBC(4,3,1,1,140,240,2,1));
-        this.add(targetHPs.get(5), getGBC(4,4,1,1,1,1,1,1));
-        this.add(targetATKs.get(5), getGBC(5,4,1,1,1,1,1,1));
+        this.add(targets.get(5), getGBC(4,1,1,1,5, 5,2,1));
+        this.add(targetHPs.get(5), getGBC(4,2,1,1,0, 0,1,1));
+        this.add(targetATKs.get(5), getGBC(5,2,1,1,0, 0,1,1));
 
-        this.add(text, getGBC(6,1,1,1,1,1,1,1));
-        this.add(cardInEffect, getGBC(6,3,1,1,1,1,1,1));
+        this.add(text, getGBC(6,1,1,1,0,0,1,1));
+        this.add(cardInEffect, getGBC(6,3,1,1,5,5,1,1));
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,
