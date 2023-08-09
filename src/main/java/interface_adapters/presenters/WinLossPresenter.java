@@ -22,10 +22,9 @@ public class WinLossPresenter implements WinLossOutputBoundary {
 
     @Override
     public WinLossResponseModel showVictoryScreen(WinLossResponseModel outputData) {
-        if(!outputData.getWinnerName().equals("")){
+        if(!outputData.getWinnerName().isEmpty()){
             victoryScreenModel.setWinnerName(outputData.getWinnerName());
             frameModel.setCurrentScreen(GameScreenType.VICTORY);
-            return outputData;
         }
         return outputData;
     }

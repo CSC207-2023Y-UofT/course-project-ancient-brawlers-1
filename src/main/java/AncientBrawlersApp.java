@@ -10,6 +10,9 @@ import interface_adapters.view_models.*;
 import use_cases.attack_use_case.AttackInputBoundary;
 import use_cases.attack_use_case.AttackInteractor;
 import use_cases.attack_use_case.AttackOutputBoundary;
+import use_cases.death_detector_use_case.DeathDetectorInputBoundary;
+import use_cases.death_detector_use_case.DeathDetectorInteractor;
+import use_cases.death_detector_use_case.DeathDetectorOutputBoundary;
 import use_cases.game_preparation_use_case.*;
 import use_cases.game_start_use_case.GameStartInputBoundary;
 import use_cases.game_start_use_case.GameStartInteractor;
@@ -23,6 +26,9 @@ import use_cases.turn_end_use_case.TurnEndOutputBoundary;
 import use_cases.turn_start_use_case.TurnStartInputBoundary;
 import use_cases.turn_start_use_case.TurnStartInteractor;
 import use_cases.turn_start_use_case.TurnStartOutputBoundary;
+import use_cases.win_loss_use_case.WinLossInputBoundary;
+import use_cases.win_loss_use_case.WinLossInteractor;
+import use_cases.win_loss_use_case.WinLossOutputBoundary;
 
 public class AncientBrawlersApp {
 
@@ -32,6 +38,7 @@ public class AncientBrawlersApp {
     private static final MulliganScreenModel mulliganScreenModel = new MulliganScreenModel();
     private static final DefendScreenModel defendScreenModel = new DefendScreenModel();
     private static final TargetSelectScreenModel targetScreenModel = new TargetSelectScreenModel();
+    private static final VictoryScreenModel victoryScreenModel = new VictoryScreenModel();
 
     private static final GameState gameState = new GameState();
     private static final CardFactory cardFactory = new CardFactory();
@@ -54,13 +61,16 @@ public class AncientBrawlersApp {
         AttackController attackController = getAttackController();
         TurnEndController turnEndController = getTurnEndController();
         PlayCardController playCardController = getPlayCardController();
+        EndGameController endGameController = getEndGameController();
 
         MenuScreen menuScreen = new MenuScreen(gamePrepController);
         SetupScreen setupScreen = new SetupScreen(setupScreenModel, gamePrepController, gameStartController);
-        GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController, attackController, turnStartController, turnEndController, playCardController);
+        GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController, attackController,
+                turnStartController, turnEndController, playCardController, endGameController);
         MulliganScreen mulliganScreen = new MulliganScreen(mulliganScreenModel, gameStartController, turnStartController, turnEndController);
-        DefendScreen defendScreen = new DefendScreen(defendScreenModel, attackController, turnEndController, turnStartController);
-        TargetSelectionScreen targetSelectionScreen = new TargetSelectionScreen(targetScreenModel, playCardController);
+        DefendScreen defendScreen = new DefendScreen(defendScreenModel, attackController, turnEndController, turnStartController, endGameController);
+        TargetSelectionScreen targetSelectionScreen = new TargetSelectionScreen(targetScreenModel, playCardController, endGameController);
+        VictoryScreen victoryScreen = new VictoryScreen(victoryScreenModel);
 
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);
@@ -68,6 +78,7 @@ public class AncientBrawlersApp {
         gameFrame.addScreen(mulliganScreen, GameScreenType.MULLIGAN);
         gameFrame.addScreen(defendScreen, GameScreenType.DEFEND);
         gameFrame.addScreen(targetSelectionScreen, GameScreenType.TARGET_SELECTION);
+        gameFrame.addScreen(victoryScreen, GameScreenType.VICTORY);
 
         gameFrame.setVisible(true);
     }
@@ -107,5 +118,13 @@ public class AncientBrawlersApp {
         PlayCardOutputBoundary presenter = new PlayCardPresenter(gameFrameModel, gameplayScreenModel, targetScreenModel);
         PlayCardInputBoundary interactor = new PlayCardInteractor(gameState, presenter);
         return new PlayCardController(interactor);
+    }
+
+    private static EndGameController getEndGameController() {
+        DeathDetectorOutputBoundary deathPresenter = new DeathDetectorPresenter(gameFrameModel, gameplayScreenModel);
+        DeathDetectorInputBoundary deathInteractor = new DeathDetectorInteractor(gameState, deathPresenter);
+        WinLossOutputBoundary winLossPresenter = new WinLossPresenter(gameFrameModel, victoryScreenModel);
+        WinLossInputBoundary winLossInteractor = new WinLossInteractor(gameState, winLossPresenter);
+        return new EndGameController(deathInteractor, winLossInteractor);
     }
 }

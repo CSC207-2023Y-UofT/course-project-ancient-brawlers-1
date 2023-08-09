@@ -3,7 +3,7 @@ package use_cases.death_detector_use_case;
 import java.util.List;
 
 public class DeathDetectorResponseModel {
-    private List<Integer> defeatCreatureId;
+
     private List<Integer> p1CreatureIds;
     private List<Integer> p2CreatureIds;
     private List<Integer> p1CreatureHitPoints;
@@ -11,25 +11,15 @@ public class DeathDetectorResponseModel {
     private List<Integer> p1CreatureAttack;
     private List<Integer> p2CreatureAttack;
 
-    public DeathDetectorResponseModel(List<Integer> defeatCreatureId, List<Integer> p1CreatureIds,
-                                      List<Integer> p2CreatureIds, List<Integer> p1CreatureHitPoints,
-                                      List<Integer> p2CreatureHitPoints, List<Integer> p1CreatureAttack,
-                                      List<Integer> p2CreatureAttack) {
-        this.defeatCreatureId = defeatCreatureId;
+    public DeathDetectorResponseModel(List<Integer> p1CreatureIds, List<Integer> p2CreatureIds,
+                                      List<Integer> p1CreatureHitPoints, List<Integer> p2CreatureHitPoints,
+                                      List<Integer> p1CreatureAttack, List<Integer> p2CreatureAttack) {
         this.p1CreatureIds = p1CreatureIds;
         this.p2CreatureIds = p2CreatureIds;
         this.p1CreatureHitPoints = p1CreatureHitPoints;
         this.p2CreatureHitPoints = p2CreatureHitPoints;
         this.p1CreatureAttack = p1CreatureAttack;
         this.p2CreatureAttack = p2CreatureAttack;
-    }
-
-    public List<Integer> getDefeatCreatureId() {
-        return defeatCreatureId;
-    }
-
-    public void setDefeatCreatureId(List<Integer> defeatCreatureId) {
-        this.defeatCreatureId = defeatCreatureId;
     }
 
     public List<Integer> getP1CreatureIds() {

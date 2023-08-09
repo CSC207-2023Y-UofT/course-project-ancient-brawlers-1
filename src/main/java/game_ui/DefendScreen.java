@@ -9,6 +9,7 @@ import java.util.List;
 
 import interface_adapters.CardImageMapper;
 import interface_adapters.controllers.AttackController;
+import interface_adapters.controllers.EndGameController;
 import interface_adapters.controllers.TurnEndController;
 import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.DefendScreenModel;
@@ -20,14 +21,16 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
     private AttackController attackController;
     private TurnEndController turnEndController;
     private TurnStartController turnStartController;
+    private EndGameController endGameController;
     private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private CardButton attacker, target, defender1, defender2;
 
-    public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController, TurnEndController turnEndController, TurnStartController turnStartController) {
+    public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController, TurnEndController turnEndController, TurnStartController turnStartController, EndGameController endGameController) {
         this.defendScreenModel = defendScreenModel;
         this.attackController = attackController;
         this.turnEndController = turnEndController;
         this.turnStartController = turnStartController;
+        this.endGameController = endGameController;
     }
 
     public void updateDefendScreen() {
@@ -154,14 +157,22 @@ public class DefendScreen extends JPanel implements ActionListener, ScreenUpdate
                     return;
                 }
                 attackController.defend(attacker.getId(), defenderId);
+                System.out.println("Checking defeats");
+                endGameController.checkEndGame();
                 break;
             case "Pass":
                 System.out.println("Taking the hit!");
                 attackController.processAttack(attacker.getId(), target.getId());
+                System.out.println("Checking defeats");
+                endGameController.checkEndGame();
                 break;
         }
         turnEndController.passTurn();
+        System.out.println("Checking defeats after passing turn");
+        endGameController.checkEndGame();
         turnStartController.processTurnStart();
+        System.out.println("Checking defeats after turn starts");
+        endGameController.checkEndGame();
     }
 
     private GridBagConstraints getGBC(int gridx, int gridy, double weightx, double weighty,

@@ -1,6 +1,7 @@
 package game_ui;
 
 import interface_adapters.CardImageMapper;
+import interface_adapters.controllers.EndGameController;
 import interface_adapters.controllers.PlayCardController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.TargetSelectScreenModel;
@@ -16,11 +17,13 @@ public class TargetSelectionScreen extends JPanel implements ActionListener, Scr
 
     private TargetSelectScreenModel targetSelectModel;
     private PlayCardController playCardController;
+    private EndGameController endGameController;
     private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
-    public TargetSelectionScreen(TargetSelectScreenModel targetSelectModel, PlayCardController playCardController) {
+    public TargetSelectionScreen(TargetSelectScreenModel targetSelectModel, PlayCardController playCardController, EndGameController endGameController) {
         this.targetSelectModel = targetSelectModel;
         this.playCardController = playCardController;
+        this.endGameController = endGameController;
 
         this.setLayout(new GridBagLayout());
     }
@@ -148,6 +151,8 @@ public class TargetSelectionScreen extends JPanel implements ActionListener, Scr
             this.repaint();
         } else {
             playCardController.playSingleTarget(targetSelectModel.getCardId(), targets.get(0).getId());
+            System.out.println("Checking defeats");
+            endGameController.checkEndGame();
         }
     }
 }

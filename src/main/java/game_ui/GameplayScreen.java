@@ -22,18 +22,20 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     private final TurnStartController turnStartController;
     private final TurnEndController turnEndController;
     private final PlayCardController playCardController;
+    private final EndGameController endGameController;
     private final JPanel p1HandPanel, p2HandPanel, creaturePanel;
     private DisplayCard selectedCard1, selectedCard2;
     private List<CardButton> p1Creatures = new ArrayList<>();
     private List<CardButton> p2Creatures = new ArrayList<>();
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
-    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController) {
+    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController, EndGameController endGameController) {
         this.gameplayScreenModel = gameplayScreenModel;
         this.attackController = attackController;
         this.turnStartController = turnStartController;
         this.turnEndController = turnEndController;
         this.playCardController = playCardController;
+        this.endGameController = endGameController;
 
         this.setLayout(new GridBagLayout());
 
@@ -134,7 +136,13 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         attacks.addAll(p2.getCreatureAttacks());
         // Creatures
         for (int i = 0; i < ids.size(); i++) {
-            CardButton creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName(names.get(i)));
+            CardButton creature;
+            if (ids.get(i) == -1) {
+                creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName("Defeat"));
+                creature.setEnabled(false);
+            } else {
+                creature = new CardButton(ids.get(i), names.get(i), imageMapper.getImageByName(names.get(i)));
+            }
             creature.addActionListener(this);
             creature.setOpaque(true);
             creature.setPreferredSize(new Dimension(140, 200));
@@ -313,6 +321,8 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
                 resetButtons();
                 try {
                     attackController.initiateAttack(attackerId, targetId);
+                    System.out.println("Checking defeats after initiating attack");
+                    endGameController.checkEndGame();
                 } catch (AttackException exception) {
                     JOptionPane.showMessageDialog(this, exception.getMessage());
                 }
@@ -339,7 +349,11 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
             switch (((JButton) e.getSource()).getActionCommand()) {
                 case "END_TURN":
                     turnEndController.passTurn();
+                    System.out.println("Checking defeats after passing turn");
+                    endGameController.checkEndGame();
                     turnStartController.processTurnStart();
+                    System.out.println("Checking defeats after turn start");
+                    endGameController.checkEndGame();
                     break;
                 case "PAUSE":
                     System.out.println("Request game pause");
@@ -350,6 +364,8 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
                         if (selectedCard1.getId() != -1) {
                             try {
                                 playCardController.playCard(selectedCard1.getId());
+                                System.out.println("Checking defeats");
+                                endGameController.checkEndGame();
                             } catch (PlayCardException exception) {
                                 JOptionPane.showMessageDialog(this, exception.getMessage());
                             }
@@ -362,6 +378,8 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
                         if (selectedCard2.getId() != -1) {
                             try {
                                 playCardController.playCard(selectedCard2.getId());
+                                System.out.println("Checking defeats");
+                                endGameController.checkEndGame();
                             } catch (PlayCardException exception) {
                                 JOptionPane.showMessageDialog(this, exception.getMessage());
                             }

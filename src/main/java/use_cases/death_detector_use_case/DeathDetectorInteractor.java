@@ -20,17 +20,19 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
         this.deathDetectorPresenter = deathDetectorPresenter;
     }
 
-    private void processPlayer(Player player1, Player player2, List<Integer> ids) {
-        List<Integer> defeatCreatureIds = new ArrayList<>();
-        List<CreatureCard> deadCreatures = new ArrayList<>();
+    private void processPlayer(Player player1, Player player2) {
+        boolean hasNewDefeats = false;
         for (CreatureCard c : player1.getCreatures()) {
             if (c.getHitPoints() <= 0) {
-                defeatCreatureIds.add(c.getId());
-                deadCreatures.add(c);
+                // if the card id is not already -1, then it should be a new defeated creature
+                // if it already is -1 then it is probably defeated from before
+                if (c.getId() != -1) {
+                    c.setId(-1);  // card has id = -1 means this card is defeated/unused
+                    hasNewDefeats = true;
+                }
             }
         }
-        player1.getCreatures().removeAll(deadCreatures);
-        if (defeatCreatureIds.size() != 0 && player1.getStructure() != null) {
+        if (hasNewDefeats && player1.getStructure() != null) {
             StructureCard structureCard = player1.getStructure();
             if (structureCard.getTriggerEvent() == GameEvent.CREATURE_DEATH) {
                 List<CreatureCard> targetCreatures = new ArrayList<>();
@@ -48,22 +50,27 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
                 }
                 for(CreatureCard t : targetCreatures){
                     for(CardEffect e : structureCard.getEffects()){
-                        ((CreatureStatsEffect)e).invokeEffect(t);
+                        ((CreatureStatsEffect) e).invokeEffect(t);
                     }
                 }
             }
         }
-        ids.addAll(defeatCreatureIds);
     }
 
     @Override
     public DeathDetectorResponseModel detectCreatureDeath() {
-        Player player1 = gameState.getCurrentPlayer();
-        Player player2 = gameState.getOpposingPlayer();
+        processPlayer(gameState.getCurrentPlayer(), gameState.getOpposingPlayer());
+        processPlayer(gameState.getOpposingPlayer(), gameState.getCurrentPlayer());
 
-        List<Integer> allDefeatIds = new ArrayList<>();
-        processPlayer(player1, player2, allDefeatIds);
-        processPlayer(player2, player1, allDefeatIds);
+        // Needs attention: check PlayCardInteractor
+        Player player1, player2;
+        if (gameState.getCurrentPlayerIndex() == 0) {
+            player1 = gameState.getCurrentPlayer();
+            player2 = gameState.getOpposingPlayer();
+        } else {
+            player1 = gameState.getOpposingPlayer();
+            player2 = gameState.getCurrentPlayer();
+        }
 
         List<Integer> p1CreatureIds = new ArrayList<>();
         List<Integer> p2CreatureIds = new ArrayList<>();
@@ -74,16 +81,24 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
 
         for (CreatureCard c : player1.getCreatures()){
             p1CreatureIds.add(c.getId());
+            if (c.getId() == -1) {
+                c.setMaxHitPoints(0);
+                c.setAttackDamage(0);
+            }
             p1CreatureHitPoints.add(c.getTotalHitPoints());
             p1CreatureAttack.add(c.getTotalAttackDamage());
         }
         for (CreatureCard c : player2.getCreatures()){
             p2CreatureIds.add(c.getId());
+            if (c.getId() == -1) {
+                c.setMaxHitPoints(0);
+                c.setAttackDamage(0);
+            }
             p2CreatureHitPoints.add(c.getTotalHitPoints());
             p2CreatureAttack.add(c.getTotalAttackDamage());
         }
 
-        DeathDetectorResponseModel outputData = new DeathDetectorResponseModel(allDefeatIds, p1CreatureIds, p2CreatureIds,
+        DeathDetectorResponseModel outputData = new DeathDetectorResponseModel(p1CreatureIds, p2CreatureIds,
                 p1CreatureHitPoints, p2CreatureHitPoints, p1CreatureAttack, p2CreatureAttack);
 
         return deathDetectorPresenter.updateCreatureStats(outputData);
