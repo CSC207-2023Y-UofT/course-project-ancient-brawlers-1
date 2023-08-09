@@ -1,39 +1,44 @@
-# Project Template
+# ANCIENT BRAWLERS
+Welcome to the world of "Ancient Brawlers," an exciting player-versus-player Trading Card Game that promises strategic battles, 
+thrilling encounters, and epic clashes between powerful creatures! In this immersive gaming experience, players will step 
+into the shoes of formidable warriors, summoning a team of three unique creatures onto the battlefield. The objective is 
+clear: outwit your opponent, unleash devastating attacks, and secure victory by eliminating all of their creatures.
 
-This is a template repository for CSC 207 projects. 
-This repository contains starter code for a gradle project.
-It also contains workflow documents that give instructions on how to manage your Github repository and how to use Github Projects for efficient collaboration.
 
-## Checklist For Your Project
-- [ ] Verify the correct settings for your project repository
-- [ ] Set up Github Projects
-- [ ] Create the implementation plan using issues and Github Projects
-- [ ] Create deveopment branches for your features
-- [ ] Use pull requests to merge finished features into main branch
-- [ ] Conduct code reviews
 
-**If your team has trouble with any of these steps, please ask on Piazza. For example, with how GitHub Classroom works, your team *may* not have permissions to do some of the first few steps, in which case we'll post alternative instructions as needed.**
+# Adherence to SOLID Principles
+* Single Responsibility Principle (SRP)
+    The SRP requires that each class should just have a single responsibility i.e. only one reason to change. 
+    Our program closely follows this starting all the way at a high level where our packages are divided by functionality
+    i.e. entities, game_ui, use_cases, interface_adapters to all the way on a more granular level where the classes within
+    these packages have just one responsibility. For instance under entities -> cardEffects, one can see that each class 
+    is responsible for just one effect and all these effects are handled by the CardEffectFactory. Overall, this behavior can be
+    for every class and interface in our program.
+* Open/Closed Principle (OCP)
+    The OCP requires for code to be open to extension but not modification. Taking the same example as above, for a future 
+    update if a new effect was to be considered just an new class for the new effect would be needed. Similarly, the same 
+    follows for the entity cards. Coming to the use cases, they all also closely follow OCP as there parent classes with
+    common methods from which child classes can pull and override from.
+* Liskov Substitution Principle (LSP)
+    The LSP states that subclasses should only extend and not modify or remove. Our code closely follows this as is seen 
+    in all the use cases where none of the child classes modify or remove but only extend. For instance, in the turn start
+    use case the TurnStartInteractor only extends the methods from TurnStartInteractor.
+* Interface Segregation Principle (ISP)
+    ISP states that interfaces should be small so that users don't depend on things they dont need. Drawing from the 
+    same example as above in all of our use cases. The interfaces implemented for the particular use case only has methods
+    needed to run that use case.
+* Dependency Inversion Principle (DIP)
+    DIP states that one should be able to change individual pieces without having to change anything other than the 
+    individual pieces. Again drawing from the use cases in our code base, for each use case, Interfaces are present to 
+    insure that high-level modules don't depend on low level modules and there exists no source code dependency.
 
-## Workflow Documents
+# Adherence to Clean Architecture
 
-* Github Workflow: Please refer to the workflow that was introduced in the first lab. You should follow this when working on your code. The following document provides additional details too.
+# Design Patterns
+In terms of design patterns, one can observe the Factory Method, Listeners, and the Dependency Injection design pattern.
 
-* [Project Planning and Development Guide](project_plan_dev.md): This document helps you to understand how to create and maintain a project plan for your class project. **This document helps you to complete the Implementation Plan Milestone.**
+* Factory Method
 
-## Gradle Project
-Import this project into your Intellij editor. It should automatically recognise this as a gradle repository.
-The starter code was built using SDK version 11.0.1. Ensure that you are using this version for this project. (You can, of course, change the SDK version as per your requirement if your team has all agreed to use a different version)
+* Listeners
 
-You have been provided with two starter files for demonstration: HelloWorld and HelloWorldTest.
-
-You will find HelloWorld in `src/main/java/tutorial` directory. Right click on the HelloWorld file and click on `Run HelloWorld.main()`.
-This should run the program and print on your console.
-
-You will find HelloWorldTest in `src/test/java/tutorial` directory. Right click on the HelloWorldTest file and click on `Run HelloWorldTest`.
-All tests should pass. Your team can remove this sample of how testing works once you start adding your project code to the repo.
-
-Moving forward, we expect you to maintain this project structure. You *should* use Gradle as the build environment, but it is fine if your team prefers to use something else -- just remove the gradle files and push your preferred project setup. Assuming you stick with Gradle, your source code should go into `src/main/java` (you can keep creating more subdirectories as per your project requirement). Every source class can auto-generate a test file for you. For example, open HelloWorld.java file and click on the `HelloWorld` variable as shown in the image below. You should see an option `Generate` and on clicking this your should see an option `Test`. Clicking on this will generate a JUnit test file for `HelloWorld` class. This was used to generate the `HelloWorldTest`.
-
-![image](https://user-images.githubusercontent.com/5333020/196066655-d3c97bf4-fdbd-46b0-b6ae-aeb8dbcf351d.png)
-
-You can create another simple class and try generating a test for this class.
+* Dependency Injection
