@@ -1,5 +1,7 @@
 package use_cases.game_preparation_use_case;
 
+import use_cases.CreatureCardModel;
+
 import java.util.List;
 
 /**

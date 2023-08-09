@@ -50,7 +50,7 @@ public class GameStartInteractor implements GameStartInputBoundary {
         }
 
         Player player = gameState.getCurrentPlayer();
-        gameStartPresenter.displayPlayerOrder(player.getName() + " goes first!");
+        gameStartPresenter.displayPlayerOrder(player.getName() + " goes first!", gameState.getCurrentPlayer().getName());
     }
 
     /**

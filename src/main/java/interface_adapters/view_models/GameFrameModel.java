@@ -28,4 +28,10 @@ public class GameFrameModel {
             listener.onFrameUpdate();
         }
     }
+
+    public void refresh() {
+        for (FrameUpdateListener listener : listeners) {
+            listener.onFrameUpdate();
+        }
+    }
 }

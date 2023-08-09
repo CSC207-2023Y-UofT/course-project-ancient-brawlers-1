@@ -20,6 +20,7 @@ public class GameFrame extends JFrame implements FrameUpdateListener {
         // Set application window properties
         setTitle("Ancient Brawlers");
         setSize(1200, 800);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set the content in this application window

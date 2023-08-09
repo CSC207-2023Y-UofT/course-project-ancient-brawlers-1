@@ -1,4 +1,6 @@
-package use_cases.game_preparation_use_case;
+package use_cases;
+
+import use_cases.game_preparation_use_case.CardModel;
 
 public class CreatureCardModel implements CardModel {
 

@@ -80,7 +80,7 @@ class GameStartInteractorTest {
             }
 
             @Override
-            public void displayPlayerOrder(String message) {
+            public void displayPlayerOrder(String message, String playerName) {
                 assertTrue(message.equals("Player 1 goes first!") || message.equals("Player 2 goes first!"));
             }
         };
@@ -109,7 +109,7 @@ class GameStartInteractorTest {
             }
 
             @Override
-            public void displayPlayerOrder(String message) {
+            public void displayPlayerOrder(String message, String playerName) {
                 fail("prepareMulligan() should not call displayPlayerOrder().");
             }
         };
@@ -145,7 +145,7 @@ class GameStartInteractorTest {
             }
 
             @Override
-            public void displayPlayerOrder(String message) {
+            public void displayPlayerOrder(String message, String playerName) {
                 fail("prepareMulligan() should not call displayPlayerOrder().");
             }
         };
@@ -191,7 +191,7 @@ class GameStartInteractorTest {
             }
 
             @Override
-            public void displayPlayerOrder(String message) {
+            public void displayPlayerOrder(String message, String playerName) {
                 fail("prepareMulligan() should not call displayPlayerOrder().");
             }
         };

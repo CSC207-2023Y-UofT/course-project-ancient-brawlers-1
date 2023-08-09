@@ -2,9 +2,18 @@ package interface_adapters.view_models;
 
 public class GameplayScreenModel {
 
+    private String currentPlayer;
     private PlayerDataModel player1;
     private PlayerDataModel player2;
     private String gameMessage;
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 
     public PlayerDataModel getPlayer1() {
         return player1;
