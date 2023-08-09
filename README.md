@@ -8,6 +8,7 @@ clear: outwit your opponent, unleash devastating attacks, and secure victory by 
 
 # Adherence to SOLID Principles
 * Single Responsibility Principle (SRP)
+  
     The SRP requires that each class should just have a single responsibility i.e. only one reason to change. 
     Our program closely follows this starting all the way at a high level where our packages are divided by functionality
     i.e. entities, game_ui, use_cases, interface_adapters to all the way on a more granular level where the classes within
