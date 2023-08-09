@@ -9,7 +9,8 @@ so use them strategically, and outwit your opponent!
 * [Specifications (Running the game)](#specifications)
 * [Game Rules and Tutorial](#game-rules-and-tutorial)
 * [The Game's Software Architecture](#software-architecture)
-* [Contributions](#contributions)
+* [Design Patterns](#design-patterns)
+* [Credits](#credits)
 
 ## Specifications
 This program is written in Java, using JDK `Amazon Corretto version 11.0.19`. Unit tests are written with `JUnit 5`.
@@ -18,6 +19,9 @@ To run the game, clone this repository and run the file `src/main/java/AncientBr
 
 The data in this game are stored in JSON files. Make sure you have the JSON dependency added to your configuration file.
 The project repository contains the `build.gradle` file which should already include the necessary settings.
+
+Note that the graphics may vary depending on the platform. For example, running the application on Windows and Mac may look
+different. This is mostly due to Java Swing GUI.
 
 ## Game Rules and Tutorial
 During gameplay, players will mostly be looking at this screen:
@@ -46,8 +50,6 @@ in every player's deck. Each unique Action card has its own effects, and it will
 hover your mouse over the card. For example, the card we are seeing right now is "Cataclysm", and its description is 
 "Deal 10 damage to ALL creatures." (You didn't misread it, this card deals damage to *everyone*, but use it wisely and you
 may just claim victory!)
-
-![Structure]
 
 ![Structure](src/gameArt/Forest-of-the-Elves.png)
 
@@ -109,57 +111,126 @@ Now you are ready to start the brawl!
 ## Software Architecture
 
 ### Adherence to SOLID principles
-* Single Responsibility Principle (SRP)<br>
+* **Single Responsibility Principle (SRP)**
+
+  Each module should only be responsible to a single actor. We enforce this rule on various scales in the program.
   
-    The SRP requires that each class should just have a single responsibility i.e. only one reason to change. 
-    Our program closely follows this starting all the way at a high level where our packages are divided by functionality
-    i.e. entities, game_ui, use_cases, interface_adapters to all the way on a more granular level where the classes within
-    these packages have just one responsibility. For instance under entities -> cardEffects, one can see that each class 
-    is responsible for just one effect and all these effects are handled by the CardEffectFactory. Overall, this behavior can be
-    for every class and interface in our program.
-* Open/Closed Principle (OCP)<br>
+  In small scales, we have each class being responsible for a single task. For example, an `ActionCard` holds the name of
+  an Action card, the description, and the corresponding effects. As for the triggering of the effects, that is a job for
+  a different class. We make sure that the cards are only responsible for storing the information, as for using those 
+  information, that's for other classes to manage.
+  
+  In large scales, we make sure every package/subpackage only serves one role. For example, the `entities.cards` package
+  holds all types of cards and their information. This is separated from the other package `entities.cardEffects`, which 
+  solely deals with the effects that go on the Action and Structure cards. The `cards` have some dependency on the
+  `cardEffects`, but it is still easier for maintenance by separating the two collections of classes.
+  
+  The other significant example for SRP is that we have different controllers and presenters when it comes to the interfaces
+  in the Clean Architecture design.
 
-    The OCP requires for code to be open to extension but not modification. Taking the same example as above, for a future 
-    update if a new effect was to be considered just an new class for the new effect would be needed. Similarly, the same 
-    follows for the entity cards. Coming to the use cases, they all also closely follow OCP as there parent classes with
-    common methods from which child classes can pull and override from.
-* Liskov Substitution Principle (LSP)<br>
+* **Open/Closed Principle (OCP)**
 
-    The LSP states that subclasses should only extend and not modify or remove. Our code closely follows this as is seen 
-    in all the use cases where none of the child classes modify or remove but only extend. For instance, in the turn start
-    use case the TurnStartInteractor only extends the methods from TurnStartInteractor.
-* Interface Segregation Principle (ISP)<br>
+  We can see OCP from the inheritance relationship in the `entities.cards` package. All card types extend the `Card` abstract
+  class, which means if we introduce new types of cards in the game, we can just "attach" a new class file to this package, and
+  there is no need to modify existing code. Another example is the `entities.cardEffects` package. This one is probably the most
+  frequently changed package if we decide to expand the game and design new cards. So, any new effects only need to extend the 
+  existing effect interfaces, which is again allowing extensions but no modifications.
 
-    ISP states that interfaces should be small so that users don't depend on things they dont need. Drawing from the 
-    same example as above in all of our use cases. The interfaces implemented for the particular use case only has methods
-    needed to run that use case.
-* Dependency Inversion Principle (DIP)<br>
+* **Liskov Substitution Principle (LSP)**
 
-    DIP states that one should be able to change individual pieces without having to change anything other than the 
-    individual pieces. Again drawing from the use cases in our code base, for each use case, Interfaces are present to 
-    insure that high-level modules don't depend on low level modules and there exists no source code dependency.
+  A straightforward example of LSP is that the a player's hand is represented by a list of `Card` (the parent class of all cards), 
+  while we are inputting items of type `ActionCard`, `StructureCard` and `EssenceCard`. The program still works when we add 
+  these child class types into the list, and that is the definition of LSP.
+
+* **Interface Segregation Principle (ISP)**
+
+  One example is that only the `ActionCard` and `StructureCard` types have descriptions and effects, so we make them implement 
+  a `Playable` interface, with the methods that get those descriptions and effects. As for the other cards, like `CreatureCard`,
+  we don't implement the `Playable` interface on it, so the `CreatureCard` is not dependent on code extra code that it doesn't use.
+  
+  A more plain example is that we have broken down classes into small enough pieces, so that the import statements in every
+  class are exactly the things they need, without extra/unused code.
+
+* **Dependency Inversion Principle (DIP)**
+
+  One example (aside from the use cases) is the relationship between Presenter, ViewModel and View. The presenters send game state information
+  into the screen components. But if we do it directly, then we have a higher level module dependent on a lower level, more volatile module.
+  So to mitigate this problem we just introduce an interface in between, letting both modules depend on this abstraction. The ViewModel
+  is in the interface layer along with the Presenter, so the Presenter can talk to it without problems. Meanwhile, we have the View 
+  looking at changes in the ViewModel, and updating when necessary.
+  
+  In fact, the DIP can be seen throughout the entire program structure. Anywhere we see an interface, we are probably enforcing the DIP rule.
+  This is obviously true for the use case packages, since we are following Clean Architecture.
 
 ### Clean Architecture
 
-### Design Patterns
-In terms of design patterns, one can observe the Factory Method, Listeners, and the Dependency Injection design pattern.
+The typical four layers of Clean Architecture are entities (enterprise business rules), use cases (application business rules), 
+interfaces (like API), and frameworks (UI, database, device). This card game is also just another kind of software, thus 
+I've drawn some analogies.
 
-* Factory Method<br>
+The "enterprise business rules" for this card game are the core game objects. The cards, effects, players, and decks are 
+all part of this core layer. So we've put them into the package `entities`. Then, the application business rules are those
+that make use of the game objects (i.e. putting some object together with another, using methods in one object to modify its 
+state, etc.). Again, following SRP, we've separated the use cases into many subpackages, which can be seen under the main
+`use_cases` package.
 
-  This design pattern can be found in the entities of our codebase. More specifically, this design pattern was implemented for CardEffects,   Cards, and Decks. Within each of these modules one can find a class ending with Factory for example CardFactory which is responsible 
-  for entity construction. We chose to implement this design pattern for our entities as The Factory Method separates product construction 
-  code from the code that actually uses the product, making it easier to extend the product construction code independently from the rest 
-  of the code.
-* Listeners<br>
+Then, for the Interface Adapters Layer, we create the many types of controllers and presenters to cater for the use cases.
+This layer would be the API to our game program, which makes it possible to migrate the game to a different tool for designing
+the UI. Finally, the frameworks layer currently just uses Java Swing for the game UI, and we also have a package specifically
+for data access (interactions with databases, which are just JSON files for now).
 
-  The listener or the Observer design pattern can be found in the game ui part of our codebase. Within the module game_ui, all the classes 
-  ending with "Screen" such as DefendScreen and MulliganScreen are observers/listeners to the GameFrame class. Whenever the GameFrame is 
-  told to switch screen all the observers/listeners will update themselves.   
-* Dependency Injection<br>
+## Design Patterns
 
-  This design pattern can be found in a lot of places in our codebase. The most primrary example of a use of this design principle would be
-  the dependency injection of our game's GameState class into all the use_cases. As the name suggest, The GameState class is responsible 
-  for storing the current state of the game and its dependency injection into our use cases, more specifically, the Interactor class within 
-  each of the use case allows us to make sure that each use case is up to date.   
+### Model-View-Presenter (MVP) and Model-View-ViewModel (MVVM)
 
+Clean Architecture shares many design patterns, including MVC, MVP, MVVM. But depending on the program's intents, the final
+product may lean closer to one of the many patterns. 
 
+For this card game, I've chosen to use MVP, with a mix of MVVM. The highlight is in the addition of the ViewModel, for the
+View is observing changes from the ViewModel, and when the Presenter update the ViewModel, the View (game UI) will update itself
+to match the changes to the game state.
+
+Using this pattern, we have extracted the UI to be a separate component, so we can choose to build a better UI while working
+on game logics simultaneously. If we have a larger team, then one group could focus on UI design, while another group focuses 
+on the actual numbers and letters to be shown on the UI.
+
+### Simple Factory
+
+For a systematic way of building the card effects during runtime, we use a simple factory pattern. This can be seen in the 
+class `entities.cardEffects.CardEffectFactory`. With this factory class, we separate the object construction code from the
+code that actually uses the objects. Although if the game were to expand, we would have to redesign the way these card effects
+are stored, and will need to adopt an actual Factory Method pattern instead.
+
+### Observer
+
+There are two sets of observer patterns used between the Interface Layer and the UI layer. 
+
+The `GameFrame` (a class in UI) is a `FrameUpdateListener`, observing the `GameFrameModel` (a class in Interface Layer). The `GameFrameModel` is 
+given to many presenters (actually through dependency injection), so whenever a presenter has brought updates to the UI
+content, it would notify the observers. In this case, the only observer is the `GameFrame`, and it will tell its components to
+update themselves in response to the notification from the `GameFrameModel`.
+
+This leads to the second set and more crucial set of observers––––the many `Screen` classes stored inside the `GameFrame`.
+Each screen class is a `ScreenUpdateListener`, and they are all observing the `GameFrame`. When the `GameFrame` receives 
+instructions to update itself, it is actually notifying all its observers to update themselves. So, with this entire design,
+we have made the View(s) observe changes in the ViewModel(s), which is actually managed by the Presenter(s) behind the scenes.
+
+Meanwhile, we still maintain the dependency inversion principle, as the Listener classes are defined in the Interface Layer,
+and the UIs are merely using them.
+
+### Dependency Injection
+
+The most important example of dependency injection is in how we manage the `GameState` object. Every use case interactor 
+class must make modifications to the same `gameState`, otherwise we fail to connect all the game logics together. So we
+define an attribute in every use case interactor, with the type `GameState`, but we don't create it inside the interactor.
+Instead, during program setup (which happens in the `main()` in `AncientBrawlersApp.java`), we inject the same `gameState` 
+variable into all the interactors when we construct them. This is one of the key features that allow the game to come together.
+
+## Credits
+
+Game Design: [Jiaxun (Kevin) Yang](https://github.com/Kevin22888)\
+Software Design: [Jiaxun (Kevin) Yang](https://github.com/Kevin22888)\
+Programmers: everyone\
+Bug fixes: Ethan Hsu, Kaifeng Li\
+Unit tests: Ethan Hsu, Pranav Sethi\
+Documentation: Ethan Hsu, Jiaxun Yang
