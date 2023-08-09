@@ -50,8 +50,14 @@ In terms of design patterns, one can observe the Factory Method, Listeners, and 
   of the code.
 * Listeners<br>
 
-  The listener or the Observer design pattern can be found in the game ui part of our codebase
-
+  The listener or the Observer design pattern can be found in the game ui part of our codebase. Within the module game_ui, all the classes 
+  ending with "Screen" such as DefendScreen and MulliganScreen are observers/listeners to the GameFrame class. Whenever the GameFrame is 
+  told to switch screen all the observers/listeners will update themselves.   
 * Dependency Injection<br>
+
+  This design pattern can be found in a lot of places in our codebase. The most primrary example of a use of this design principle would be
+  the dependency injection of our game's GameState class into all the use_cases. As the name suggest, The GameState class is responsible 
+  for storing the current state of the game and its dependency injection into our use cases, more specifically, the Interactor class within 
+  each of the use case allows us to make sure that each use case is up to date.   
 
 
