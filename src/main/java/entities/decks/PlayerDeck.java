@@ -27,6 +27,18 @@ public class PlayerDeck implements Deck {
         return cards.size();
     }
 
+    public void shuffleDeck() {
+        Random random = new Random();
+
+        for (int i = getDeckSize() - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            // Swap cards at positions i and j
+            Card temp = cards.get(i);
+            cards.set(i, cards.get(j));
+            cards.set(j, temp);
+        }
+    }
+
     @Override
     public Card draw() {
         if (getDeckSize() > 0) {

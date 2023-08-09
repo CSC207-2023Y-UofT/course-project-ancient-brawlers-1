@@ -2,26 +2,21 @@ package game_ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-public class CardButton extends JToggleButton {
+public class HandCardButton extends JButton {
 
     private int id;
     private String name;
+    private String description;
     private ImageIcon icon;
 
-    /**
-     * Creates a button with no set text or icon.
-     */
-    public CardButton(int id, String name, ImageIcon icon) {
+    public HandCardButton(int id, String name, String description, ImageIcon icon) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.icon = icon;
+        this.setToolTipText(description);
         this.setIcon(icon);
-        this.addActionListener(new CustomActionListener());
     }
 
     public int getId() {
@@ -30,6 +25,10 @@ public class CardButton extends JToggleButton {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public ImageIcon getImage() {
+        return icon;
     }
 
     @Override
@@ -68,17 +67,11 @@ public class CardButton extends JToggleButton {
         }
     }
 
-    private static class CustomActionListener implements ActionListener {
+    public String getDescription() {
+        return description;
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() instanceof CardButton) {
-                if (((CardButton) e.getSource()).isSelected()) {
-                    ((CardButton) e.getSource()).setBackground(Color.RED);
-                } else {
-                    ((CardButton) e.getSource()).setBackground(null);
-                }
-            }
-        }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

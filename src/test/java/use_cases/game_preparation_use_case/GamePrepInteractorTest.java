@@ -112,7 +112,7 @@ class GamePrepInteractorTest {
                 return null;
             }
         };
-        GamePrepRequestModel inputData = new GamePrepRequestModel("Kevin", "Kevin",
+        GamePrepRequestModel inputData = new GamePrepRequestModel("Kevin", "J",
                 List.of("C1", "C2", "C3", "C4"), List.of("C1", "C2", "C3", "C4"));
 
         GamePrepInteractor interactor = new GamePrepInteractor(gameState, cardFactory, deckFactory,

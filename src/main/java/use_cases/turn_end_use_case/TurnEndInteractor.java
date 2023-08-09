@@ -22,19 +22,11 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         this.gameState = gameState;
         this.turnEndPresenter = turnEndPresenter;
     }
-    
-    @Override
-    public void passTurn() {
-        gameState.switchPlayer();
-        // 1. pass player's name to presenter
-        // 2. whatever other effects that are needed
-    }
 
     @Override
     public TurnEndResponseModel triggerEndTurnEffects() {
         Player currentPlayer = gameState.getCurrentPlayer();
         Player nextPlayer = gameState.getOpposingPlayer();
-
 
         // // 1. Check if the current player has a structure in play
         // // 1a. Yes, lets trigger the event
@@ -110,7 +102,13 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         }
 
         TurnEndResponseModel turnEndModel = new TurnEndResponseModel(hitPoints1, hitPoints2, attack1, attack2, creatureIds1, creatureIds2, playerHandIds1, playerHandIds2, playerHandNames1, playerHandNames2);
-        
+
         return turnEndPresenter.showTurnEndScreen(turnEndModel);
+    }
+
+    @Override
+    public void passTurn() {
+        gameState.switchPlayer();
+        turnEndPresenter.notifyTurnChange(gameState.getCurrentPlayer().getName());
     }
 }

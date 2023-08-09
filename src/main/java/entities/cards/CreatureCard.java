@@ -63,6 +63,8 @@ public class CreatureCard extends Card {
         this.maxHitPoints = maxHitPoints;
         if (hitPoints > maxHitPoints) {
             hitPoints = maxHitPoints;
+        } else if (maxHitPoints == 0) {
+            hitPoints = 0;
         }
     }
 

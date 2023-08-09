@@ -46,13 +46,12 @@ class DeathDetectorInteractorTest {
         DeathDetectorOutputBoundary presenter = new DeathDetectorOutputBoundary() {
             @Override
             public DeathDetectorResponseModel updateCreatureStats(DeathDetectorResponseModel outputData) {
-                assertEquals(2, outputData.getDefeatCreatureId().size());
-                assertEquals(List.of(6), outputData.getP1CreatureAttack());
-                assertEquals(List.of(1), outputData.getP2CreatureAttack());
-                assertEquals(1, outputData.getP1CreatureIds().size());
-                assertEquals(1, outputData.getP2CreatureIds().size());
-                assertEquals(List.of(5), outputData.getP1CreatureHitPoints());
-                assertEquals(List.of(5), outputData.getP2CreatureHitPoints());
+                assertEquals(List.of(0, 6), outputData.getP1CreatureAttack());
+                assertEquals(List.of(0, 1), outputData.getP2CreatureAttack());
+                assertEquals(2, outputData.getP1CreatureIds().size());
+                assertEquals(2, outputData.getP2CreatureIds().size());
+                assertEquals(List.of(0, 5), outputData.getP1CreatureHitPoints());
+                assertEquals(List.of(0, 5), outputData.getP2CreatureHitPoints());
                 return null;
             }
         };

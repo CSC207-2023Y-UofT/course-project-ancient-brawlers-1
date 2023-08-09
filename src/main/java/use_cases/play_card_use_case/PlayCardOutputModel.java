@@ -6,6 +6,7 @@ public class PlayCardOutputModel {
 
     private List<Integer> playHandIds;
     private List<String> playHandNames;
+    private List<String> playHandDescriptions;
     private String structure1;
     private String structure2;
     private List<Integer> creatureIds1;
@@ -15,11 +16,12 @@ public class PlayCardOutputModel {
     private List<Integer> attacks1;
     private List<Integer> attacks2;
 
-    public PlayCardOutputModel(List<Integer> playHandIds, List<String> playHandNames, String structure1, String structure2,
+    public PlayCardOutputModel(List<Integer> playHandIds, List<String> playHandNames, List<String> playHandDescriptions, String structure1, String structure2,
                                List<Integer> creatureIds1, List<Integer> creatureIds2, List<Integer> hitPoints1,
                                List<Integer> hitPoints2, List<Integer> attacks1, List<Integer> attacks2) {
         this.playHandIds = playHandIds;
         this.playHandNames = playHandNames;
+        this.playHandDescriptions = playHandDescriptions;
         this.structure1 = structure1;
         this.structure2 = structure2;
         this.creatureIds1 = creatureIds1;
@@ -44,6 +46,14 @@ public class PlayCardOutputModel {
 
     public void setPlayHandNames(List<String> playHandNames) {
         this.playHandNames = playHandNames;
+    }
+
+    public List<String> getPlayHandDescriptions() {
+        return playHandDescriptions;
+    }
+
+    public void setPlayHandDescriptions(List<String> playHandDescriptions) {
+        this.playHandDescriptions = playHandDescriptions;
     }
 
     public String getStructure1() {

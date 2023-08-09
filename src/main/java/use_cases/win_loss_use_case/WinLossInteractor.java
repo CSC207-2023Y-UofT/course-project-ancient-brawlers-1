@@ -2,6 +2,7 @@ package use_cases.win_loss_use_case;
 
 import entities.GameState;
 import entities.Player;
+import entities.cards.CreatureCard;
 
 public class WinLossInteractor implements WinLossInputBoundary {
     final GameState gameState;
@@ -16,8 +17,8 @@ public class WinLossInteractor implements WinLossInputBoundary {
     public WinLossResponseModel detectWinLoss() {
         Player player1 = gameState.getCurrentPlayer();
         Player player2 = gameState.getOpposingPlayer();
-        int p1Creature = player1.getCreatures().size();
-        int p2Creature = player2.getCreatures().size();
+        int p1Creature = getAliveCreatures(player1);
+        int p2Creature = getAliveCreatures(player2);
 
         WinLossResponseModel outputData;
         if (p1Creature == 0 && p2Creature > 0) {
@@ -28,5 +29,15 @@ public class WinLossInteractor implements WinLossInputBoundary {
             outputData = new WinLossResponseModel("");
         }
         return winLossPresenter.showVictoryScreen(outputData);
+    }
+
+    private int getAliveCreatures(Player player) {
+        int alive = 0;
+        for (CreatureCard c : player.getCreatures()) {
+            if (c.getId() != -1) {
+                alive++;
+            }
+        }
+        return alive;
     }
 }

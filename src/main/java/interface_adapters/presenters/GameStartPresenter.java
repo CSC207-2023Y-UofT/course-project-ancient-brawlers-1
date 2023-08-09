@@ -1,6 +1,5 @@
 package interface_adapters.presenters;
 
-import game_ui.MulliganScreen;
 import interface_adapters.view_models.GameFrameModel;
 import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
@@ -22,6 +21,13 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         this.frameModel = frameModel;
         this.gameplayScreenModel = gameplayScreenModel;
         this.mulliganScreenModel = mulliganScreenModel;
+    }
+
+    @Override
+    public void displayPlayerOrder(String message, String playerName) {
+        gameplayScreenModel.setGameMessage(message);
+        gameplayScreenModel.setCurrentPlayer(playerName);
+        frameModel.refresh();
     }
 
     @Override
@@ -50,10 +56,5 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         }
         frameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return outputData;
-    }
-
-    @Override
-    public void displayPlayerOrder(String message) {
-        gameplayScreenModel.setGameMessage(message);
     }
 }
