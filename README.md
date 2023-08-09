@@ -42,8 +42,16 @@ clear: outwit your opponent, unleash devastating attacks, and secure victory by 
 # Design Patterns Utilized
 In terms of design patterns, one can observe the Factory Method, Listeners, and the Dependency Injection design pattern.
 
-* Factory Method
+* Factory Method<br>
 
-* Listeners
+  This design pattern can be found in the entities of our codebase. More specifically, this design pattern was implemented for CardEffects,   Cards, and Decks. Within each of these modules one can find a class ending with Factory for example CardFactory which is responsible 
+  for entity construction. We chose to implement this design pattern for our entities as The Factory Method separates product construction 
+  code from the code that actually uses the product, making it easier to extend the product construction code independently from the rest 
+  of the code.
+* Listeners<br>
 
-* Dependency Injection
+  The listener or the Observer design pattern can be found in the game ui part of our codebase
+
+* Dependency Injection<br>
+
+
