@@ -34,7 +34,7 @@ clear: outwit your opponent, unleash devastating attacks, and secure victory by 
 
 # Adherence to Clean Architecture
 
-# Design Patterns
+# Design Patterns Utilized
 In terms of design patterns, one can observe the Factory Method, Listeners, and the Dependency Injection design pattern.
 
 * Factory Method
