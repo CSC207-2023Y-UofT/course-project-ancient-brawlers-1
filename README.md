@@ -41,7 +41,7 @@ components in the gameplay screen.
 ![Essence](src/gameArt/Essence.png)
 
 This is an *Essence* card. It is the *cost* for a creature to attack or defend. During the start of a player's turn, 
-there will always be two Essence cards given to the player.
+there will always be two Essence cards given to the each player at the start of their respective turns.
 
 ![Action](src/gameArt/Cataclysm.png)
 
