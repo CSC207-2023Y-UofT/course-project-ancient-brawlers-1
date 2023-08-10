@@ -13,6 +13,14 @@ public class AttackInteractor implements AttackInputBoundary {
     private final GameState gameState;
     private final AttackOutputBoundary attackPresenter;
 
+    /**
+     * Construct a AttackInteractor, with the given GameState and AtackOutputBoundary
+     * @param gameState the GameState that records the progress of the current game.
+     *      *                  It should be shared by all use case interactors.
+     * @param attackPresenter an implementing class of the output boundary that
+     *      *                           handles the communication to the outer layers of
+     *      *                           the program.
+     */
     public AttackInteractor(GameState gameState, AttackOutputBoundary attackPresenter) {
         this.gameState = gameState;
         this.attackPresenter = attackPresenter;

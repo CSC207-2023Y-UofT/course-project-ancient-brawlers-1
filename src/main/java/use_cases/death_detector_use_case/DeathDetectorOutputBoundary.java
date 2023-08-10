@@ -6,9 +6,8 @@ package use_cases.death_detector_use_case;
 public interface DeathDetectorOutputBoundary {
 
     /**
-     * Response for setting the updated data for the two players in the View Model
+     * Responsible for setting the updated data for the two players in the View Model
      * @param outputData
-     * @return DeathDetectorResponseModel
      */
     DeathDetectorResponseModel updateCreatureStats(DeathDetectorResponseModel outputData);
 }

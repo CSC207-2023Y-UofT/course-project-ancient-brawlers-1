@@ -15,6 +15,14 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
     final GameState gameState;
     final DeathDetectorOutputBoundary deathDetectorPresenter;
 
+    /**
+     * Construct a DeathDetectorPresenter, with the given GameState and DeathDetectorPresenter
+     * @param gameState the GameState that records the progress of the current game.
+     *      *                  It should be shared by all use case interactors.
+     * @param deathDetectorPresenter an implementing class of the output boundary that
+     *      *                           handles the communication to the outer layers of
+     *      *                           the program.
+     */
     public DeathDetectorInteractor(GameState gameState, DeathDetectorOutputBoundary deathDetectorPresenter) {
         this.gameState = gameState;
         this.deathDetectorPresenter = deathDetectorPresenter;

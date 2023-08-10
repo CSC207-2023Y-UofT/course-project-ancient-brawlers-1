@@ -15,6 +15,10 @@ public class DeathDetectorPresenter implements DeathDetectorOutputBoundary {
         this.gameplayScreenModel = gameplayScreenModel;
     }
 
+    /**
+     * Responsible for setting the updated data for the two players in the View Model
+     * @param outputData
+     */
     @Override
     public DeathDetectorResponseModel updateCreatureStats(DeathDetectorResponseModel outputData) {
         gameplayScreenModel.getPlayer1().setCreatureIds(outputData.getP1CreatureIds());
