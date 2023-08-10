@@ -23,7 +23,8 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
     /**
      * This method is a helper function in order to check if a creature has less than or equal to 0 health.
      * Applies the effect of the structure card in play if it matches the state of the game and updates the players
-     * creatures stats accordingly
+     * creatures stats accordingly. If a creature drops to less than or equal to 0 health, then their
+     * id will be set to -1.
      *
      * @param player1
      * @param player2
@@ -67,7 +68,9 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
 
     /**
      * Checks if any creatures have an id of -1 which is from the helper function processPlayer.
-     * If it there are any creatures of id of -1, it sets their hitpoints and damage to 0
+     * If it there any creatures of id of -1, it sets their hitpoints and damage to 0.
+     * All creatures stats (id, hitpoints, damage) will be
+     * added to their corresponding array in order to be passed into the DeathDetectorResponseModel
      * @return DeathDetectorResponseModel contains the updated stats of both the current player and the opponents
      * creature
      */
