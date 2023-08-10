@@ -6,6 +6,9 @@ import entities.decks.PlayerDeck;
 
 import java.util.List;
 
+/**
+ * The PlayerFactory Creates a new Player
+ */
 public class PlayerFactory {
 
     public Player createPlayer(String name, List<CreatureCard> creatures,

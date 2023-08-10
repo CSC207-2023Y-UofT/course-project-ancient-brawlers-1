@@ -1,5 +1,8 @@
 package entities;
 
+/**
+ * The GameState class is how we determine the Player's turns and how we alternate the players turns
+ */
 public class GameState {
 
     private final Player[] players = new Player[2];
@@ -21,6 +24,7 @@ public class GameState {
     public Player getOpposingPlayer() {
         return players[currentPlayerIndex ^ 1];
     }
+
 
     public void switchPlayer() {
         currentPlayerIndex ^= 1;

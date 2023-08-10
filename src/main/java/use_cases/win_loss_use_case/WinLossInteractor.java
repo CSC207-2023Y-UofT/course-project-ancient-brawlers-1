@@ -13,6 +13,13 @@ public class WinLossInteractor implements WinLossInputBoundary {
         this.winLossPresenter = winLossPresenter;
     }
 
+    /**
+     * Checks to see if there is a winner, that is a winner that still has creatures and their opponents
+     * have no creatures left
+     * @return WinLossResponseModel it either contains the winner if there is one or it is an empty String
+     * meaning that there is no winner yet
+     */
+
     @Override
     public WinLossResponseModel detectWinLoss() {
         Player player1 = gameState.getCurrentPlayer();
@@ -31,6 +38,11 @@ public class WinLossInteractor implements WinLossInputBoundary {
         return winLossPresenter.showVictoryScreen(outputData);
     }
 
+    /**
+     * Calculates the number of creatures alive that a player has
+     * @param player takes in a Player object
+     * @return the number of alive creatures a player has
+     */
     private int getAliveCreatures(Player player) {
         int alive = 0;
         for (CreatureCard c : player.getCreatures()) {

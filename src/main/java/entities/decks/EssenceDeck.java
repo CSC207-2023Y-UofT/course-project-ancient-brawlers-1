@@ -3,6 +3,7 @@ package entities.decks;
 import entities.cards.Card;
 import entities.cards.CardFactory;
 
+
 public class EssenceDeck implements Deck {
 
     private final CardFactory cardFactory;

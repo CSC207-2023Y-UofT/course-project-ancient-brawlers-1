@@ -10,6 +10,9 @@ import entities.decks.PlayerDeck;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The player in the game. Contains all the information of the Player
+ */
 public class Player {
 
     private final String name;
