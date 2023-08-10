@@ -4,6 +4,10 @@ import use_cases.CreatureCardModel;
 
 import java.util.List;
 
+/**
+ * The AttackResponseModel which contains the attacker and defender and the stats for those creatures and is
+ * passed to the presenter that shows the defendInputScreen
+ */
 public class AttackResponseModel {
 
     private int attackerId;

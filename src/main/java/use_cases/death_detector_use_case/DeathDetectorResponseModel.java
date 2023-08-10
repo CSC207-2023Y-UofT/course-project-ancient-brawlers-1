@@ -2,6 +2,11 @@ package use_cases.death_detector_use_case;
 
 import java.util.List;
 
+/**
+ * PlayCardOutputBoundary provides the interface for the presenter to display
+ * changes to the game screen when a card is played, or to prompt the player for
+ * target selection.
+ */
 public class DeathDetectorResponseModel {
 
     private List<Integer> p1CreatureIds;

@@ -20,6 +20,14 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
         this.deathDetectorPresenter = deathDetectorPresenter;
     }
 
+    /**
+     * This method is a helper function in order to check if a creature has less than or equal to 0 health.
+     * Applies the effect of the structure card in play if it matches the state of the game and updates the players
+     * creatures stats accordingly
+     *
+     * @param player1
+     * @param player2
+     */
     private void processPlayer(Player player1, Player player2) {
         boolean hasNewDefeats = false;
         for (CreatureCard c : player1.getCreatures()) {
@@ -57,6 +65,12 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
         }
     }
 
+    /**
+     * Checks if any creatures have an id of -1 which is from the helper function processPlayer.
+     * If it there are any creatures of id of -1, it sets their hitpoints and damage to 0
+     * @return DeathDetectorResponseModel contains the updated stats of both the current player and the opponents
+     * creature
+     */
     @Override
     public DeathDetectorResponseModel detectCreatureDeath() {
         processPlayer(gameState.getCurrentPlayer(), gameState.getOpposingPlayer());

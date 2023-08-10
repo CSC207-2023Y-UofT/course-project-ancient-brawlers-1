@@ -18,6 +18,13 @@ public class AttackInteractor implements AttackInputBoundary {
         this.attackPresenter = attackPresenter;
     }
 
+    /**
+     * Signal the presenter to display the defend screen if and only if the player has enough essence to attack.
+     * If the player(attacker) does not have enough essence to attack then the presenter will display a message
+     * stating that there is not enough essence.
+     *
+     * @param  inputData the AttackRequestModel containing the attacking creature's id, and the target creature's id.
+     */
     @Override
     public void initiateAttack(AttackRequestModel inputData) {
         Player player1 = gameState.getCurrentPlayer();
@@ -70,6 +77,16 @@ public class AttackInteractor implements AttackInputBoundary {
         return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
     }
 
+
+    /**
+     * Process the attack using the attacker and target in the AttackRequestModel.
+     * The target in this RequestModel is always different from the original target
+     *
+     * @param inputData the AttackRequestModel containing the attacking creature's
+     *                  id, and the target creature's id.
+     * @return the FinishAttackResponseModel reporting the updates to the stats
+     * of creatures and stats of players in the game.
+     */
     @Override
     public FinishAttackResponseModel defend(AttackRequestModel inputData) {
         Player player1 = gameState.getCurrentPlayer();
@@ -82,6 +99,18 @@ public class AttackInteractor implements AttackInputBoundary {
         return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
     }
 
+    /**
+     * Process the attack using the attacker and target in the AttackRequestModel and updates the stats
+     * of creatures and stats of players in the game.
+     * Signals the presenter to exit the defend screen
+     *
+     * @param player1 player1 in the game
+     * @param player2 player2 in the game
+     * @param creatureAttacker the attacking creature
+     * @param creatureDefender the defending creature
+     * @return the FinishAttackResponseModel reporting the updates to the stats
+     * of creatures and stats of players in the game.
+     */
     private FinishAttackResponseModel getFinishAttackResponseModel(Player player1, Player player2,
                                                                    CreatureCard creatureAttacker,
                                                                    CreatureCard creatureDefender) {
@@ -116,7 +145,6 @@ public class AttackInteractor implements AttackInputBoundary {
             } else {
                 handCardDescription1.add("Essence");
             }
-
         }
 
         for (Card card : player2.getHand()) {
