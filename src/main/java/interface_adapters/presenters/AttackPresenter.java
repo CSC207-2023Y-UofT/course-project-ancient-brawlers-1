@@ -21,6 +21,12 @@ public class AttackPresenter implements AttackOutputBoundary {
         this.defendScreenModel = defendScreenModel;
     }
 
+    /**
+     * Displays the defend input screen that shows the atacker, the defender, and the possible defenders
+     * giving the opponent a choice to defend or not
+     * @param responseModel contains the information of the attacker, the defender, and the possible
+     *                      defender
+     */
     @Override
     public void showDefendInputScreen(AttackResponseModel responseModel) {
         defendScreenModel.setAttackerName(responseModel.getAttackerData().getName());
@@ -46,6 +52,12 @@ public class AttackPresenter implements AttackOutputBoundary {
         gameFrameModel.setCurrentScreen(GameScreenType.DEFEND);
     }
 
+    /**
+     Exists the Defend Screen and goes back to the GamePlayScreen. This method is called by the helper
+     function called getFinishAttackResponseModel in the AttackInteractor.
+     @param responseModel the data model containing the creatures hitpoints, Id's, handCards and description
+     cards in both players hands
+     */
     @Override
     public FinishAttackResponseModel exitDefendInputScreen(FinishAttackResponseModel responseModel) {
         PlayerDataModel player1 = gameplayScreenModel.getPlayer1();
@@ -61,7 +73,12 @@ public class AttackPresenter implements AttackOutputBoundary {
         gameFrameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return responseModel;
     }
-
+    /**
+     * To be used in the initiateAttack() method in the interactor, for cases when a player cannot attack.
+     * A player is unable to attack if they do not have enough essence or they select their own creatures
+     *
+     * @param message the string message to show on the screen.
+     */
     @Override
     public void displayFailMessage(String message) {
         throw new AttackException(message);
