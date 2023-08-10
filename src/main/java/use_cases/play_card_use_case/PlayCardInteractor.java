@@ -160,10 +160,8 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
         for (Card c : playerToUpdateHand.getHand()) {
             handIds.add(c.getId());
             handNames.add(c.getName());
-            if (c instanceof ActionCard) {
-                handDescriptions.add(((ActionCard) c).getDescription());
-            } else if (c instanceof StructureCard) {
-                handDescriptions.add(((StructureCard) c).getDescription());
+            if (c instanceof Playable) {
+                handDescriptions.add(((Playable) c).getDescription());
             } else {
                 handDescriptions.add("Essence");
             }
@@ -202,15 +200,19 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
 
         String structure1 = "";
         String structure2 = "";
+        String structureDesc1 = "";
+        String structureDesc2 = "";
         if (player1.getStructure() != null) {
             structure1 = player1.getStructure().getName();
+            structureDesc1 = player1.getStructure().getDescription();
         }
         if (player2.getStructure() != null) {
             structure2 = player2.getStructure().getName();
+            structureDesc2 = player2.getStructure().getDescription();
         }
 
         return new PlayCardOutputModel(handIds, handNames, handDescriptions, structure1, structure2,
-                ids1, ids2, hitPoints1, hitPoints2, attacks1, attacks2);
+                structureDesc1, structureDesc2, ids1, ids2, hitPoints1, hitPoints2, attacks1, attacks2);
     }
 
     private void useAction(ActionCard card, List<CreatureCard> creatures) {

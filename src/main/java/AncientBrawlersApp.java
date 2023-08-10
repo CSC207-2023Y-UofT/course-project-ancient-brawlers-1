@@ -94,7 +94,7 @@ public class AncientBrawlersApp {
 
         // This part can be removed along with the Splash screen.
         // For now, it is kept to make the program feel more like a game
-        Timer timer = new Timer(18000, e -> {
+        Timer timer = new Timer(22000, e -> {
             gameFrameModel.setCurrentScreen(GameScreenType.MENU); // Switch to the main menu
         });
         timer.setRepeats(false);

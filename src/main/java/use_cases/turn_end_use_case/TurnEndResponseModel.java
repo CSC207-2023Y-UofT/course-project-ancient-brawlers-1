@@ -14,11 +14,13 @@ public class TurnEndResponseModel {
     private List<Integer> playerHandIds2;
     private List<String> playerHandNames1;
     private List<String> playerHandNames2;
+    private List<String> playerHandDescriptions1;
+    private List<String> playerHandDescriptions2;
 
     public TurnEndResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2,
                                 List<Integer> attack1, List<Integer> attack2, List<Integer> creatureIds1,
                                 List<Integer> creatureIds2, List<Integer> playerHandIds1, List<Integer> playerHandIds2,
-                                List<String> playerHandNames1, List<String> playerHandNames2) {
+                                List<String> playerHandNames1, List<String> playerHandNames2, List<String> playerHandDescriptions1, List<String> playerHandDescriptions2) {
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
         this.attack1 = attack1;
@@ -29,6 +31,8 @@ public class TurnEndResponseModel {
         this.playerHandIds2 = playerHandIds2;
         this.playerHandNames1 = playerHandNames1;
         this.playerHandNames2 = playerHandNames2;
+        this.playerHandDescriptions1 = playerHandDescriptions1;
+        this.playerHandDescriptions2 = playerHandDescriptions2;
     }
 
     public List<Integer> getHitPoints1() {
@@ -109,5 +113,21 @@ public class TurnEndResponseModel {
 
     public void setPlayerHandNames2(List<String> playerHandNames2) {
         this.playerHandNames2 = playerHandNames2;
+    }
+
+    public List<String> getPlayerHandDescriptions1() {
+        return playerHandDescriptions1;
+    }
+
+    public void setPlayerHandDescriptions1(List<String> playerHandDescriptions1) {
+        this.playerHandDescriptions1 = playerHandDescriptions1;
+    }
+
+    public List<String> getPlayerHandDescriptions2() {
+        return playerHandDescriptions2;
+    }
+
+    public void setPlayerHandDescriptions2(List<String> playerHandDescriptions2) {
+        this.playerHandDescriptions2 = playerHandDescriptions2;
     }
 }

@@ -8,6 +8,7 @@ import entities.cardEffects.CreatureStatsEffect;
 import entities.cardEffects.PlayerStatsEffect;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
+import entities.cards.Playable;
 import entities.cards.StructureCard;
 
 import java.util.ArrayList;
@@ -77,6 +78,8 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         List<Integer> playerHandIds2 = new ArrayList<>();
         List<String> playerHandNames1 = new ArrayList<>();
         List<String> playerHandNames2 = new ArrayList<>();
+        List<String> playerHandDescriptions1 = new ArrayList<>();
+        List<String> playerHandDescriptions2 = new ArrayList<>();
         
         for (CreatureCard creature : currentPlayer.getCreatures()) {
             creature.clearStun();
@@ -88,6 +91,11 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         for (Card currentCard : currentPlayer.getHand()) {
             playerHandIds1.add(currentCard.getId());
             playerHandNames1.add(currentCard.getName());
+            if (currentCard instanceof Playable) {
+                playerHandDescriptions1.add(((Playable) currentCard).getDescription());
+            } else {
+                playerHandDescriptions1.add("Essence");
+            }
         }
 
         for (CreatureCard creature : nextPlayer.getCreatures()) {
@@ -99,9 +107,16 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
         for (Card currentCard : nextPlayer.getHand()) {
             playerHandIds2.add(currentCard.getId());
             playerHandNames2.add(currentCard.getName());
+            if (currentCard instanceof Playable) {
+                playerHandDescriptions2.add(((Playable) currentCard).getDescription());
+            } else {
+                playerHandDescriptions2.add("Essence");
+            }
         }
 
-        TurnEndResponseModel turnEndModel = new TurnEndResponseModel(hitPoints1, hitPoints2, attack1, attack2, creatureIds1, creatureIds2, playerHandIds1, playerHandIds2, playerHandNames1, playerHandNames2);
+        TurnEndResponseModel turnEndModel = new TurnEndResponseModel(hitPoints1, hitPoints2, attack1, attack2,
+                creatureIds1, creatureIds2, playerHandIds1, playerHandIds2,
+                playerHandNames1, playerHandNames2, playerHandDescriptions1, playerHandDescriptions2);
 
         return turnEndPresenter.showTurnEndScreen(turnEndModel);
     }

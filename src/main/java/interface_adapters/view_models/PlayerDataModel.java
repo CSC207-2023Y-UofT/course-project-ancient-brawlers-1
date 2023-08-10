@@ -15,6 +15,7 @@ public class PlayerDataModel {
     private List<String> handCardDescriptions = new ArrayList<>();
     private String structureName;
     private int structureId;
+    private String structureDescription;
 
     /**
      * The constructor doesn't need player cards or deck info, because at the start
@@ -107,5 +108,13 @@ public class PlayerDataModel {
 
     public void setStructureId(int structureId) {
         this.structureId = structureId;
+    }
+
+    public String getStructureDescription() {
+        return structureDescription;
+    }
+
+    public void setStructureDescription(String structureDescription) {
+        this.structureDescription = structureDescription;
     }
 }

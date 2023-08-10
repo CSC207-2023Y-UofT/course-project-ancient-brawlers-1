@@ -3,6 +3,7 @@ package use_cases.game_start_use_case;
 import entities.GameState;
 import entities.Player;
 import entities.cards.Card;
+import entities.cards.Playable;
 import entities.decks.PlayerDeck;
 
 import java.util.ArrayList;
@@ -69,15 +70,21 @@ public class GameStartInteractor implements GameStartInputBoundary {
         PlayerDeck deck = player.getPlayerDeck();
         List<Integer> cardIds = new ArrayList<>();
         List<String> cardNames = new ArrayList<>();
+        List<String> cardDescs = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             Card card = deck.draw();
             cardIds.add(card.getId());
             cardNames.add(card.getName());
+            if (card instanceof Playable) {
+                cardDescs.add(((Playable) card).getDescription());
+            } else {
+                cardDescs.add("Essence");
+            }
             player.addCard(card);
         }
 
-        GameStartResponseModel output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames);
+        GameStartResponseModel output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames, cardDescs);
         return gameStartPresenter.showMulliganScreen(output);
     }
 
@@ -96,6 +103,7 @@ public class GameStartInteractor implements GameStartInputBoundary {
         PlayerDeck deck = player.getPlayerDeck();
         List<Integer> cardIds = new ArrayList<>();
         List<String> cardNames = new ArrayList<>();
+        List<String> cardDescs = new ArrayList<>();
 
         // Shuffle the cards into the deck.
         for (int id : inputData.getCardIds()) {
@@ -106,12 +114,22 @@ public class GameStartInteractor implements GameStartInputBoundary {
         for (Card card : player.getHand()) {
             cardIds.add(card.getId());
             cardNames.add(card.getName());
+            if (card instanceof Playable) {
+                cardDescs.add(((Playable) card).getDescription());
+            } else {
+                cardDescs.add("Essence");
+            }
         }
         // Next, redraw the same number of cards.
         for (int i = 0; i < inputData.getCardIds().size(); i++) {
             Card newCard = deck.draw();
             cardIds.add(newCard.getId());
             cardNames.add(newCard.getName());
+            if (newCard instanceof Playable) {
+                cardDescs.add(((Playable) newCard).getDescription());
+            } else {
+                cardDescs.add("Essence");
+            }
             player.addCard(newCard);
         }
 
@@ -121,14 +139,16 @@ public class GameStartInteractor implements GameStartInputBoundary {
         if (gameState.getCurrentPlayerIndex() == 1) {
             List<Integer> bonusCardIds = new ArrayList<>();
             List<String> bonusCardNames = new ArrayList<>();
+            List<String> bonusDescs = new ArrayList<>();
             Card bonusCard = player.getEssenceDeck().draw();
             bonusCardIds.add(bonusCard.getId());
             bonusCardNames.add(bonusCard.getName());
+            bonusDescs.add("Essence");
             player.addCard(bonusCard);
             output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, bonusCardIds,
-                                                cardNames, bonusCardNames);
+                                                cardNames, bonusCardNames, cardDescs, bonusDescs);
         } else {
-            output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames);
+            output = new GameStartResponseModel(gameState.getCurrentPlayerIndex(), cardIds, cardNames, cardDescs);
         }
         return gameStartPresenter.exitMulliganScreen(output);
     }

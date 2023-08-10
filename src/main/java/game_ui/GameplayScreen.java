@@ -168,14 +168,14 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         CardButton structure2;
         if (p1.getStructureName() != null) {
             structure1 = new CardButton(p1.getStructureId(), p1.getStructureName(), imageMapper.getImageByName(p1.getStructureName()));
-            structure1.setToolTipText("Description...");
+            structure1.setToolTipText(p1.getStructureDescription());
         } else {
             structure1 = new CardButton(-1, "", null);
             structure1.setToolTipText("Structure Card Slot");
         }
         if (p2.getStructureName() != null) {
             structure2 = new CardButton(p2.getStructureId(), p2.getStructureName(), imageMapper.getImageByName(p2.getStructureName()));
-            structure2.setToolTipText("Description...");
+            structure2.setToolTipText(p2.getStructureDescription());
         } else {
             structure2 = new CardButton(-1, "", null);
             structure2.setToolTipText("Structure Card Slot");
@@ -188,15 +188,23 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         List<HandCardButton> p1Hand = new ArrayList<>();
         List<HandCardButton> p2Hand = new ArrayList<>();
         for (int i = 0; i < p1.getHandCardIds().size(); i++) {
+            String desc = "";
+            if (p1.getHandCardDescriptions().get(i) != null) {
+                desc = p1.getHandCardDescriptions().get(i);
+            }
             HandCardButton handCard = new HandCardButton(p1.getHandCardIds().get(i), p1.getHandCardNames().get(i),
-                    "Description", imageMapper.getImageByName(p1.getHandCardNames().get(i)));
+                    desc, imageMapper.getImageByName(p1.getHandCardNames().get(i)));
             handCard.setPreferredSize(new Dimension(60, 90));
             handCard.addActionListener(this);
             p1Hand.add(handCard);
         }
         for (int i = 0; i < p2.getHandCardIds().size(); i++) {
+            String desc = "";
+            if (p2.getHandCardDescriptions().get(i) != null) {
+                desc = p2.getHandCardDescriptions().get(i);
+            }
             HandCardButton handCard = new HandCardButton(p2.getHandCardIds().get(i), p2.getHandCardNames().get(i),
-                    "Description", imageMapper.getImageByName(p2.getHandCardNames().get(i)));
+                    desc, imageMapper.getImageByName(p2.getHandCardNames().get(i)));
             handCard.setPreferredSize(new Dimension(60, 90));
             handCard.addActionListener(this);
             p2Hand.add(handCard);

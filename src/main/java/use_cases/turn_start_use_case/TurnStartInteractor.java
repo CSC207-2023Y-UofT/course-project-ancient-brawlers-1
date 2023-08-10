@@ -8,6 +8,7 @@ import entities.cardEffects.CreatureStatsEffect;
 import entities.cardEffects.PlayerStatsEffect;
 import entities.cards.Card;
 import entities.cards.CreatureCard;
+import entities.cards.Playable;
 import entities.cards.StructureCard;
 import entities.decks.EssenceDeck;
 import entities.decks.PlayerDeck;
@@ -54,6 +55,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         List<String> burntNames = new ArrayList<>();
         List<Integer> keptIds = new ArrayList<>();
         List<String> keptNames = new ArrayList<>();
+        List<String> descriptions = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             Card card = deck.draw();
             if (card != null) {
@@ -62,6 +64,11 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
                 if (val1) {
                     keptIds.add(card.getId());
                     keptNames.add(card.getName());
+                    if (card instanceof Playable) {
+                        descriptions.add(((Playable) card).getDescription());
+                    } else {
+                        descriptions.add("Essence");
+                    }
                 } else {
                     burntIds.add(card.getId());
                     burntNames.add(card.getName());
@@ -76,6 +83,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
             if (val2){
                 keptIds.add(ecard.getId());
                 keptNames.add(ecard.getName());
+                descriptions.add("Essence");
             } else {
                 burntIds.add(ecard.getId());
                 burntNames.add(ecard.getName());
@@ -83,7 +91,7 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
         }
 
-        DrawCardOutputModel output = new DrawCardOutputModel(gameState.getCurrentPlayerIndex(), keptIds, keptNames, burntIds, burntNames);
+        DrawCardOutputModel output = new DrawCardOutputModel(gameState.getCurrentPlayerIndex(), keptIds, keptNames, descriptions, burntIds, burntNames);
         
         return turnStartPresenter.showDrawResult(output);
     }
@@ -155,12 +163,19 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
         List<Integer> handIds = new ArrayList<>();
         List<String> handNames = new ArrayList<>();
+        List<String> handDescs = new ArrayList<>();
         for (Card card : player1.getHand()) {
             handIds.add(card.getId());
             handNames.add(card.getName());
+            if (card instanceof Playable) {
+                handDescs.add(((Playable) card).getDescription());
+            } else {
+                handDescs.add("Essence");
+            }
         }
 
-        TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, handNames, getCreatureStatsModel());
+        TriggerEffectUpdateModel outputData = new TriggerEffectUpdateModel(handIds, handNames,
+                handDescs, getCreatureStatsModel());
 
         return turnStartPresenter.showEffectUpdates(outputData);
     }

@@ -10,21 +10,24 @@ public class FinishAttackResponseModel {
     private List<Integer> creatureIds2;
     private List<Integer> handCardsIds1;
     private List<Integer> handCardsIds2;
-    private final List<String> handCardsDescription1;
-
+    private List<String> handNames1;
+    private List<String> handNames2;
+    private List<String> handCardsDescription1;
     private List<String> handCardsDescription2;
 
 
     public FinishAttackResponseModel(List<Integer> hitPoints1, List<Integer> hitPoints2,
                                      List<Integer> creatureIds1, List<Integer> creatureIds2,
                                      List<Integer> handCardsIds1, List<Integer> handCardsIds2,
-                                     List<String> handCardsDescription1, List<String> handCardsDescription2) {
+                                     List<String> handNames1, List<String> handNames2, List<String> handCardsDescription1, List<String> handCardsDescription2) {
         this.hitPoints1 = hitPoints1;
         this.hitPoints2 = hitPoints2;
         this.creatureIds1 = creatureIds1;
         this.creatureIds2 = creatureIds2;
         this.handCardsIds1 = handCardsIds1;
         this.handCardsIds2 = handCardsIds2;
+        this.handNames1 = handNames1;
+        this.handNames2 = handNames2;
         this.handCardsDescription1 = handCardsDescription1;
         this.handCardsDescription2 = handCardsDescription2;
     }
@@ -81,15 +84,31 @@ public class FinishAttackResponseModel {
         return handCardsDescription1;
     }
 
+    public void setHandCardsDescription1(List<String> handCardsDescription1) {
+        this.handCardsDescription1 = handCardsDescription1;
+    }
+
     public List<String> getHandCardsDescription2() {
         return handCardsDescription2;
     }
-    public void setHandCardsDescription1(List<String> handCardsDescription2) {
-        this.handCardsDescription2 = handCardsDescription2;
-    }
+
     public void setHandCardsDescription2(List<String> handCardsDescription2) {
         this.handCardsDescription2 = handCardsDescription2;
     }
 
+    public List<String> getHandNames1() {
+        return handNames1;
+    }
 
+    public void setHandNames1(List<String> handNames1) {
+        this.handNames1 = handNames1;
+    }
+
+    public List<String> getHandNames2() {
+        return handNames2;
+    }
+
+    public void setHandNames2(List<String> handNames2) {
+        this.handNames2 = handNames2;
+    }
 }

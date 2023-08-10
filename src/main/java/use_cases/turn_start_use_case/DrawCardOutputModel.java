@@ -7,14 +7,16 @@ public class DrawCardOutputModel {
     private int playerIndex;
     private List<Integer> newCardIds;
     private List<String> newCardNames;
+    private List<String> newCardDescriptions;
     private List<Integer> burntCardIds;
     private List<String> burntCardNames;
 
     public DrawCardOutputModel(int playerIndex, List<Integer> newCardIds, List<String> newCardNames,
-                               List<Integer> burntCardIds, List<String> burntCardNames) {
+                               List<String> newCardDescriptions, List<Integer> burntCardIds, List<String> burntCardNames) {
         this.playerIndex = playerIndex;
         this.newCardIds = newCardIds;
         this.newCardNames = newCardNames;
+        this.newCardDescriptions = newCardDescriptions;
         this.burntCardIds = burntCardIds;
         this.burntCardNames = burntCardNames;
     }
@@ -41,6 +43,14 @@ public class DrawCardOutputModel {
 
     public void setNewCardNames(List<String> newCardNames) {
         this.newCardNames = newCardNames;
+    }
+
+    public List<String> getNewCardDescriptions() {
+        return newCardDescriptions;
+    }
+
+    public void setNewCardDescriptions(List<String> newCardDescriptions) {
+        this.newCardDescriptions = newCardDescriptions;
     }
 
     public List<Integer> getBurntCardIds() {

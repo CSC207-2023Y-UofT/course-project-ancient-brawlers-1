@@ -16,7 +16,8 @@ class GameStartResponseModelTest {
     void setUp() {
         List<Integer> cardIds = new ArrayList<>(List.of(1, 2, 3));
         List<String> cardNames = new ArrayList<>(List.of("name1", "name2", "name3"));
-        data = new GameStartResponseModel(0, cardIds, cardNames);
+        List<String> cardDescs = new ArrayList<>(List.of("", "", ""));
+        data = new GameStartResponseModel(0, cardIds, cardNames, cardDescs);
     }
 
     @Test

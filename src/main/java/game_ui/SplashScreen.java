@@ -31,7 +31,7 @@ public class SplashScreen extends JPanel {
         setBackground(Color.BLACK);
         setLayout(new BorderLayout());
 
-        textTimer = new Timer(2000, new ActionListener() {
+        textTimer = new Timer(2500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentSentenceIndex < sentences.length) {
@@ -52,7 +52,7 @@ public class SplashScreen extends JPanel {
                 if (currentBackgroundColor.equals(targetBackgroundColor)) {
                     backgroundTimer.stop();
                 } else {
-                    currentBackgroundColor = blendColors(currentBackgroundColor, targetBackgroundColor, 0.01f); // Increase blending ratio
+                    currentBackgroundColor = blendColors(currentBackgroundColor, targetBackgroundColor, 0.02f); // Increase blending ratio
                     repaint();
                 }
             }

@@ -25,6 +25,8 @@ public class WinLossInteractor implements WinLossInputBoundary {
             outputData = new WinLossResponseModel(player2.getName());
         } else if (p2Creature == 0 && p1Creature > 0) {
             outputData = new WinLossResponseModel(player1.getName());
+        } else if (p1Creature == 0 && p2Creature == 0) {
+            outputData = new WinLossResponseModel("No one");  // draw :)
         } else {
             outputData = new WinLossResponseModel("");
         }
