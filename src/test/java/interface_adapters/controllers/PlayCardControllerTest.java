@@ -27,4 +27,10 @@ public class PlayCardControllerTest {
         Mockito.verify(playCardInteractor).playCard(x);
 
     }
+
+    @Test
+    public void testPlaySingleTarget(){
+        playCardController.playSingleTarget(5,5);
+        Mockito.verify(playCardInteractor).playSingleTargetCard(5,5);
+    }
 }
