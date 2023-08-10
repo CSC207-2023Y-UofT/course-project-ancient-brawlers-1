@@ -114,7 +114,7 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
         gameStartController.endMulligan(replaceCardIds, replaceCardNames);
         turnEndController.passTurn();
 
-        int delay = 2000;
+        int delay = 1000;
         ActionListener delayAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +122,7 @@ public class MulliganScreen extends JPanel implements ActionListener, ScreenUpda
                     bothMulliansComplete = true;
                     gameStartController.startMulligan();
                 } else {
+                    bothMulliansComplete = false;  // resetting it in case we start over
                     System.out.println("Turn Start! Drawing cards, clearing buffs, ...");
                     turnStartController.processTurnStart();
                 }

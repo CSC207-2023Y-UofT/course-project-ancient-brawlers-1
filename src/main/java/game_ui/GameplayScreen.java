@@ -4,6 +4,7 @@ import interface_adapters.AttackException;
 import interface_adapters.CardImageMapper;
 import interface_adapters.PlayCardException;
 import interface_adapters.controllers.*;
+import interface_adapters.presenters.GamePausePresenter;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
 import interface_adapters.view_models.ScreenUpdateListener;
@@ -23,19 +24,23 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     private final TurnEndController turnEndController;
     private final PlayCardController playCardController;
     private final EndGameController endGameController;
+    private final GamePausePresenter pausePresenter;
+    private final JLabel p1Name, p2Name;
     private final JPanel p1HandPanel, p2HandPanel, creaturePanel;
     private DisplayCard selectedCard1, selectedCard2;
-    private List<CardButton> p1Creatures = new ArrayList<>();
-    private List<CardButton> p2Creatures = new ArrayList<>();
+    private final List<CardButton> p1Creatures = new ArrayList<>();
+    private final List<CardButton> p2Creatures = new ArrayList<>();
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private final Font font2 = new Font("Herculanum", Font.BOLD, 20);
 
-    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController, EndGameController endGameController) {
+    public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController, EndGameController endGameController, GamePausePresenter pausePresenter) {
         this.gameplayScreenModel = gameplayScreenModel;
         this.attackController = attackController;
         this.turnStartController = turnStartController;
         this.turnEndController = turnEndController;
         this.playCardController = playCardController;
         this.endGameController = endGameController;
+        this.pausePresenter = pausePresenter;
 
         this.setLayout(new GridBagLayout());
 
@@ -72,6 +77,13 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         pauseButton.setActionCommand("PAUSE");
         playCardButton1.setActionCommand("PLAY_CARD1");
         playCardButton2.setActionCommand("PLAY_CARD2");
+        // names
+        p1Name = new JLabel("");
+        p2Name = new JLabel("");
+        p1Name.setFont(font2);
+        p2Name.setFont(font2);
+        p1Name.setBackground(Color.GRAY);
+        p2Name.setBackground(Color.GRAY);
 
         /* ----------------------UI components LAYOUT-------------------------*/
         JPanel sidePanel = new JPanel();
@@ -95,6 +107,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         c.anchor = GridBagConstraints.EAST;
         this.add(sidePanel, c);
 
+        this.add(p1Name, getGBC(0, 2, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
+        this.add(p2Name, getGBC(0, 0, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
+
         // Listeners
         pauseButton.addActionListener(this);
         endTurnButton.addActionListener(this);
@@ -111,17 +126,11 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
 
         PlayerDataModel p1 = gameplayScreenModel.getPlayer1();
         PlayerDataModel p2 = gameplayScreenModel.getPlayer2();
-        Font font = new Font("Herculanum", Font.BOLD, 30);
-        Font font2 = new Font("Herculanum", Font.BOLD, 20);
 
         /* --------------------Dynamic UI components--------------------------*/
         // Creating the UI components (code will not look pleasant)
-        JLabel p1Name = new JLabel(p1.getPlayerName());
-        JLabel p2Name = new JLabel(p2.getPlayerName());
-        p1Name.setFont(font2);
-        p2Name.setFont(font2);
-        p1Name.setBackground(Color.GRAY);
-        p2Name.setBackground(Color.GRAY);
+        p1Name.setText(p1.getPlayerName());
+        p2Name.setText(p2.getPlayerName());
         // Creatures
         List<CardButton> creatures = new ArrayList<>();
         List<JLabel> hitPointLabels = new ArrayList<>();
@@ -240,8 +249,6 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         creaturePanel.add(new JLabel(), getGBC(0, 4, 1, 1, 0, 0, 1, 1));
         creaturePanel.add(new JLabel(), getGBC(7, 4, 1, 1, 0, 0, 1, 1));
 
-        this.add(p1Name, getGBC(0, 2, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
-        this.add(p2Name, getGBC(0, 0, 0.5, 0.5, 0, 0, 1, 1, GridBagConstraints.CENTER));
         this.add(p1HandPanel, getGBC(1, 2, 0.75, 0.5, 0, 0, 1, 1));
         this.add(p2HandPanel, getGBC(1, 0, 0.75, 0.5, 0, 0, 1, 1));
         this.add(creaturePanel, getGBC(0, 1, 1, 1, 0, 0, 3, 1));
@@ -357,6 +364,7 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
                     break;
                 case "PAUSE":
                     System.out.println("Request game pause");
+                    pausePresenter.pauseGame();
                     break;
                 case "PLAY_CARD1":
                     if (gameplayScreenModel.getCurrentPlayer().equals(gameplayScreenModel.getPlayer1().getPlayerName())) {
