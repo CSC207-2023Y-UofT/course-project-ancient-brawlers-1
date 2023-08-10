@@ -75,7 +75,7 @@ public class AttackPresenter implements AttackOutputBoundary {
     }
     /**
      * To be used in the initiateAttack() method in the interactor, for cases when a player cannot attack.
-     * A player is unable to attack if they do not have enough essence or they select their own creatures
+     * A player is unable to attack if they do not have enough essence or if  they select their own creatures
      *
      * @param message the string message to show on the screen.
      */

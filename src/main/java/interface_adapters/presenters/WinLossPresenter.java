@@ -1,14 +1,10 @@
 package interface_adapters.presenters;
 
-import game_ui.VictoryScreen;
 import interface_adapters.view_models.GameFrameModel;
 import interface_adapters.view_models.GameScreenType;
-import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.VictoryScreenModel;
 import use_cases.win_loss_use_case.WinLossOutputBoundary;
 import use_cases.win_loss_use_case.WinLossResponseModel;
-
-import java.util.Objects;
 
 public class WinLossPresenter implements WinLossOutputBoundary {
 
@@ -20,6 +16,11 @@ public class WinLossPresenter implements WinLossOutputBoundary {
         this.victoryScreenModel = victoryScreenModel;
     }
 
+    /**
+     * Shows the winner of the game if there is a winner
+     * @param outputData a WinLossResponseModel  that contains the name of the player that is the winner
+     * @return the same responseModel that was passed in
+     */
     @Override
     public WinLossResponseModel showVictoryScreen(WinLossResponseModel outputData) {
         if(!outputData.getWinnerName().isEmpty()){

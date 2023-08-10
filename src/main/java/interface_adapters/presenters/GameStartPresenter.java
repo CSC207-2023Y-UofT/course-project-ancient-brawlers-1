@@ -30,6 +30,13 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         frameModel.refresh();
     }
 
+    /**
+     * Shows the MulliganScreen which lets players choose which cards they would like to discard from their hand into
+     * their deck in exchange for a new card from the deck
+     * @param outputData the response model that contains, the cardId's, card names, and the cards that they could
+     * potentially swap out
+     * @return the same responseModel that was originally passed in
+     */
     @Override
     public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
         mulliganScreenModel.setCardIds(outputData.getCardIds());
@@ -38,6 +45,12 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         return outputData;
     }
 
+    /**
+     * Exists the Mulligan Screen back to the Gameplay Screen with players updated hand from the mulligan screen
+     * @param outputData the response model that contains, the cardId's, card names, and the cards that they
+     * potentially swapped out
+     * @return the same responseModel that was originally passed in
+     */
     @Override
     public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
         List<String> handCardNames = new ArrayList<>();

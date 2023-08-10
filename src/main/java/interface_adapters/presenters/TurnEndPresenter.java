@@ -16,6 +16,13 @@ public class TurnEndPresenter implements TurnEndOutputBoundary {
         this.gameplayScreenModel = gameplayScreenModel;
     }
 
+    /**
+     * Updates the players with their updated hands and creatures
+     * @param outputData contains the hitpoints, the damage, the creature id, the id's of the cards in a players hand,
+     * and description of the cards in a player's hand
+     * @return the same responseModel that was passed in
+     */
+
     @Override
     public TurnEndResponseModel showTurnEndScreen(TurnEndResponseModel outputData) {
         PlayerDataModel playerData1 = gameplayScreenModel.getPlayer1();
@@ -37,6 +44,10 @@ public class TurnEndPresenter implements TurnEndOutputBoundary {
         return outputData;
     }
 
+    /**
+     * Sets the gamePlayScreenModel to the opponent
+     * @param nextPlayer contains the opponents name
+     */
     @Override
     public void notifyTurnChange(String nextPlayer) {
         gameplayScreenModel.setCurrentPlayer(nextPlayer);
