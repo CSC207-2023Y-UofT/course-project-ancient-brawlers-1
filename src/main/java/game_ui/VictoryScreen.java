@@ -1,6 +1,6 @@
 package game_ui;
 
-import interface_adapters.controllers.EndGameController;
+import interface_adapters.presenters.GamePausePresenter;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.VictoryScreenModel;
 
@@ -12,9 +12,11 @@ import java.awt.event.ActionListener;
 public class VictoryScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private VictoryScreenModel victoryScreenModel;
+    private GamePausePresenter pausePresenter;
 
-    public VictoryScreen(VictoryScreenModel victoryScreenModel){
+    public VictoryScreen(VictoryScreenModel victoryScreenModel, GamePausePresenter pausePresenter){
         this.victoryScreenModel = victoryScreenModel;
+        this.pausePresenter = pausePresenter;
 
         this.setLayout(new GridBagLayout());
     }
@@ -30,6 +32,8 @@ public class VictoryScreen extends JPanel implements ActionListener, ScreenUpdat
         victoryMessage.setFont(font);
         JButton exitButton = new JButton("Exit to Main Menu");
         exitButton.setFont(font);
+
+        exitButton.addActionListener(this);
 
         this.add(victoryMessage, getGBC(0, 0, 1, 1, 0, 0, 1, 1));
         this.add(exitButton, getGBC(0, 1, 1, 1, 25, 25, 1, 1));
@@ -58,6 +62,6 @@ public class VictoryScreen extends JPanel implements ActionListener, ScreenUpdat
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        pausePresenter.quitGameWithoutSave();
     }
 }

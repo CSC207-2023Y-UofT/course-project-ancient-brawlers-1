@@ -31,4 +31,10 @@ public class GameState {
         players[0] = players[1];
         players[1] = temp;
     }
+
+    public void reset() {
+        currentPlayerIndex = 0;
+        players[0] = null;
+        players[1] = null;
+    }
 }

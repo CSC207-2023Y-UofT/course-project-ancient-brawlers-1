@@ -82,6 +82,7 @@ public class GamePrepInteractor implements GamePrepInputBoundary {
         Player player1 = playerFactory.createPlayer(requestModel.getPlayerName1(), creatures1, playerDeck1, essenceDeck1);
         Player player2 = playerFactory.createPlayer(requestModel.getPlayerName2(), creatures2, playerDeck2, essenceDeck2);
 
+        gameState.reset();
         gameState.setPlayers(player1, player2);
 
         GamePrepResponseModel outputData = getResponseModel();
