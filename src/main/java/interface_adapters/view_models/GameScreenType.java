@@ -8,5 +8,6 @@ public enum GameScreenType {
     TARGET_SELECTION,
     DEFEND,
     VICTORY,
-    PAUSE
+    PAUSE,
+    SPLASH
 }
