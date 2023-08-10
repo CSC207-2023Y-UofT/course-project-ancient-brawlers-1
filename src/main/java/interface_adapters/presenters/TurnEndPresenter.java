@@ -26,12 +26,14 @@ public class TurnEndPresenter implements TurnEndOutputBoundary {
         playerData1.setCreatureIds(outputData.getCreatureIds1());
         playerData1.setHandCardNames(outputData.getPlayerHandNames1());
         playerData1.setHandCardIds(outputData.getPlayerHandIds1());
+        playerData1.setHandCardDescriptions(outputData.getPlayerHandDescriptions1());
 
         playerData2.setCreatureAttacks(outputData.getAttack2());
         playerData2.setCreatureHPs(outputData.getHitPoints2());
         playerData2.setCreatureIds(outputData.getCreatureIds2());
         playerData2.setHandCardNames(outputData.getPlayerHandNames2());
         playerData2.setHandCardIds(outputData.getPlayerHandIds2());
+        playerData2.setHandCardDescriptions(outputData.getPlayerHandDescriptions2());
 
         gameFrameModel.refresh();
         return outputData;

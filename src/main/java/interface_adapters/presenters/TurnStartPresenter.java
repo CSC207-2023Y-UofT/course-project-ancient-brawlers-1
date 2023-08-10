@@ -29,6 +29,7 @@ public class TurnStartPresenter implements TurnStartOutputBoundary {
         }
         playerData.getHandCardNames().addAll(outputData.getNewCardNames());
         playerData.getHandCardIds().addAll(outputData.getNewCardIds());
+        playerData.getHandCardDescriptions().addAll(outputData.getNewCardDescriptions());
         frameModel.refresh();
         return null;
     }
@@ -60,9 +61,11 @@ public class TurnStartPresenter implements TurnStartOutputBoundary {
         if (allStats.getPlayerIndex() == 0) {
             playerData1.setHandCardIds(outputData.getFinalHandIds());
             playerData1.setHandCardNames(outputData.getFinalHandNames());
+            playerData1.setHandCardDescriptions(outputData.getFinalHandDescs());
         } else {
             playerData2.setHandCardIds(outputData.getFinalHandIds());
             playerData2.setHandCardNames(outputData.getFinalHandNames());
+            playerData2.setHandCardDescriptions(outputData.getFinalHandDescs());
         }
         frameModel.refresh();
         return null;

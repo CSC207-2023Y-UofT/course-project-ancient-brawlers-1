@@ -46,13 +46,18 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         List<Integer> handCardIds = new ArrayList<>();
         handCardIds.addAll(outputData.getCardIds());
         handCardIds.addAll(outputData.getBonusCardIds());
+        List<String> handCardDescs = new ArrayList<>();
+        handCardDescs.addAll(outputData.getCardDescs());
+        handCardDescs.addAll(outputData.getBonusCardDescs());
 
         if (outputData.getPlayerIndex() == 0) {
             gameplayScreenModel.getPlayer1().setHandCardNames(handCardNames);
             gameplayScreenModel.getPlayer1().setHandCardIds(handCardIds);
+            gameplayScreenModel.getPlayer1().setHandCardDescriptions(handCardDescs);
         } else {
             gameplayScreenModel.getPlayer2().setHandCardNames(handCardNames);
             gameplayScreenModel.getPlayer2().setHandCardIds(handCardIds);
+            gameplayScreenModel.getPlayer2().setHandCardDescriptions(handCardDescs);
         }
         frameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return outputData;
