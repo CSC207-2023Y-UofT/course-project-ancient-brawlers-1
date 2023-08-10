@@ -30,6 +30,8 @@ import use_cases.win_loss_use_case.WinLossInputBoundary;
 import use_cases.win_loss_use_case.WinLossInteractor;
 import use_cases.win_loss_use_case.WinLossOutputBoundary;
 
+import javax.swing.*;
+
 public class AncientBrawlersApp {
 
     private static final GameFrameModel gameFrameModel = new GameFrameModel();
@@ -78,6 +80,7 @@ public class AncientBrawlersApp {
         TargetSelectionScreen targetSelectionScreen = new TargetSelectionScreen(targetScreenModel, playCardController, endGameController);
         VictoryScreen victoryScreen = new VictoryScreen(victoryScreenModel, pausePresenter);
 
+        gameFrame.addScreen(new SplashScreen(), GameScreenType.SPLASH);  // A fancy intro, can be removed anytime
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);
         gameFrame.addScreen(gameplayScreen, GameScreenType.GAMEPLAY);
@@ -88,6 +91,14 @@ public class AncientBrawlersApp {
         gameFrame.addScreen(pauseScreen, GameScreenType.PAUSE);
 
         gameFrame.setVisible(true);
+
+        // This part can be removed along with the Splash screen.
+        // For now, it is kept to make the program feel more like a game
+        Timer timer = new Timer(18000, e -> {
+            gameFrameModel.setCurrentScreen(GameScreenType.MENU); // Switch to the main menu
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     private static GamePrepController getGamePrepController() {

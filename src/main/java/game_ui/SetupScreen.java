@@ -109,7 +109,9 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
 
     @Override
     public void onScreenUpdate() {
-        updateSetupScreen();
+        if (setupScreenModel.getCreaturesToChoose() != null) {
+            updateSetupScreen();
+        }
     }
 
     /**
