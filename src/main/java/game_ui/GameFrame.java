@@ -31,7 +31,9 @@ public class GameFrame extends JFrame implements FrameUpdateListener {
 
     public void addScreen(JPanel screen, GameScreenType screenType) {
         gamePanel.add(screen, screenType.name());
-        listeners.add((ScreenUpdateListener) screen);
+        if (screen instanceof ScreenUpdateListener) {
+            listeners.add((ScreenUpdateListener) screen);
+        }
     }
 
     @Override

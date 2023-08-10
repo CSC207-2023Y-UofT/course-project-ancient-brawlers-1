@@ -194,6 +194,7 @@ public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateL
                         break;
                     default:
                         timer.stop();
+                        timerStep = 0;
                         break;
                 }
                 timerStep++;

@@ -55,6 +55,12 @@ public class AncientBrawlersApp {
         GameFrame gameFrame = new GameFrame(gameFrameModel);
         gameFrameModel.addListener(gameFrame);
 
+        // This pause presenter may be combined in the future with the use case
+        // that does game saves
+        GamePausePresenter pausePresenter = new GamePausePresenter(gameFrameModel);
+        PauseScreen pauseScreen = new PauseScreen(pausePresenter);
+
+        // These are the well determined components
         GamePrepController gamePrepController = getGamePrepController();
         GameStartController gameStartController = getGameStartController();
         TurnStartController turnStartController = getTurnStartController();
@@ -66,11 +72,11 @@ public class AncientBrawlersApp {
         MenuScreen menuScreen = new MenuScreen(gamePrepController);
         SetupScreen setupScreen = new SetupScreen(setupScreenModel, gamePrepController, gameStartController);
         GameplayScreen gameplayScreen = new GameplayScreen(gameplayScreenModel, gameStartController, attackController,
-                turnStartController, turnEndController, playCardController, endGameController);
+                turnStartController, turnEndController, playCardController, endGameController, pausePresenter);
         MulliganScreen mulliganScreen = new MulliganScreen(mulliganScreenModel, gameStartController, turnStartController, turnEndController);
         DefendScreen defendScreen = new DefendScreen(defendScreenModel, attackController, turnEndController, turnStartController, endGameController);
         TargetSelectionScreen targetSelectionScreen = new TargetSelectionScreen(targetScreenModel, playCardController, endGameController);
-        VictoryScreen victoryScreen = new VictoryScreen(victoryScreenModel);
+        VictoryScreen victoryScreen = new VictoryScreen(victoryScreenModel, pausePresenter);
 
         gameFrame.addScreen(menuScreen, GameScreenType.MENU);
         gameFrame.addScreen(setupScreen, GameScreenType.SETUP);
@@ -79,6 +85,7 @@ public class AncientBrawlersApp {
         gameFrame.addScreen(defendScreen, GameScreenType.DEFEND);
         gameFrame.addScreen(targetSelectionScreen, GameScreenType.TARGET_SELECTION);
         gameFrame.addScreen(victoryScreen, GameScreenType.VICTORY);
+        gameFrame.addScreen(pauseScreen, GameScreenType.PAUSE);
 
         gameFrame.setVisible(true);
     }
