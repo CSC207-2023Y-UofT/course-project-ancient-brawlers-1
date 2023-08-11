@@ -5,9 +5,8 @@ package use_cases.win_loss_use_case;
  */
 public interface WinLossInputBoundary {
     /**
-     * Checks to see if there is a winner, that is a winner that still has creatures and their opponents
-     * have no creatures left
-     * @return
+     * Checks if a player has run out of alive creatures. The player who still 
+     * has creatures is the winner.
      */
     WinLossResponseModel detectWinLoss();
 }
