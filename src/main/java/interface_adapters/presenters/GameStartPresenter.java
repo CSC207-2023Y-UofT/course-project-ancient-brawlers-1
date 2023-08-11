@@ -47,9 +47,10 @@ public class GameStartPresenter implements GameStartOutputBoundary {
     }
 
     /**
-     * Exists the Mulligan Screen back to the Gameplay Screen with players updated hand from the mulligan screen
-     * @param outputData the response model that contains, the cardId's, card names, and the cards that they
-     * potentially swapped out
+     * Sends instruction to exit Mulligan Screen and back to Gameplay Screen,
+     * while also updating the screen with the player's mulligan results.
+     * 
+     * @param outputData the response model that contains the finalized card data.
      * @return the same responseModel that was originally passed in
      */
     @Override
