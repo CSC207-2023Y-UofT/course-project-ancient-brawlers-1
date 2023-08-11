@@ -31,10 +31,11 @@ public class GameStartPresenter implements GameStartOutputBoundary {
     }
 
     /**
-     * Shows the MulliganScreen which lets players choose which cards they would like to discard from their hand into
-     * their deck in exchange for a new card from the deck
-     * @param outputData the response model that contains, the cardId's, card names, and the cards that they could
-     * potentially swap out
+     * Sends instruction to display the MulliganScreen, which is for the mulligan
+     * phase of the game.
+     * 
+     * @param outputData the response model that contains card data representing
+     *                   the cards to be replaced.
      * @return the same responseModel that was originally passed in
      */
     @Override
