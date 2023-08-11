@@ -8,12 +8,28 @@ so use them strategically, and outwit your opponent!
 ## Table of Contents
 * [Specifications (Running the game)](#specifications)
 * [Game Rules and Tutorial](#game-rules-and-tutorial)
+  * [Cards: Creature, Essence, Action, Structure](#cards)
+  * [The player's resources](#resources)
+  * [Mulligan](#mulligan)
+  * [Attacking](#attacking)
+  * [Target Selection](#target-selection)
+  * [Game Flow](#game-flow)
 * [The Game's Software Architecture](#software-architecture)
+  * [SOLID principles](#solid-principles)
+  * [Clean Architecture](#clean-architecture)
+* [Testing](#testing)
+  * [Unit test](#unit-test)
+  * [Play-test](#play-test)
 * [Design Patterns](#design-patterns)
+  * [Model-View-Presenter (MVP) and Model-View-ViewModel (MVVM)](#mvp-mvvm)
+  * [Simple Factory](#simple-factory)
+  * [Observer](#observer)
+  * [Dependency Injection](#dependency-injection)
 * [Credits](#credits)
 
 ## Specifications
-This program is written in Java, using JDK `Amazon Corretto version 11.0.19`. Unit tests are written with `JUnit 5`.
+This program is written in Java, using JDK `Amazon Corretto version 11.0.19`. Unit tests are written mainly with
+`JUnit 5.6.0`, with some tests using `Mockito 3.12.4`.
 
 To run the game, clone this repository and run the file `src/main/java/AncientBrawlersApp.java`.
 
@@ -71,6 +87,17 @@ the selected card will be unleashed! If you select and play a Structure, it will
 this image. Finally, on the right side of the board, you get to see the supplies you have: a deck of cards (Action and 
 Structure) and another deck full of Essence (unlimited Essence!).
 
+### Mulligan
+
+At the start of the game, players receive their first hand of cards by going through the *mulligan* phase. 
+
+![MulliganScreen](images/MulliganDemo.png)
+
+The player draws 3 cards from their deck, and can choose which ones to be replaced. The chosen cards are shuffled into 
+the deck, and new cards are drawn to be kept in the player's hand. This is a typical rule in card games, and it gives 
+the players a chance to get the cards they want (otherwise, since decks are always randomly shuffled, the randomness may
+be disruptive).
+
 ### Attacking
 
 To attack, the player must select a friendly creature, then select an enemy creature. The attack will initiate once this 
@@ -110,7 +137,7 @@ Now you are ready to start the brawl!
 
 ## Software Architecture
 
-### Adherence to SOLID principles
+### SOLID principles
 * **Single Responsibility Principle (SRP)**
 
   Each module should only be responsible to a single actor. We enforce this rule on various scales in the program.
@@ -146,7 +173,7 @@ Now you are ready to start the brawl!
 
   One example is that only the `ActionCard` and `StructureCard` types have descriptions and effects, so we make them implement 
   a `Playable` interface, with the methods that get those descriptions and effects. As for the other cards, like `CreatureCard`,
-  we don't implement the `Playable` interface on it, so the `CreatureCard` is not dependent on code extra code that it doesn't use.
+  we don't implement the `Playable` interface on it, so the `CreatureCard` is not dependent on extra code that it doesn't use.
   
   A more plain example is that we have broken down classes into small enough pieces, so that the import statements in every
   class are exactly the things they need, without extra/unused code.
@@ -178,6 +205,48 @@ Then, for the Interface Adapters Layer, we create the many types of controllers 
 This layer would be the API to our game program, which makes it possible to migrate the game to a different tool for designing
 the UI. Finally, the frameworks layer currently just uses Java Swing for the game UI, and we also have a package specifically
 for data access (interactions with databases, which are just JSON files for now).
+
+## Testing
+
+### Unit test
+
+Currently, tests are written for all entity classes, all use cases, and some interfaces. There are no tests for the UI
+components, and it is due to (1) there isn't a properly determined way to make the UI, so tests are not well determined,
+and (2) the UI is difficult to test, and the more straight-forward way to test these components is to play the game and 
+test by eye (see the section below on play-testing).
+
+Test coverage provided by IntelliJ IDEA (by package):
+- entities
+  - Class: 100%
+  - Method: 100%
+  - Line: 95%
+- use_cases:
+  - Class: 100%
+  - Method: 52%
+  - Line: 77%
+- interface_adapters:
+  - Class: 25%
+  - Method: 43%
+  - Line: 40%
+
+The entities are given the most attention, as they represent the core game components. The use cases are given the same 
+level of attention, because they make up the game mechanics and the program's internal logic. Although the result says 
+that only 52% of the methods are tested, most of the untested methods are setter methods from the input/output data 
+models. Those methods are unused because the data are always passed in through the construction of those data models. The
+setters are not removed in case some modifications are required. This is also why the number of lines tested is 77%, because
+that 70% includes the actual use case methods.
+
+### Play-test
+
+This program can be seen as the prototype of a larger and more complex game. A good quality game requires playtesting,
+and constantly needs feedback on the user experience. So, to make up for the lack of tests on the UI components, we need
+to play the game: do what the game says, and also do what it doesn't say. For a card game, the mechanics is perhaps the
+most important component. As we play, we are bound to find bugs, both logically and visually, and we will just frequently
+report the bugs we find, and frequently open new branches to fix them. This should be an always ongoing process happening
+in the background.
+
+At the moment, you can find many open issues labelled as "bug" in the issues tab. These should be fixed as more feature 
+developments are taking place, and there should naturally be more bug issues being opened as the development continues.
 
 ## Design Patterns
 
@@ -220,11 +289,15 @@ and the UIs are merely using them.
 
 ### Dependency Injection
 
-The most important example of dependency injection is in how we manage the `GameState` object. Every use case interactor 
-class must make modifications to the same `gameState`, otherwise we fail to connect all the game logics together. So we
-define an attribute in every use case interactor, with the type `GameState`, but we don't create it inside the interactor.
-Instead, during program setup (which happens in the `main()` in `AncientBrawlersApp.java`), we inject the same `gameState` 
-variable into all the interactors when we construct them. This is one of the key features that allow the game to come together.
+Every use case package uses dependency injection, as it is a highlight of the Clean Architecture design. So these parts
+won't be explained here.
+
+There is another usage that can also be treated as a kind of dependency injection, and that is in how we manage the 
+`GameState` object. Every use case interactor class must make modifications to the same `gameState`, otherwise we fail 
+to connect all the game logics together. So we define an attribute in every use case interactor, with the type `GameState`, 
+but we don't create it inside the interactor. Instead, during program setup (which happens in the `main()` in 
+`AncientBrawlersApp.java`), we pass the same `gameState` variable into all the interactors during construction. 
+This is one of the key features that allow the game to come together.
 
 ## Credits
 
