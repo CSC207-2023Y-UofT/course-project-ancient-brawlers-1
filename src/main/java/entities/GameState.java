@@ -29,7 +29,6 @@ public class GameState {
         return players[currentPlayerIndex ^ 1];
     }
 
-
     public void switchPlayer() {
         currentPlayerIndex ^= 1;
     }
