@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import interface_adapters.CardImageMapper;
+import data_access.CardImageMapper;
 import interface_adapters.controllers.AttackController;
 import interface_adapters.controllers.EndGameController;
 import interface_adapters.controllers.TurnEndController;

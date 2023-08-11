@@ -3,7 +3,7 @@ import entities.PlayerFactory;
 import entities.cards.CardFactory;
 import entities.decks.DeckFactory;
 import game_ui.*;
-import interface_adapters.CardDataMapper;
+import data_access.CardDataMapper;
 import interface_adapters.controllers.*;
 import interface_adapters.presenters.*;
 import interface_adapters.view_models.*;

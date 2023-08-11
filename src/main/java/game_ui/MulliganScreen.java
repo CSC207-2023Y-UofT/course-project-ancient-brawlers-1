@@ -1,6 +1,6 @@
 package game_ui;
 
-import interface_adapters.CardImageMapper;
+import data_access.CardImageMapper;
 import interface_adapters.controllers.TurnEndController;
 import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.MulliganScreenModel;

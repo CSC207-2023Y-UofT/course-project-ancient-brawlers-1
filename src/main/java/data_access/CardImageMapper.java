@@ -1,4 +1,4 @@
-package interface_adapters;
+package data_access;
 
 import javax.swing.*;
 import java.io.File;
