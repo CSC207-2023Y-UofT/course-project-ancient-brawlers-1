@@ -24,13 +24,14 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
     final GameState gameState;
 
     final TurnStartOutputBoundary turnStartPresenter;
+
     /**
      * Construct a TurnStartInteractor with the given GameState and TurnStartOutputBoundary
      * @param gameState the GameState that records the progress of the current game.
-     *      *                  It should be shared by all use case interactors.
+     *                  It should be shared by all use case interactors.
      * @param turnStartPresenter implementing class of the output boundary that
-     *      *                           handles the communication to the outer layers of
-     *      *                           the program.
+     *                           handles the communication to the outer layers of
+     *                           the program.
      */
     public TurnStartInteractor(GameState gameState, TurnStartOutputBoundary turnStartPresenter) {
         this.gameState = gameState;
