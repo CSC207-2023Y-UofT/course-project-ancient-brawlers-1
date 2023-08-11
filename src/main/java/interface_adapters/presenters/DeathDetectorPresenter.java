@@ -16,9 +16,10 @@ public class DeathDetectorPresenter implements DeathDetectorOutputBoundary {
     }
 
     /**
-     * Responsible for setting the updated data for the two players in the View Model
-     * @param outputData contains the updated id, hitpoints, and attackpoints for all the creatures for both players.
-     * More specifically, it will indicate whether a creature is dead by a -1 id.
+     * Loads data for the two players into the corresponding View Model.
+     * 
+     * @param outputData contains the updated id, hit-points, and attacks for 
+     *                   all the creatures.
      */
     @Override
     public DeathDetectorResponseModel updateCreatureStats(DeathDetectorResponseModel outputData) {
