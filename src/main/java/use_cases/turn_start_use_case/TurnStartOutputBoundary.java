@@ -10,10 +10,6 @@ package use_cases.turn_start_use_case;
  */
 public interface TurnStartOutputBoundary {
 
-    /**
-     *
-     * @param outputData
-     */
     DrawCardOutputModel showDrawResult(DrawCardOutputModel outputData);
 
     CreatureStatsUpdateModel showClearBuffs(CreatureStatsUpdateModel outputData);
