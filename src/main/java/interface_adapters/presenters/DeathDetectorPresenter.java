@@ -1,7 +1,6 @@
 package interface_adapters.presenters;
 
 import interface_adapters.view_models.GameFrameModel;
-import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
 import use_cases.death_detector_use_case.DeathDetectorOutputBoundary;
 import use_cases.death_detector_use_case.DeathDetectorResponseModel;
@@ -16,6 +15,12 @@ public class DeathDetectorPresenter implements DeathDetectorOutputBoundary {
         this.gameplayScreenModel = gameplayScreenModel;
     }
 
+    /**
+     * Loads data for the two players into the corresponding View Model.
+     * 
+     * @param outputData contains the updated id, hit-points, and attacks for 
+     *                   all the creatures.
+     */
     @Override
     public DeathDetectorResponseModel updateCreatureStats(DeathDetectorResponseModel outputData) {
         gameplayScreenModel.getPlayer1().setCreatureIds(outputData.getP1CreatureIds());

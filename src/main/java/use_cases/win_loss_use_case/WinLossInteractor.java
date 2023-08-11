@@ -13,6 +13,10 @@ public class WinLossInteractor implements WinLossInputBoundary {
         this.winLossPresenter = winLossPresenter;
     }
 
+    /**
+     * Checks if a player has run out of alive creatures. The player who still 
+     * has creatures is the winner.
+     */
     @Override
     public WinLossResponseModel detectWinLoss() {
         Player player1 = gameState.getCurrentPlayer();
@@ -33,6 +37,13 @@ public class WinLossInteractor implements WinLossInputBoundary {
         return winLossPresenter.showVictoryScreen(outputData);
     }
 
+    /**
+     * Return the number of alive creatures that a player has.
+     * A creature whose id is not -1 is still active.
+     *
+     * @param player a Player object
+     * @return the number of alive creatures of the player
+     */
     private int getAliveCreatures(Player player) {
         int alive = 0;
         for (CreatureCard c : player.getCreatures()) {

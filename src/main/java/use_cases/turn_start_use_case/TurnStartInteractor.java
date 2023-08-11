@@ -26,6 +26,14 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
 
     final TurnStartOutputBoundary turnStartPresenter;
 
+    /**
+     * Construct a TurnStartInteractor with the given GameState and TurnStartOutputBoundary
+     * @param gameState the GameState that records the progress of the current game.
+     *                  It should be shared by all use case interactors.
+     * @param turnStartPresenter implementing class of the output boundary that
+     *                           handles the communication to the outer layers of
+     *                           the program.
+     */
     public TurnStartInteractor(GameState gameState, TurnStartOutputBoundary turnStartPresenter) {
         this.gameState = gameState;
         this.turnStartPresenter = turnStartPresenter;
@@ -96,7 +104,12 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
         return turnStartPresenter.showDrawResult(output);
     }
 
-
+    /**
+     * Clear the HP and Attack buffs on each creature of the current player.
+     *
+     * @return a CreatureStatsUpdateModel, containing creature ids and stats
+     * like hit-points and attacks.
+     */
     @Override
     public CreatureStatsUpdateModel clearBuffs() {
         Player player = gameState.getCurrentPlayer();

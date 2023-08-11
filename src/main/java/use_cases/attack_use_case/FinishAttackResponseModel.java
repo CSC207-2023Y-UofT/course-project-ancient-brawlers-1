@@ -1,7 +1,10 @@
 package use_cases.attack_use_case;
 
 import java.util.List;
-
+/**
+ * The FinishAttackResponseModel contains the updated hitpoints of the creatures, their id's, the players cards, and
+ * what other cards are left in each players hand
+ */
 public class FinishAttackResponseModel {
 
     private List<Integer> hitPoints1;

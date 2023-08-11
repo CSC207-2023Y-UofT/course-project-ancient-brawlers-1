@@ -19,11 +19,27 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
     private final GameState gameState;
     private final TurnEndOutputBoundary turnEndPresenter;
 
+    /**
+     * Construct a TurnEndInteractor with the given GameState and TurnEndOutputBoundary
+     * 
+     * @param gameState the GameState that records the progress of the current game.
+     *                  It should be shared by all use case interactors.
+     * @param turnEndPresenter implementing class of the output boundary that
+     *                         handles the communication to the outer layers of
+     *                         the program.
+     */
     public TurnEndInteractor(GameState gameState, TurnEndOutputBoundary turnEndPresenter) {
         this.gameState = gameState;
         this.turnEndPresenter = turnEndPresenter;
     }
 
+    /**
+     * Trigger the end-of-turn effects in the active structure of the current
+     * player, if it does exist.
+     * 
+     * @return a TurnEndResponseModel containing all the data (creature stats, 
+     * player stats)that may have been affected by the end-of-turn effects.
+     */
     @Override
     public TurnEndResponseModel triggerEndTurnEffects() {
         Player currentPlayer = gameState.getCurrentPlayer();

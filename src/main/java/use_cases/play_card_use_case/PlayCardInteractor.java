@@ -16,6 +16,15 @@ public class PlayCardInteractor implements PlayCardInputBoundary {
     final GameState gameState;
     final PlayCardOutputBoundary playCardPresenter;
 
+    /**
+     * Construct a PlayCardInteractor, with given GameState and PlayOutputBoundary
+     * 
+     * @param gameState the GameState that records the progress of the current game.
+     *                  It should be shared by all use case interactors.
+     * @param playCardPresenter implementing class of the output boundary that
+     *                          handles the communication to the outer layers of
+     *                          the program.
+     */
     public PlayCardInteractor(GameState gameState, PlayCardOutputBoundary playCardPresenter) {
         this.gameState = gameState;
         this.playCardPresenter = playCardPresenter;

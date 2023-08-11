@@ -21,6 +21,14 @@ public class AttackPresenter implements AttackOutputBoundary {
         this.defendScreenModel = defendScreenModel;
     }
 
+    /**
+     * Sends instruction for displaying the defend input screen that shows the 
+     * attacker, the target, and the possible defenders giving the opponent a 
+     * choice to defend or pass.
+     * 
+     * @param responseModel contains the information of the attacker, the target, 
+     *                      and the possible defenders.
+     */
     @Override
     public void showDefendInputScreen(AttackResponseModel responseModel) {
         defendScreenModel.setAttackerName(responseModel.getAttackerData().getName());
@@ -46,6 +54,12 @@ public class AttackPresenter implements AttackOutputBoundary {
         gameFrameModel.setCurrentScreen(GameScreenType.DEFEND);
     }
 
+    /**
+     * Sends instruction to exit the Defend Screen and back to GamePlayScreen.
+     * 
+     * @param responseModel the data model containing the creatures hit-points, 
+     *                      ids, both players' hand of cards and descriptions.
+     */
     @Override
     public FinishAttackResponseModel exitDefendInputScreen(FinishAttackResponseModel responseModel) {
         PlayerDataModel player1 = gameplayScreenModel.getPlayer1();
@@ -63,7 +77,12 @@ public class AttackPresenter implements AttackOutputBoundary {
         gameFrameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return responseModel;
     }
-
+    
+    /**
+     * Displays an error message for cases when the attack cannot be done.
+     *
+     * @param message the error message to show on the screen.
+     */
     @Override
     public void displayFailMessage(String message) {
         throw new AttackException(message);

@@ -5,6 +5,9 @@ import entities.cards.CardFactory;
 
 import java.util.List;
 
+/**
+ * The DeckFactory class creates the different types of Deck
+ */
 public class DeckFactory {
 
     public Deck createPlayerDeck(List<Card> cards) {

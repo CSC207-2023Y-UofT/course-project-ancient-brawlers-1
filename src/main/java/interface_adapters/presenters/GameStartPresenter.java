@@ -30,6 +30,14 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         frameModel.refresh();
     }
 
+    /**
+     * Sends instruction to display the MulliganScreen, which is for the mulligan
+     * phase of the game.
+     * 
+     * @param outputData the response model that contains card data representing
+     *                   the cards to be replaced.
+     * @return the same responseModel that was originally passed in
+     */
     @Override
     public GameStartResponseModel showMulliganScreen(GameStartResponseModel outputData) {
         mulliganScreenModel.setCardIds(outputData.getCardIds());
@@ -38,6 +46,13 @@ public class GameStartPresenter implements GameStartOutputBoundary {
         return outputData;
     }
 
+    /**
+     * Sends instruction to exit Mulligan Screen and back to Gameplay Screen,
+     * while also updating the screen with the player's mulligan results.
+     * 
+     * @param outputData the response model that contains the finalized card data.
+     * @return the same responseModel that was originally passed in
+     */
     @Override
     public GameStartResponseModel exitMulliganScreen(GameStartResponseModel outputData) {
         List<String> handCardNames = new ArrayList<>();
