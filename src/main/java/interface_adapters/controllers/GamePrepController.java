@@ -8,7 +8,7 @@ import java.util.List;
 
 public class GamePrepController {
 
-    final GamePrepInputBoundary gamePrepInteractor;
+    private final GamePrepInputBoundary gamePrepInteractor;
 
     public GamePrepController(GamePrepInputBoundary gamePrepInteractor) {
         this.gamePrepInteractor = gamePrepInteractor;

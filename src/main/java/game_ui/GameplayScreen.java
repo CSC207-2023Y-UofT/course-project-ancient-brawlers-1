@@ -1,7 +1,7 @@
 package game_ui;
 
-import interface_adapters.AttackException;
 import data_access.CardImageMapper;
+import interface_adapters.AttackException;
 import interface_adapters.PlayCardException;
 import interface_adapters.controllers.*;
 import interface_adapters.presenters.GamePausePresenter;

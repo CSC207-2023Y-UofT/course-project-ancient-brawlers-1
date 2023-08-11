@@ -7,6 +7,8 @@ import java.util.List;
 public interface Playable {
 
     String getDescription();
+
     TargetType getTargetType();
+
     List<CardEffect> getEffects();
 }

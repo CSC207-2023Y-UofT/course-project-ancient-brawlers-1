@@ -12,16 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
+
     final GameState gameState;
     final DeathDetectorOutputBoundary deathDetectorPresenter;
 
     /**
-     * Construct a DeathDetectorPresenter, with the given GameState and DeathDetectorPresenter
-     * @param gameState the GameState that records the progress of the current game.
-     *      *                  It should be shared by all use case interactors.
+     * Construct a DeathDetectorPresenter, with the given GameState and
+     * DeathDetectorPresenter.
+     *
+     * @param gameState              the GameState that records the progress of the current game.
+     *                               It should be shared by all use case interactors.
      * @param deathDetectorPresenter an implementing class of the output boundary that
-     *      *                           handles the communication to the outer layers of
-     *      *                           the program.
+     *                               handles the communication to the outer layers of
+     *                               the program.
      */
     public DeathDetectorInteractor(GameState gameState, DeathDetectorOutputBoundary deathDetectorPresenter) {
         this.gameState = gameState;
@@ -29,13 +32,14 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
     }
 
     /**
-     * This method is a helper function in order to check if a creature has less than or equal to 0 health.
-     * Applies the effect of the structure card in play if it matches the state of the game and updates the players
-     * creatures stats accordingly. If a creature drops to less than or equal to 0 health, then their
-     * id will be set to -1.
+     * Helper method for checking potentially defeated creatures for a single
+     * player. The second player in the input parameter list is necessary because
+     * there may be card effects that trigger during the event of a creature's
+     * defeat (GameEvent.CREATURE_DEATH).
      *
-     * @param player1
-     * @param player2
+     * @param player1 the player being checked for defeated creatures.
+     * @param player2 the player needed in case any card effects involve both
+     *                players.
      */
     private void processPlayer(Player player1, Player player2) {
         boolean hasNewDefeats = false;
@@ -75,12 +79,12 @@ public class DeathDetectorInteractor implements DeathDetectorInputBoundary {
     }
 
     /**
-     * Checks if any creatures have an id of -1 which is from the helper function processPlayer.
-     * If it there any creatures of id of -1, it sets their hitpoints and damage to 0.
-     * All creatures stats (id, hitpoints, damage) will be
-     * added to their corresponding array in order to be passed into the DeathDetectorResponseModel
-     * @return DeathDetectorResponseModel contains the updated stats of both the current player and the opponents
-     * creature
+     * Checks for both players if any creature's hit-points has dropped to 0 or
+     * below, and set them to some state that indicates they are defeated.
+     * At the moment, an id of -1 indicates defeat.
+     *
+     * @return a DeathDetectorResponseModel containing the updated stats of both
+     * players' creatures.
      */
     @Override
     public DeathDetectorResponseModel detectCreatureDeath() {

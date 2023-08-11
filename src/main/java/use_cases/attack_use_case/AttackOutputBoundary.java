@@ -25,6 +25,5 @@ public interface AttackOutputBoundary {
      * Displays the fail message based on what type of error it is
      * @param message
      */
-
     void displayFailMessage(String message);
 }

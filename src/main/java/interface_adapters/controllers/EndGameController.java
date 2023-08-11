@@ -5,8 +5,8 @@ import use_cases.win_loss_use_case.WinLossInputBoundary;
 
 public class EndGameController {
 
-    private DeathDetectorInputBoundary detectorInteractor;
-    private WinLossInputBoundary winLossInteractor;
+    private final DeathDetectorInputBoundary detectorInteractor;
+    private final WinLossInputBoundary winLossInteractor;
 
     public EndGameController(DeathDetectorInputBoundary detectorInteractor, WinLossInputBoundary winLossInteractor) {
         this.detectorInteractor = detectorInteractor;

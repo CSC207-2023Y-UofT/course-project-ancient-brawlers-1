@@ -2,7 +2,9 @@ package use_cases.attack_use_case;
 
 import entities.GameState;
 import entities.Player;
-import entities.cards.*;
+import entities.cards.Card;
+import entities.cards.CreatureCard;
+import entities.cards.Playable;
 import use_cases.CreatureCardModel;
 
 import java.util.ArrayList;
@@ -15,11 +17,12 @@ public class AttackInteractor implements AttackInputBoundary {
 
     /**
      * Construct a AttackInteractor, with the given GameState and AtackOutputBoundary
-     * @param gameState the GameState that records the progress of the current game.
-     *      *                  It should be shared by all use case interactors.
+     *
+     * @param gameState       the GameState that records the progress of the current game.
+     *                        It should be shared by all use case interactors.
      * @param attackPresenter an implementing class of the output boundary that
-     *      *                           handles the communication to the outer layers of
-     *      *                           the program.
+     *                        handles the communication to the outer layers of
+     *                        the program.
      */
     public AttackInteractor(GameState gameState, AttackOutputBoundary attackPresenter) {
         this.gameState = gameState;
@@ -27,11 +30,13 @@ public class AttackInteractor implements AttackInputBoundary {
     }
 
     /**
-     * Signal the presenter to display the defend screen if and only if the player has enough essence to attack.
-     * If the player(attacker) does not have enough essence to attack then the presenter will display a message
+     * Signal the presenter to display the defend screen if and only if the
+     * player has enough essence to attack. If the player(attacker) does not have
+     * enough essence to attack then the presenter will display a message
      * stating that there is not enough essence.
      *
-     * @param  inputData the AttackRequestModel containing the attacking creature's id, and the target creature's id.
+     * @param inputData the AttackRequestModel containing the attacking
+     *                  creature's id, and the target creature's id.
      */
     @Override
     public void initiateAttack(AttackRequestModel inputData) {
@@ -85,7 +90,6 @@ public class AttackInteractor implements AttackInputBoundary {
         return getFinishAttackResponseModel(player1, player2, creatureAttacker, creatureDefender);
     }
 
-
     /**
      * Process the attack using the attacker and target in the AttackRequestModel.
      * The target in this RequestModel is always different from the original target
@@ -112,8 +116,8 @@ public class AttackInteractor implements AttackInputBoundary {
      * of creatures and stats of players in the game.
      * Signals the presenter to exit the defend screen
      *
-     * @param player1 player1 in the game
-     * @param player2 player2 in the game
+     * @param player1          player1 in the game
+     * @param player2          player2 in the game
      * @param creatureAttacker the attacking creature
      * @param creatureDefender the defending creature
      * @return the FinishAttackResponseModel reporting the updates to the stats

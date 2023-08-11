@@ -8,6 +8,7 @@ import java.util.List;
  * The presenters put strings and integers into this data model, and the screen
  * classes pick up data from here. This ensures the View is dependent on the
  * interfaces and not the reverse.
+ * The other view model classes behave similar to this as well.
  */
 public class GameFrameModel {
 

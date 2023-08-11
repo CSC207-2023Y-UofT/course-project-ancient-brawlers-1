@@ -5,10 +5,10 @@ import interface_adapters.view_models.GameFrameModel;
 import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.TargetSelectScreenModel;
+import use_cases.CreatureCardModel;
 import use_cases.play_card_use_case.PlayCardOutputBoundary;
 import use_cases.play_card_use_case.PlayCardOutputModel;
 import use_cases.play_card_use_case.TargetModel;
-import use_cases.CreatureCardModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,10 +15,10 @@ import java.util.List;
 
 public class TargetSelectionScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private TargetSelectScreenModel targetSelectModel;
-    private PlayCardController playCardController;
-    private EndGameController endGameController;
-    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private final TargetSelectScreenModel targetSelectModel;
+    private final PlayCardController playCardController;
+    private final EndGameController endGameController;
+    private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
 
     public TargetSelectionScreen(TargetSelectScreenModel targetSelectModel, PlayCardController playCardController, EndGameController endGameController) {
         this.targetSelectModel = targetSelectModel;

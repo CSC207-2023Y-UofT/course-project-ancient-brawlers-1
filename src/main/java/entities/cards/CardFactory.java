@@ -2,8 +2,6 @@ package entities.cards;
 
 import entities.GameEvent;
 
-
-
 public class CardFactory {
 
     private int cardId = 1;
@@ -27,4 +25,3 @@ public class CardFactory {
         return new StructureCard(cardId++, name, playableData, triggerEvent);
     }
 }
-

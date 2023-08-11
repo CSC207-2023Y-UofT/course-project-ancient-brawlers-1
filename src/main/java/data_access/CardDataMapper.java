@@ -2,11 +2,11 @@ package data_access;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import use_cases.game_preparation_use_case.ActionCardModel;
-import use_cases.game_preparation_use_case.CardModel;
 import use_cases.CreatureCardModel;
-import use_cases.game_preparation_use_case.StructureCardModel;
+import use_cases.game_preparation_use_case.ActionCardModel;
 import use_cases.game_preparation_use_case.CardDataGateway;
+import use_cases.game_preparation_use_case.CardModel;
+import use_cases.game_preparation_use_case.StructureCardModel;
 
 import java.io.File;
 import java.io.IOException;

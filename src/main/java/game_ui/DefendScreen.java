@@ -1,12 +1,5 @@
 package game_ui;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
 import data_access.CardImageMapper;
 import interface_adapters.controllers.AttackController;
 import interface_adapters.controllers.EndGameController;
@@ -15,14 +8,20 @@ import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.DefendScreenModel;
 import interface_adapters.view_models.ScreenUpdateListener;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 public class DefendScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private DefendScreenModel defendScreenModel;
-    private AttackController attackController;
-    private TurnEndController turnEndController;
-    private TurnStartController turnStartController;
-    private EndGameController endGameController;
-    private CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
+    private final DefendScreenModel defendScreenModel;
+    private final AttackController attackController;
+    private final TurnEndController turnEndController;
+    private final TurnStartController turnStartController;
+    private final EndGameController endGameController;
+    private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private CardButton attacker, target, defender1, defender2;
 
     public DefendScreen(DefendScreenModel defendScreenModel, AttackController attackController, TurnEndController turnEndController, TurnStartController turnStartController, EndGameController endGameController) {

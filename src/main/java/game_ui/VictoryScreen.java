@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 
 public class VictoryScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
-    private VictoryScreenModel victoryScreenModel;
-    private GamePausePresenter pausePresenter;
+    private final VictoryScreenModel victoryScreenModel;
+    private final GamePausePresenter pausePresenter;
 
     public VictoryScreen(VictoryScreenModel victoryScreenModel, GamePausePresenter pausePresenter){
         this.victoryScreenModel = victoryScreenModel;
