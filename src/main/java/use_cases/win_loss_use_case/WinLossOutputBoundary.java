@@ -1,8 +1,8 @@
 package use_cases.win_loss_use_case;
 
 /**
- * WinLossOutputBoundary provides the interface for the presenter to display who the winner when a destroys all
- * of their opponents creatures
+ * WinLossOutputBoundary provides the interface for the presenter to display
+ * the winner of the game.
  */
 public interface WinLossOutputBoundary {
 
