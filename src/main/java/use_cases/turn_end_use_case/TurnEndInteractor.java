@@ -20,11 +20,12 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
 
     /**
      * Construct a TurnEndInteractor with the given GameState and TurnEndOutputBoundary
+     * 
      * @param gameState the GameState that records the progress of the current game.
-     *      *                  It should be shared by all use case interactors.
+     *                  It should be shared by all use case interactors.
      * @param turnEndPresenter implementing class of the output boundary that
-     *      *                           handles the communication to the outer layers of
-     *      *                           the program.
+     *                         handles the communication to the outer layers of
+     *                         the program.
      */
     public TurnEndInteractor(GameState gameState, TurnEndOutputBoundary turnEndPresenter) {
         this.gameState = gameState;
