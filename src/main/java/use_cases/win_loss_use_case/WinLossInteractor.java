@@ -14,12 +14,9 @@ public class WinLossInteractor implements WinLossInputBoundary {
     }
 
     /**
-     * Checks to see if there is a winner, that is a winner that still has creatures and their opponents
-     * have no creatures left
-     * @return WinLossResponseModel it either contains the winner if there is one or it is an empty String
-     * meaning that there is no winner yet
+     * Checks if a player has run out of alive creatures. The player who still 
+     * has creatures is the winner.
      */
-
     @Override
     public WinLossResponseModel detectWinLoss() {
         Player player1 = gameState.getCurrentPlayer();
