@@ -33,7 +33,11 @@ public class TurnEndInteractor implements TurnEndInputBoundary {
     }
 
     /**
-     * Updates player creature stats based on whether there is a EndTurn Structure card in play
+     * Trigger the end-of-turn effects in the active structure of the current
+     * player, if it does exist.
+     * 
+     * @return a TurnEndResponseModel containing all the data (creature stats, 
+     * player stats)that may have been affected by the end-of-turn effects.
      */
     @Override
     public TurnEndResponseModel triggerEndTurnEffects() {
