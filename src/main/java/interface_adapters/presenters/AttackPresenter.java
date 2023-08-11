@@ -55,10 +55,10 @@ public class AttackPresenter implements AttackOutputBoundary {
     }
 
     /**
-     Exists the Defend Screen and goes back to the GamePlayScreen. This method is called by the helper
-     function called getFinishAttackResponseModel in the AttackInteractor.
-     @param responseModel the data model containing the creatures hitpoints, Id's, handCards and description
-     cards in both players hands
+     * Sends instruction to exit the Defend Screen and back to GamePlayScreen.
+     * 
+     * @param responseModel the data model containing the creatures hit-points, 
+     *                      ids, both players' hand of cards and descriptions.
      */
     @Override
     public FinishAttackResponseModel exitDefendInputScreen(FinishAttackResponseModel responseModel) {
