@@ -112,6 +112,6 @@ public class MenuScreen extends JPanel implements ActionListener, ScreenUpdateLi
 
     @Override
     public void onScreenUpdate() {
-
+        // menu is fixed at the moment
     }
 }

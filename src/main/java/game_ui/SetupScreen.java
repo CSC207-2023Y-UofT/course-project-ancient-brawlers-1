@@ -1,11 +1,9 @@
 package game_ui;
 
-import entities.cards.Card;
-import interface_adapters.CardImageMapper;
+import data_access.CardImageMapper;
 import interface_adapters.GamePrepException;
 import interface_adapters.controllers.GamePrepController;
 import interface_adapters.controllers.GameStartController;
-import interface_adapters.controllers.TurnEndController;
 import interface_adapters.view_models.ScreenUpdateListener;
 import interface_adapters.view_models.SetupScreenModel;
 

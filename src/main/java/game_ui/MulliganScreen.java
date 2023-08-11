@@ -1,6 +1,7 @@
 package game_ui;
 
-import interface_adapters.CardImageMapper;
+import data_access.CardImageMapper;
+import interface_adapters.controllers.GameStartController;
 import interface_adapters.controllers.TurnEndController;
 import interface_adapters.controllers.TurnStartController;
 import interface_adapters.view_models.MulliganScreenModel;
@@ -12,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import interface_adapters.controllers.GameStartController;
 
 public class MulliganScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 

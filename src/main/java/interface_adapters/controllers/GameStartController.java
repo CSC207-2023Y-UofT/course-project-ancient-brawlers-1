@@ -7,7 +7,7 @@ import java.util.List;
 
 public class GameStartController {
 
-    final GameStartInputBoundary gameStartInteractor;
+    private final GameStartInputBoundary gameStartInteractor;
 
     public GameStartController(GameStartInputBoundary gameStartInteractor) {
         this.gameStartInteractor = gameStartInteractor;

@@ -1,15 +1,16 @@
 package use_cases.turn_end_use_case;
 
 public interface TurnEndInputBoundary {
-    /**
-     * Handles basic mechanics of swiftly passing the turn to the next player in line.
-     * No params needed here
-     */
-     void passTurn();
+
+
+    void passTurn();
 
     /**
-     * Onset any effects from action, structure, essence
+     * Trigger the end-of-turn effects in the active structure of the current
+     * player, if it does exist.
+     *
+     * @return a TurnEndResponseModel containing all the data (creature stats,
+     * player stats) that may have been affected by the end-of-turn effects.
      */
-
-     TurnEndResponseModel triggerEndTurnEffects();
+    TurnEndResponseModel triggerEndTurnEffects();
 }

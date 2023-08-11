@@ -1,6 +1,9 @@
 package game_ui;
 
-import interface_adapters.view_models.*;
+import interface_adapters.view_models.FrameUpdateListener;
+import interface_adapters.view_models.GameFrameModel;
+import interface_adapters.view_models.GameScreenType;
+import interface_adapters.view_models.ScreenUpdateListener;
 
 import javax.swing.*;
 import java.awt.*;

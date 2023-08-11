@@ -1,9 +1,7 @@
 package use_cases.attack_use_case;
 
 public class AttackRequestModel {
-    /**
-     * The AttackRequestModel contains the attacking creature id and the defending creature id
-     */
+
     private int attackerId;
     private int targetId;
 
@@ -15,6 +13,7 @@ public class AttackRequestModel {
     public int getAttackerId() {
         return attackerId;
     }
+
     public int getTargetId() {
         return targetId;
     }

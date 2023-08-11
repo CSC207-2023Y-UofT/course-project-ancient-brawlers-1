@@ -7,8 +7,8 @@ import use_cases.death_detector_use_case.DeathDetectorResponseModel;
 
 public class DeathDetectorPresenter implements DeathDetectorOutputBoundary {
 
-    private GameFrameModel gameFrameModel;
-    private GameplayScreenModel gameplayScreenModel;
+    private final GameFrameModel gameFrameModel;
+    private final GameplayScreenModel gameplayScreenModel;
 
     public DeathDetectorPresenter(GameFrameModel gameFrameModel, GameplayScreenModel gameplayScreenModel) {
         this.gameFrameModel = gameFrameModel;

@@ -6,7 +6,7 @@ import use_cases.attack_use_case.FinishAttackResponseModel;
 
 public class AttackController {
 
-    final AttackInputBoundary attackInterator;
+    private final AttackInputBoundary attackInterator;
 
     public AttackController(AttackInputBoundary attackInterator){
         this.attackInterator = attackInterator;

@@ -5,6 +5,7 @@ import entities.Player;
 import entities.cards.CreatureCard;
 
 public class WinLossInteractor implements WinLossInputBoundary {
+
     final GameState gameState;
     final WinLossOutputBoundary winLossPresenter;
 

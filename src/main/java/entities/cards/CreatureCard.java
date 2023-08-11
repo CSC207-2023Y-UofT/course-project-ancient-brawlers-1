@@ -1,6 +1,7 @@
 package entities.cards;
 
 public class CreatureCard extends Card {
+
     private int hitPoints;
     private int maxHitPoints;
     private int attackDamage;

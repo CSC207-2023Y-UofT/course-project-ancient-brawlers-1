@@ -4,7 +4,7 @@ import use_cases.turn_start_use_case.TurnStartInputBoundary;
 
 public class TurnStartController {
 
-    private TurnStartInputBoundary turnStartInteractor;
+    private final TurnStartInputBoundary turnStartInteractor;
 
     public TurnStartController(TurnStartInputBoundary turnStartInteractor) {
         this.turnStartInteractor = turnStartInteractor;

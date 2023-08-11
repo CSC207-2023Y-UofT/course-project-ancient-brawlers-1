@@ -1,5 +1,6 @@
-package interface_adapters;
+package data_access;
 
+import data_access.CardImageMapper;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;

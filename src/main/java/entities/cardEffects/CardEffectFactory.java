@@ -33,6 +33,7 @@ public class CardEffectFactory {
                 throw new IllegalArgumentException("Invalid effect type: " + effectType);
         }
     }
+
     public static CardEffect createEffect(String effectType, int drawNumber, String drawDeck) {
         switch (effectType) {
             case "DrawCardEffect":

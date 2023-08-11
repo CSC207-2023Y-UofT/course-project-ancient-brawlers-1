@@ -1,7 +1,6 @@
 package interface_adapters.presenters;
 
 import interface_adapters.view_models.GameFrameModel;
-import interface_adapters.view_models.GameScreenType;
 import interface_adapters.view_models.GameplayScreenModel;
 import interface_adapters.view_models.PlayerDataModel;
 import use_cases.turn_start_use_case.CreatureStatsUpdateModel;
