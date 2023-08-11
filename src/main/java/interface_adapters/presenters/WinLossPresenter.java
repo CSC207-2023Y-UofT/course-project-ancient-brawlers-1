@@ -17,8 +17,10 @@ public class WinLossPresenter implements WinLossOutputBoundary {
     }
 
     /**
-     * Shows the winner of the game if there is a winner
-     * @param outputData a WinLossResponseModel  that contains the name of the player that is the winner
+     * Sends instruction to display the Victory Screen when a winner appears.
+     * 
+     * @param outputData a WinLossResponseModel that contains the name of the 
+     *                   winner.
      * @return the same responseModel that was passed in
      */
     @Override
