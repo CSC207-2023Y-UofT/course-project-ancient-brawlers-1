@@ -1,7 +1,11 @@
 package entities;
 
 /**
- * The GameState class is how we determine the Player's turns and how we alternate the players turns
+ * The GameState represents everything going on in a game. It is the central 
+ * piece among all the game objects. It holds two Player instances, and each
+ * of the Player instances hold their own data. The GameState also manages
+ * the turn-switching and keeps track of the current player and the opposing 
+ * player.
  */
 public class GameState {
 
