@@ -36,9 +36,11 @@ public class WinLossInteractor implements WinLossInputBoundary {
     }
 
     /**
-     * Calculates the number of creatures alive that a player has
-     * @param player takes in a Player object
-     * @return the number of alive creatures a player has
+     * Return the number of alive creatures that a player has.
+     * A creature whose id is not -1 is still active.
+     *
+     * @param player a Player object
+     * @return the number of alive creatures of the player
      */
     private int getAliveCreatures(Player player) {
         int alive = 0;
