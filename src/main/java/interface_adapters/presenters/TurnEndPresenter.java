@@ -17,12 +17,12 @@ public class TurnEndPresenter implements TurnEndOutputBoundary {
     }
 
     /**
-     * Updates the players with their updated hands and creatures
-     * @param outputData contains the hitpoints, the damage, the creature id, the id's of the cards in a players hand,
-     * and description of the cards in a player's hand
+     * Updates the Gameplay Screen's View Model with the changes to the players'
+     * stats.
+     * 
+     * @param outputData contains all the creature data and the players' card data.
      * @return the same responseModel that was passed in
      */
-
     @Override
     public TurnEndResponseModel showTurnEndScreen(TurnEndResponseModel outputData) {
         PlayerDataModel playerData1 = gameplayScreenModel.getPlayer1();
