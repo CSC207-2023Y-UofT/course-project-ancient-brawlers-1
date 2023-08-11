@@ -5,9 +5,13 @@ package use_cases.win_loss_use_case;
  * of their opponents creatures
  */
 public interface WinLossOutputBoundary {
+
     /**
-     * Displays the victory screen for of the player that is the winner
-     * @param outputData a WinLossResponseModel  that contains the name of the player that is the winner
+     * Sends instruction to display the Victory Screen when a winner appears.
+     * 
+     * @param outputData a WinLossResponseModel that contains the name of the 
+     *                   winner.
+     * @return the same responseModel that was passed in
      */
     WinLossResponseModel showVictoryScreen(WinLossResponseModel outputData);
 }
