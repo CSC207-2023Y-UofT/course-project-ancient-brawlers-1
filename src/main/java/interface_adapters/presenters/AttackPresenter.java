@@ -75,11 +75,11 @@ public class AttackPresenter implements AttackOutputBoundary {
         gameFrameModel.setCurrentScreen(GameScreenType.GAMEPLAY);
         return responseModel;
     }
+    
     /**
-     * To be used in the initiateAttack() method in the interactor, for cases when a player cannot attack.
-     * A player is unable to attack if they do not have enough essence or if  they select their own creatures
+     * Displays an error message for cases when the attack cannot be done.
      *
-     * @param message the string message to show on the screen.
+     * @param message the error message to show on the screen.
      */
     @Override
     public void displayFailMessage(String message) {
