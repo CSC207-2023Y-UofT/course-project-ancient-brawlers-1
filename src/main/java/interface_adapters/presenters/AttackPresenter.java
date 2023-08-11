@@ -22,10 +22,12 @@ public class AttackPresenter implements AttackOutputBoundary {
     }
 
     /**
-     * Displays the defend input screen that shows the atacker, the defender, and the possible defenders
-     * giving the opponent a choice to defend or not
-     * @param responseModel contains the information of the attacker, the defender, and the possible
-     *                      defender
+     * Sends instruction for displaying the defend input screen that shows the 
+     * attacker, the target, and the possible defenders giving the opponent a 
+     * choice to defend or pass.
+     * 
+     * @param responseModel contains the information of the attacker, the target, 
+     *                      and the possible defenders.
      */
     @Override
     public void showDefendInputScreen(AttackResponseModel responseModel) {
