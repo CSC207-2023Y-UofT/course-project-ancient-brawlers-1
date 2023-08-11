@@ -97,9 +97,10 @@ public class TurnStartInteractor implements TurnStartInputBoundary {
     }
 
     /**
-     * Gets the current player and removes all effects that are currently on any of the creatures
-     * @return a CreatureStatsUpdateModel which consists of the information of all the cratures for both players
-     * and their id, new hitpoints, and new attack damage
+     * Clear the HP and Attack buffs on each creature of the current player.
+     *
+     * @return a CreatureStatsUpdateModel, containing creature ids and stats
+     * like hit-points and attacks.
      */
     @Override
     public CreatureStatsUpdateModel clearBuffs() {
