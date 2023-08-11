@@ -7,7 +7,8 @@ import entities.decks.PlayerDeck;
 import java.util.List;
 
 /**
- * The PlayerFactory Creates a new Player
+ * The PlayerFactory creates a new Player instance, separating object construction 
+ * from object usage.
  */
 public class PlayerFactory {
 
