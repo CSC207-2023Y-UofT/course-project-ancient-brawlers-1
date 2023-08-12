@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * MenuScreen is the first screen to be shown when the game application starts up.
+ * (Besides the Splash screen)
+ * This is where the player can start a new game or load a game (still being
+ * implemented).
+ */
 public class MenuScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private GamePrepController gamePrepController;

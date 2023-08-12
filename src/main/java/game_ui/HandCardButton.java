@@ -3,6 +3,12 @@ package game_ui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * HandCardButton is the UI element that represents a card in a player's hand.
+ * It holds the name, description, and id of a card that were sent out from the
+ * inner layers of the program. When a card is being played, the program can find
+ * its way back to that card in the entities.
+ */
 public class HandCardButton extends JButton {
 
     private int id;

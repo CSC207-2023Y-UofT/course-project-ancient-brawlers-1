@@ -5,6 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * CardButton is the UI element that represents a Creature on the game board.
+ * It holds the name and id of the CreatureCard that were sent out from the inner
+ * layers of the program, so when the button is clicked, the game can find its
+ * way back to the correct creature.
+ */
 public class CardButton extends JToggleButton {
 
     private int id;

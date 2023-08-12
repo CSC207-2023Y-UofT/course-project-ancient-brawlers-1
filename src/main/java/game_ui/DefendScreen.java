@@ -14,6 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * DefendScreen shows up when an attack move has been initiated. From this screen,
+ * input from the players will lead back to the GameplayScreen.
+ */
 public class DefendScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private final DefendScreenModel defendScreenModel;

@@ -23,6 +23,10 @@ public class GameFrameModel {
         return currentScreen;
     }
 
+    /**
+     * When a screen switch action takes place, notify the observers to make
+     * updates accordingly.
+     */
     public void setCurrentScreen(GameScreenType currentScreen) {
         this.currentScreen = currentScreen;
         for (FrameUpdateListener listener : listeners) {

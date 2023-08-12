@@ -35,6 +35,9 @@ import use_cases.win_loss_use_case.WinLossOutputBoundary;
 
 import javax.swing.*;
 
+/**
+ * This class configures and runs the game.
+ */
 public class AncientBrawlersApp {
 
     private static final GameFrameModel gameFrameModel = new GameFrameModel();
