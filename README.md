@@ -102,7 +102,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Seek.png" alt="Seek Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Draw 2 play cards.
   </div>
 </div>
@@ -111,7 +111,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Lift.png" alt="Lift Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Restore 3 HP to all friendly creatures.
   </div>
 </div>
@@ -120,7 +120,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Perception.png" alt="Perception Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Draw 2 Essence cards.
   </div>
 </div>
@@ -129,7 +129,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Sabotage.png" alt="Sabotage Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Destroy the opponent's structure.
   </div>
 </div>
@@ -138,7 +138,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Salvage.png" alt="Salvage Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Restore 10 HP to a friendly creature.
   </div>
 </div>
@@ -147,7 +147,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Inspire.png" alt="Inspire Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Increase HP capacity by 3 to all friendly creatures.
   </div>
 </div>
@@ -156,7 +156,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Reinforce.png" alt="Reinforce Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Increase base Attack Damage by 5 to all friendly creatures.
   </div>
 </div>
@@ -165,7 +165,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Cataclysm.png" alt="Cataclysm Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Deal 10 damage to ALL creatures.
   </div>
 </div>
@@ -174,7 +174,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Delusion.png" alt="Delusion Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Reduce Attack Damage by 5 to all enemy creatures, until next turn.
   </div>
 </div>
@@ -183,7 +183,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Demons-Amulet.png" alt="Demon's Amulet Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Swap the HP and Attack of a creature.
   </div>
 </div>
@@ -192,7 +192,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Incantation.png" alt="Incantation Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Stun an enemy creature, until next turn.
   </div>
 </div>
@@ -201,7 +201,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/The-War.png" alt="The War Action Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     Give 3 HP and 3 Attack Damage to all friendly creatures, until next turn.
   </div>
 </div>
@@ -210,7 +210,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Forest-of-the-Elves.png" alt="Forest of the Elves Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     At the end of your turn, restore 2 HP to all friendly creatures.
   </div>
 </div>
@@ -219,7 +219,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Homeland.png" alt="Homeland Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     At the end of your turn, reduce Attack Damage by 2 to all enemy creatures.
   </div>
 </div>
@@ -228,7 +228,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Pool-of-Wisdom.png" alt="Pool of Wisdom Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     At the start of your turn, draw 1 Essence card.
   </div>
 </div>
@@ -237,7 +237,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Arena.png" alt="Arena Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     At the end of your turn, deal 2 damage to ALL creatures.
   </div>
 </div>
@@ -246,7 +246,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Dead-End.png" alt="Dead End Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     When one of your creatures dies, increase base Attack Damage by 5 to all friendly creatures.
   </div>
 </div>
@@ -255,7 +255,7 @@ Here, we will give a quick preview of the cards that are currently in the game:
   <div style="flex: 1;">
     <img src="src/gameArt/Ruins-of-Titans.png" alt="Ruins of Titans Structure Card" width="100" height="auto">
   </div>
-  <div style="flex: 8;">
+  <div style="flex: 2;">
     At the start of your turn, temporarily give 2 Attack Damage to all friendly creatures.
   </div>
 </div>
@@ -283,11 +283,9 @@ Let's take a closer look at one side of the game board.
 
 The bottom row displays the cards currently in the player's hand. You can click to select any of them, and the selected
 card will be shown just above the "Play Card" button. Once you've decided, hit that "Play Card" button and the effects
-from
-the selected card will be unleashed! If you select and play a Structure, it will show up at the left-most card slot show
-in
-this image. Finally, on the right side of the board, you get to see the supplies you have: a deck of cards (Action and
-Structure) and another deck full of Essence (unlimited Essence!).
+from the selected card will be unleashed! If you select and play a Structure, it will show up at the left-most card slot 
+show in this image. Finally, on the right side of the board, you get to see the supplies you have: a deck of cards (Action 
+and Structure) and another deck full of Essence (unlimited Essence!).
 
 ### Mulligan
 
