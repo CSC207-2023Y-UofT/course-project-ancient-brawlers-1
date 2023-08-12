@@ -14,6 +14,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MulliganScreen is used for the mulligan phase of the game. It will be switched
+ * back to the GameplayScreen after the mulligan process is complete.
+ */
 public class MulliganScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private GameStartController gameStartController;

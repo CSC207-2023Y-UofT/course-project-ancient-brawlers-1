@@ -2,6 +2,10 @@ package game_ui;
 
 import javax.swing.*;
 
+/**
+ * DisplayCard is a UI element representing a selected card in the player's hand.
+ * It simply displays the card more clearly to the player.
+ */
 public class DisplayCard extends JLabel {
 
     private int id;

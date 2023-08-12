@@ -14,6 +14,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SetupScreen prompts the players for their names and lets them choose the
+ * creature cards they want to play. If the setup is successful, then the game
+ * enters the GameplayScreen.
+ */
 public class SetupScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private final SetupScreenModel setupScreenModel;

@@ -10,6 +10,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GameFrame is the game application window. It contains all types of screens
+ * to be shown during the gameplay.
+ * This class is an observer of the {@code GameFrameModel} class in the interface
+ * layer.
+ */
 public class GameFrame extends JFrame implements FrameUpdateListener {
 
     private GameFrameModel gameFrameModel;
@@ -17,6 +23,11 @@ public class GameFrame extends JFrame implements FrameUpdateListener {
     private JPanel gamePanel;
     private List<ScreenUpdateListener> listeners = new ArrayList<>();
 
+    /**
+     * Creates a GameFrame with default settings.
+     * @param gameFrameModel the view model that determines what this UI component
+     *                       should display.
+     */
     public GameFrame(GameFrameModel gameFrameModel) {
         this.gameFrameModel = gameFrameModel;
 

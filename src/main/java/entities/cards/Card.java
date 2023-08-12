@@ -1,5 +1,9 @@
 package entities.cards;
 
+/**
+ * Card is the super class of all card types in the game. Every card has an id
+ * and a name.
+ */
 public abstract class Card {
 
     private int id;

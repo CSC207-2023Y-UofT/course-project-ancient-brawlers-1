@@ -7,5 +7,10 @@ import entities.cards.Card;
  */
 public interface Deck {
 
+    /**
+     * Draw the top card from the deck.
+     *
+     * @return a Card instance.
+     */
     Card draw();
 }

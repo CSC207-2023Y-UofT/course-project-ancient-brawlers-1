@@ -16,6 +16,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GameplayScreen is where most of the gameplay happens. It depends on a view model
+ * that specifically contains what kind of data should be shown to the players.
+ * Its job is to take those data and put them onto a well-designed game board UI.
+ * This allows the UI design to be separated from the game logics.
+ */
 public class GameplayScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private final GameplayScreenModel gameplayScreenModel;
@@ -33,6 +39,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
     private final CardImageMapper imageMapper = new CardImageMapper("./src/gameArt");
     private final Font font2 = new Font("Herculanum", Font.BOLD, 20);
 
+    /**
+     * Create the GameplayScreen with fixed UI elements.
+     */
     public GameplayScreen(GameplayScreenModel gameplayScreenModel, GameStartController gameStartController, AttackController attackController, TurnStartController turnStartController, TurnEndController turnEndController, PlayCardController playCardController, EndGameController endGameController, GamePausePresenter pausePresenter) {
         this.gameplayScreenModel = gameplayScreenModel;
         this.attackController = attackController;
@@ -117,6 +126,9 @@ public class GameplayScreen extends JPanel implements ActionListener, ScreenUpda
         playCardButton2.addActionListener(this);
     }
 
+    /**
+     * Updates this GameplayScreen with all the data that easily change.
+     */
     public void updateGameplayScreen() {
         for (JPanel p : List.of(p1HandPanel, p2HandPanel, creaturePanel)) {
             p.removeAll();

@@ -13,6 +13,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TargetSelectionScreen is used when a card requiring a target is played.
+ * This screen will lead back to the GameplayScreen, after target is selected.
+ */
 public class TargetSelectionScreen extends JPanel implements ActionListener, ScreenUpdateListener {
 
     private final TargetSelectScreenModel targetSelectModel;
