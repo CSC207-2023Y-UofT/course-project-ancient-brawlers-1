@@ -29,16 +29,28 @@ public class GameState {
         return players[currentPlayerIndex ^ 1];
     }
 
+    /**
+     * Used for giving the turn to the other player.
+     */
     public void switchPlayer() {
         currentPlayerIndex ^= 1;
     }
 
+    /**
+     * Used when the second player is chosen to go first.
+     * (This method is currently not used. The player order is not being
+     * randomized at the moment)
+     */
     public void flipPlayOrder() {
         Player temp = players[0];
         players[0] = players[1];
         players[1] = temp;
     }
 
+    /**
+     * Clears the current GameState, to be used when the game ends and needs a
+     * restart.
+     */
     public void reset() {
         currentPlayerIndex = 0;
         players[0] = null;

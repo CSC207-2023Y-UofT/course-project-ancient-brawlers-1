@@ -4,6 +4,11 @@ import entities.cardEffects.CardEffect;
 
 import java.util.List;
 
+/**
+ * PlayableCardData is a parameter object, used to mitigate the problem with
+ * repeating parameter list in the constructors of {@code ActionCard} and
+ * {@code StructureCard}.
+ */
 public class PlayableCardData {
 
     private final String description;
