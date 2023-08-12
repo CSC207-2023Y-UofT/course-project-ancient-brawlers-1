@@ -15,6 +15,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * CardDataMapper is an implementing class of the CardDataGateway defined in the
+ * use case package game_preparation_use_case. It is the Data Access component
+ * that follows the usage defined by the CardDataGateway. This class reads JSON
+ * files and loads the data into memory, in the form of card data models. And it
+ * contains the methods for accessing these data.
+ */
 public class CardDataMapper implements CardDataGateway {
 
     private final Map<String, ActionCardModel> actionMap = new LinkedHashMap<>();

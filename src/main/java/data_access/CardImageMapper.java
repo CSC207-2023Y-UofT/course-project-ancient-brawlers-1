@@ -5,6 +5,12 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * CardImageMapper is another Data Access class. It is not associated with any
+ * use case package, and is a standalone class that maps card names to card images.
+ * This class is used by the other classes in the frameworks layer to make the
+ * game UI look better.
+ */
 public class CardImageMapper {
 
     private final Map<String, ImageIcon> nameToImage = new LinkedHashMap<>();
